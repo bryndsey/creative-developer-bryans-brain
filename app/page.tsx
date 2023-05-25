@@ -34,6 +34,40 @@ export default function Page() {
             <Common />
           </Suspense>
         </View>
+        <section id='about' className='p-8'>
+          <h2 className='text-6xl font-extrabold'>About Me</h2>
+          {"Here is where my 'About Me' content will go."}
+          <br />
+          {"Here is where my 'About Me' content will go."}
+          <br />
+          {"Here is where my 'About Me' content will go."}
+          <br />
+          {"Here is where my 'About Me' content will go."}
+          <br />
+          {"Here is where my 'About Me' content will go."}
+          <br />
+        </section>
+        <section id='project-list' className='flex min-h-screen flex-col p-8'>
+          <h2 className='text-6xl font-extrabold'>Projects</h2>
+          <ul className='flex grow flex-col justify-evenly gap-4  '>
+            <li>
+              <h3 className='text-4xl font-extrabold'>SongSpark</h3>
+              <p>Tagline here</p>
+            </li>
+            <li>
+              <h3 className='text-4xl font-extrabold'>Pedals</h3>
+              <p>Tagline here</p>
+            </li>
+            <li>
+              <h3 className='text-4xl font-extrabold'>Tic-Tac-Toe+</h3>
+              <p>Tagline here</p>
+            </li>
+            <li>
+              <h3 className='text-4xl font-extrabold'>Android Projects</h3>
+              <p>Tagline here</p>
+            </li>
+          </ul>
+        </section>
       </div>
     </>
   )
