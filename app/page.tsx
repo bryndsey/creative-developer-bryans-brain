@@ -2,11 +2,9 @@
 
 import { AvatarModel } from '@/components/AvatarModel'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { Suspense } from 'react'
 
-const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
-const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
-const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -51,7 +49,9 @@ export default function Page() {
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             <li>
-              <h3 className='text-4xl font-extrabold'>SongSpark</h3>
+              <Link href='./projects' className='text-4xl font-extrabold'>
+                SongSpark
+              </Link>
               <p>Tagline here</p>
             </li>
             <li>

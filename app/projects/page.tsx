@@ -1,8 +1,7 @@
 'use client'
 
+import { AvatarModel } from '@/components/AvatarModel'
 import dynamic from 'next/dynamic'
-
-const Blob = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Blob), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -23,18 +22,19 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 export default function Page() {
   return (
     <>
-      <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
-        <div className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'>
-          <p className='w-full uppercase'>Next + React Three Fiber</p>
-          <h1 className='my-4 text-5xl font-bold leading-tight'>Next 3D Starter</h1>
-          <p className='mb-8 text-2xl leading-normal'>A minimalist starter for React, React-three-fiber and Threejs.</p>
-        </div>
+      <div className='grid min-h-screen grid-cols-2'>
+        <section className='p-8'>
+          <h2 className='text-6xl font-bold'>Project title</h2>
+          <br />
+          <p>This is the project description. It will be kinda long and take up more space.</p>
+          <button className='rounded bg-yellow-300 p-2'>Try it out!</button>
+          <p>Tech stack info here</p>
+        </section>
+        <View id='project-hero-display' className='bg-green-500'>
+          <Common />
+          <AvatarModel />
+        </View>
       </div>
-
-      <View className='absolute top-0 flex h-screen w-full flex-col items-center justify-center'>
-        <Blob />
-        <Common />
-      </View>
     </>
   )
 }
