@@ -25,7 +25,7 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 export default function Page() {
   return (
     <>
-      <div className='relative font-sans'>
+      <div className='relative'>
         <View className='flex h-screen flex-col items-center justify-center bg-green-400'>
           <Suspense fallback={null}>
             <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
