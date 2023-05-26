@@ -4,6 +4,8 @@ import { AvatarModel } from '@/components/AvatarModel'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { Suspense } from 'react'
+// import { motion } from 'framer-motion'
+const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div), { ssr: false })
 
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -24,14 +26,14 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 
 export default function Page() {
   return (
-    <>
-      <div className='relative'>
-        <View className='flex h-screen flex-col items-center justify-center bg-green-400'>
-          <Suspense fallback={null}>
-            <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
-            <Common />
-          </Suspense>
-        </View>
+    <MotionDiv className='relative' key='main' animate={{ x: 0 }} exit={{ x: '100vw' }} initial={{ x: '100vw' }}>
+      <View className='flex h-screen flex-col items-center justify-center'>
+        <Suspense fallback={null}>
+          <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
+          <Common />
+        </Suspense>
+      </View>
+      <div className='bg-white'>
         <section id='about' className='p-8'>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
           {"Here is where my 'About Me' content will go."}
@@ -69,6 +71,6 @@ export default function Page() {
           </ul>
         </section>
       </div>
-    </>
+    </MotionDiv>
   )
 }

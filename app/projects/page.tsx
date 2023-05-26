@@ -1,7 +1,9 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -18,23 +20,29 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
   ),
 })
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
+const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div), { ssr: false })
 
 export default function Page() {
   return (
-    <>
-      <div className='grid min-h-screen grid-cols-2'>
-        <section className='p-8'>
-          <h2 className='text-6xl font-bold'>Project title</h2>
-          <br />
-          <p>This is the project description. It will be kinda long and take up more space.</p>
-          <button className='rounded bg-yellow-300 p-2'>Try it out!</button>
-          <p>Tech stack info here</p>
-        </section>
-        <View id='project-hero-display' className='bg-green-500'>
-          <Common />
-          <AvatarModel />
-        </View>
-      </div>
-    </>
+    <MotionDiv
+      key='project'
+      className='grid min-h-screen grid-cols-2'
+      // initial={{ x: -200 }}
+      // animate={{ x: 0 }}
+      // exit={{ x: -200 }}
+    >
+      <motion.section className='bg-white p-8' initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}>
+        <Link href='/'>Back</Link>
+        <h2 className='text-6xl font-bold'>Project title</h2>
+        <br />
+        <p>This is the project description. It will be kinda long and take up more space.</p>
+        <button className='rounded bg-yellow-300 p-2'>Try it out!</button>
+        <p>Tech stack info here</p>
+      </motion.section>
+      <View id='project-hero-display'>
+        <Common />
+        <AvatarModel />
+      </View>
+    </MotionDiv>
   )
 }

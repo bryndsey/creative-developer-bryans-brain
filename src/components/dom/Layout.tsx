@@ -2,10 +2,16 @@
 
 import { useRef } from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: false })
+// import { motion } from 'framer-motion'
+const AnimatePresence = dynamic(() => import('framer-motion').then((mod) => mod.AnimatePresence), { ssr: false })
+const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div), { ssr: false })
 
 const Layout = ({ children }) => {
   const ref = useRef()
+  const route = usePathname()
+  console.log(route)
 
   return (
     <div
@@ -17,8 +23,19 @@ const Layout = ({ children }) => {
         overflow: 'auto',
         touchAction: 'auto',
       }}
+      className='bg-green-400'
     >
-      {children}
+      <AnimatePresence
+        initial={false}
+        mode='wait'
+        onExitComplete={() => {
+          console.log('Exit complete')
+        }}
+      >
+        {/* <MotionDiv key={route} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}> */}
+        {children}
+        {/* </MotionDiv> */}
+      </AnimatePresence>
       <Scene
         style={{
           position: 'fixed',
