@@ -1,10 +1,10 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
-import { useAnimate } from 'framer-motion'
+import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -28,7 +28,7 @@ export default function Page() {
   const router = useRouter()
 
   return (
-    <div ref={scope} className='relative'>
+    <motion.div ref={scope} className='relative' initial={{ x: '-100%' }} animate={{ x: 0 }}>
       <View className='flex h-screen flex-col items-center justify-center'>
         <Suspense fallback={null}>
           <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
@@ -82,6 +82,6 @@ export default function Page() {
           </ul>
         </section>
       </div>
-    </div>
+    </motion.div>
   )
 }

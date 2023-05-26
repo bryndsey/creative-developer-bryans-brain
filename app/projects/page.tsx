@@ -1,9 +1,10 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
-import { motion } from 'framer-motion'
+import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -20,19 +21,31 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
   ),
 })
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
-const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div), { ssr: false })
 
 export default function Page() {
+  const [scope, animate] = useAnimate()
+  const router = useRouter()
+
   return (
-    <MotionDiv
+    <motion.div
+      ref={scope}
       key='project'
       className='grid min-h-screen grid-cols-2'
-      // initial={{ x: -200 }}
-      // animate={{ x: 0 }}
-      // exit={{ x: -200 }}
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
     >
-      <motion.section className='bg-white p-8' initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}>
-        <Link href='/'>Back</Link>
+      <motion.section className='bg-white p-8'>
+        <a
+          href='/'
+          onClick={async (e) => {
+            e.preventDefault()
+            router.prefetch('/')
+            await animate(scope.current, { x: '-100%' })
+            router.push('/')
+          }}
+        >
+          Back
+        </a>
         <h2 className='text-6xl font-bold'>Project title</h2>
         <br />
         <p>This is the project description. It will be kinda long and take up more space.</p>
@@ -43,6 +56,6 @@ export default function Page() {
         <Common />
         <AvatarModel />
       </View>
-    </MotionDiv>
+    </motion.div>
   )
 }
