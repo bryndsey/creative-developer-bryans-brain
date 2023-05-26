@@ -58,6 +58,7 @@ export default function Page() {
                 className='text-4xl font-extrabold'
                 onClick={async (e) => {
                   e.preventDefault()
+                  router.prefetch('./projects')
                   await animate(scope.current, { x: '100vw' })
                   router.push('./projects')
                 }}
