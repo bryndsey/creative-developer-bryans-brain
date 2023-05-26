@@ -13,6 +13,7 @@
     "@ducanh2912/next-pwa": "^8.5.1",
     "@react-three/drei": "^9.69.2",
     "@react-three/fiber": "^8.13.0",
+    "framer-motion": "^10.12.16",
     "glsl-random": "^0.0.5",
     "next": "^13.4.3",
     "react": "^18.2.0",
