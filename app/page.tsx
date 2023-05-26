@@ -1,11 +1,10 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
-// import { motion } from 'framer-motion'
-const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div), { ssr: false })
 
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -25,8 +24,11 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
+  const [scope, animate] = useAnimate()
+  const router = useRouter()
+
   return (
-    <MotionDiv className='relative' key='main' animate={{ x: 0 }} exit={{ x: '100vw' }} initial={{ x: '100vw' }}>
+    <div ref={scope} className='relative'>
       <View className='flex h-screen flex-col items-center justify-center'>
         <Suspense fallback={null}>
           <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
@@ -51,9 +53,17 @@ export default function Page() {
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             <li>
-              <Link href='./projects' className='text-4xl font-extrabold'>
+              <a
+                href='./projects'
+                className='text-4xl font-extrabold'
+                onClick={async (e) => {
+                  e.preventDefault()
+                  await animate(scope.current, { x: '100vw' })
+                  router.push('./projects')
+                }}
+              >
                 SongSpark
-              </Link>
+              </a>
               <p>Tagline here</p>
             </li>
             <li>
@@ -71,6 +81,6 @@ export default function Page() {
           </ul>
         </section>
       </div>
-    </MotionDiv>
+    </div>
   )
 }
