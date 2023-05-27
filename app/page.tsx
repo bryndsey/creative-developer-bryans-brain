@@ -63,7 +63,7 @@ export default function Page() {
                 But most of all, I love the intersection of the two. And software development sits right in the middle
                 of that beautiful Venn diagram for me. Whether its learning a new tech stack to build the next iteration
                 of my music-generating app or creating a VR castle defense game, technical problem-solving + creativity
-                meet = *chef kiss*
+                = *chef kiss*
               </p>
               <br />
             </div>
