@@ -2,6 +2,7 @@
 
 import { AvatarModel } from '@/components/AvatarModel'
 import { projects } from '@/projects'
+import { ContactShadows } from '@react-three/drei'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -33,6 +34,7 @@ export default function Page() {
       <View className='flex h-screen flex-col items-center justify-center'>
         <Suspense fallback={null}>
           <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
+          <ContactShadows position-y={-0.75} opacity={0.33} scale={8} blur={1} />
           <Common />
         </Suspense>
       </View>
