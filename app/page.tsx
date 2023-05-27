@@ -70,7 +70,7 @@ export default function Page() {
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             {projects.map((project) => {
               return (
-                <li key={project.name}>
+                <li key={project.id}>
                   <a
                     href='./projects'
                     className='text-4xl font-extrabold'
