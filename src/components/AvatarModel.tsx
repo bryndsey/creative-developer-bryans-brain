@@ -41,23 +41,23 @@ export function AvatarModel(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF('./avatar.glb') as GLTFResult
   const headGroup = useRef<Group | null>(null)
 
-  useFrame((state) => {
-    if (headGroup.current === null) return
+  // useFrame((state) => {
+  //   if (headGroup.current === null) return
 
-    let lerpFactor = 0.1
-    if (normalizedMousePosition === null) {
-      targetVector.set(0, 0, 0)
-      targetVector.unproject(state.camera)
-      lerpFactor = 0.025
-    } else {
-      targetVector.set(normalizedMousePosition.x, normalizedMousePosition.y, 0.9)
-      targetVector.unproject(state.camera)
-      targetVector.y -= 0.13
-    }
+  //   let lerpFactor = 0.1
+  //   if (normalizedMousePosition === null) {
+  //     targetVector.set(0, 0, 0)
+  //     targetVector.unproject(state.camera)
+  //     lerpFactor = 0.025
+  //   } else {
+  //     targetVector.set(normalizedMousePosition.x, normalizedMousePosition.y, 0.9)
+  //     targetVector.unproject(state.camera)
+  //     targetVector.y -= 0.13
+  //   }
 
-    const actualLookVector = lastTargetVector.lerp(targetVector, lerpFactor)
-    headGroup.current.lookAt(actualLookVector)
-  })
+  //   const actualLookVector = lastTargetVector.lerp(targetVector, lerpFactor)
+  //   headGroup.current.lookAt(actualLookVector)
+  // })
 
   return (
     <Suspense fallback={null}>
