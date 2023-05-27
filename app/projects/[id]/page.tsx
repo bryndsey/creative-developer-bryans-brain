@@ -1,6 +1,7 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { Project, projectMap, projects } from '@/projects'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -21,18 +22,19 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 })
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
-export default function Page() {
+export function generatetaticParams() {
+  return projects
+}
+
+export default function Page({ params }: { params: { id: string } }) {
+  const projectId = params.id
+  const project: Project = projectMap[projectId]
+
   const [scope, animate] = useAnimate()
   const router = useRouter()
 
   return (
-    <motion.div
-      ref={scope}
-      key='project'
-      className='grid min-h-screen grid-cols-2'
-      initial={{ x: '-100%' }}
-      animate={{ x: 0 }}
-    >
+    <motion.div ref={scope} className='grid min-h-screen grid-cols-2' initial={{ x: '-100%' }} animate={{ x: 0 }}>
       <motion.section className='bg-white p-8'>
         <a
           href='/'
@@ -45,10 +47,14 @@ export default function Page() {
         >
           Back
         </a>
-        <h2 className='text-6xl font-bold'>Project title</h2>
+        <h2 className='text-6xl font-bold'>{project.name}</h2>
         <br />
-        <p>This is the project description. It will be kinda long and take up more space.</p>
-        <button className='rounded bg-yellow-300 p-2'>Try it out!</button>
+        <p>{project.description}</p>
+        {project.url && (
+          <a className='rounded bg-yellow-300 p-2' href={project.url}>
+            Try it out!
+          </a>
+        )}
         <p>Tech stack info here</p>
       </motion.section>
       <View id='project-hero-display'>

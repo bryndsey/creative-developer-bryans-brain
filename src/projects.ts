@@ -35,3 +35,6 @@ export const projects: Project[] = [
     description: 'I make apps that run on Android devices',
   },
 ]
+
+export const projectMap: Map<string, Project> = new Map()
+projects.forEach((project) => (projectMap[project.id] = project))

@@ -72,13 +72,13 @@ export default function Page() {
               return (
                 <li key={project.id}>
                   <a
-                    href='./projects'
+                    href={`./projects/${project.id}`}
                     className='text-4xl font-extrabold'
                     onClick={async (e) => {
                       e.preventDefault()
-                      router.prefetch('./projects')
+                      router.prefetch(`./projects/${project.id}`)
                       await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
-                      router.push('./projects')
+                      router.push(`./projects/${project.id}`)
                     }}
                   >
                     {project.name}
