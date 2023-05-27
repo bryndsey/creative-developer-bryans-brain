@@ -37,7 +37,7 @@ export default function Page() {
         </Suspense>
       </View>
       <div className='bg-white'>
-        <section id='about' className='p-8'>
+        <section id='about' className='p-12'>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
           <p>I love making things.</p>
           <br />
@@ -65,7 +65,7 @@ export default function Page() {
           </p>
           <br />
         </section>
-        <section id='projects' className='flex min-h-screen flex-col p-8'>
+        <section id='projects' className='flex min-h-screen flex-col p-12'>
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             {projects.map((project) => {
