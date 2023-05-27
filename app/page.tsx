@@ -1,8 +1,9 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
@@ -23,15 +24,18 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
+  const [scope, animate] = useAnimate()
+  const router = useRouter()
+
   return (
-    <>
-      <div className='relative'>
-        <View className='flex h-screen flex-col items-center justify-center bg-green-400'>
-          <Suspense fallback={null}>
-            <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
-            <Common />
-          </Suspense>
-        </View>
+    <motion.div ref={scope} className='relative' initial={{ x: '100%' }} animate={{ x: 0 }}>
+      <View className='flex h-screen flex-col items-center justify-center'>
+        <Suspense fallback={null}>
+          <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
+          <Common />
+        </Suspense>
+      </View>
+      <div className='bg-white'>
         <section id='about' className='p-8'>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
           {"Here is where my 'About Me' content will go."}
@@ -49,9 +53,18 @@ export default function Page() {
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             <li>
-              <Link href='./projects' className='text-4xl font-extrabold'>
+              <a
+                href='./projects'
+                className='text-4xl font-extrabold'
+                onClick={async (e) => {
+                  e.preventDefault()
+                  router.prefetch('./projects')
+                  await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
+                  router.push('./projects')
+                }}
+              >
                 SongSpark
-              </Link>
+              </a>
               <p>Tagline here</p>
             </li>
             <li>
@@ -69,6 +82,6 @@ export default function Page() {
           </ul>
         </section>
       </div>
-    </>
+    </motion.div>
   )
 }
