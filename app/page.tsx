@@ -28,7 +28,7 @@ export default function Page() {
   const router = useRouter()
 
   return (
-    <motion.div ref={scope} className='relative' initial={{ x: '-100%' }} animate={{ x: 0 }}>
+    <motion.div ref={scope} className='relative' initial={{ x: '100%' }} animate={{ x: 0 }}>
       <View className='flex h-screen flex-col items-center justify-center'>
         <Suspense fallback={null}>
           <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
@@ -59,7 +59,7 @@ export default function Page() {
                 onClick={async (e) => {
                   e.preventDefault()
                   router.prefetch('./projects')
-                  await animate(scope.current, { x: '100vw' })
+                  await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
                   router.push('./projects')
                 }}
               >
