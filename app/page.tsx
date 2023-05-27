@@ -1,6 +1,7 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { projects } from '@/projects'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -9,7 +10,7 @@ import { Suspense } from 'react'
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
-    <div className='flex h-96 w-full flex-col items-center justify-center'>
+    <div className='flex h-screen w-full flex-col items-center justify-center'>
       <svg className='-ml-1 mr-3 h-5 w-5 animate-spin text-black' fill='none' viewBox='0 0 24 24'>
         <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' />
         <path
@@ -36,7 +37,7 @@ export default function Page() {
         </Suspense>
       </View>
       <div className='bg-white'>
-        <section id='about' className='p-8'>
+        <section id='about' className='p-12'>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
           <p>I love making things.</p>
           <br />
@@ -64,36 +65,28 @@ export default function Page() {
           </p>
           <br />
         </section>
-        <section id='project-list' className='flex min-h-screen flex-col p-8'>
+        <section id='projects' className='flex min-h-screen flex-col p-12'>
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
-            <li>
-              <a
-                href='./projects'
-                className='text-4xl font-extrabold'
-                onClick={async (e) => {
-                  e.preventDefault()
-                  router.prefetch('./projects')
-                  await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
-                  router.push('./projects')
-                }}
-              >
-                SongSpark
-              </a>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Pedals</h3>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Tic-Tac-Toe+</h3>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Android Projects</h3>
-              <p>Tagline here</p>
-            </li>
+            {projects.map((project) => {
+              return (
+                <li key={project.id}>
+                  <a
+                    href={`./projects/${project.id}`}
+                    className='text-4xl font-extrabold'
+                    onClick={async (e) => {
+                      e.preventDefault()
+                      router.prefetch(`./projects/${project.id}`)
+                      await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
+                      router.push(`./projects/${project.id}`)
+                    }}
+                  >
+                    {project.name}
+                  </a>
+                  <p>{project.shortDescription}</p>
+                </li>
+              )
+            })}
           </ul>
         </section>
       </div>
