@@ -3,7 +3,6 @@
 import { AvatarModel } from '@/components/AvatarModel'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
