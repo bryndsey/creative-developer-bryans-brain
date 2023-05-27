@@ -42,7 +42,7 @@ export default function Page({ params }: { params: { id: string } }) {
             e.preventDefault()
             router.prefetch('/')
             await animate(scope.current, { x: '-100%' }, { duration: 0.5, ease: 'circIn' })
-            router.push('/')
+            router.push('/#projects')
           }}
         >
           Back

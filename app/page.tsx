@@ -65,7 +65,7 @@ export default function Page() {
           </p>
           <br />
         </section>
-        <section id='project-list' className='flex min-h-screen flex-col p-8'>
+        <section id='projects' className='flex min-h-screen flex-col p-8'>
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
             {projects.map((project) => {
