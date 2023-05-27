@@ -38,32 +38,40 @@ export default function Page() {
       </View>
       <div className='bg-white'>
         <section id='about' className='p-12'>
-          <h2 className='text-6xl font-extrabold'>About Me</h2>
-          <p>I love making things.</p>
-          <br />
-          <p>
-            As a kid, I would invent my own dinosaurs, reverse-engineering them by drawing them skeleton-first. I once
-            spent 3 hours folding an origami moose. I buy Legos for my kids, but secretly (ok, maybe not so secretly…)
-            relish putting them together myself.
-          </p>
-          <br />
-          <br />
-          <p>I also love solving problems.</p>
-          <br />
-          <p>
-            I was the kid in calculus class who was a little too eager to raise their hand. I do logic puzzles like
-            sudoku and nurikabe for fun. I’ve mastered the art of finding the optimal arrangement of dishes in the
-            dishwasher.
-          </p>
-          <br />
-          <br />
-          <p>
-            But most of all, I love the intersection of the two. And software development sits right in the middle of
-            that beautiful Venn diagram for me. Whether its learning a new tech stack to build the next iteration of my
-            music-generating app or creating a VR castle defense game, technical problem-solving + creativity meet =
-            *chef kiss*
-          </p>
-          <br />
+          <div className='grid w-full grid-cols-2 gap-4'>
+            <div>
+              <h2 className='text-6xl font-extrabold'>About Me</h2>
+              <p>I love making things.</p>
+              <br />
+              <p>
+                As a kid, I would invent my own dinosaurs, reverse-engineering them by drawing them skeleton-first. I
+                once spent 3 hours folding an origami moose. I buy Legos for my kids, but secretly (ok, maybe not so
+                secretly…) relish putting them together myself.
+              </p>
+              <br />
+              <br />
+              <p>I also love solving problems.</p>
+              <br />
+              <p>
+                I was the kid in calculus class who was a little too eager to raise their hand. I do logic puzzles like
+                sudoku and nurikabe for fun. I’ve mastered the art of finding the optimal arrangement of dishes in the
+                dishwasher.
+              </p>
+              <br />
+              <br />
+              <p>
+                But most of all, I love the intersection of the two. And software development sits right in the middle
+                of that beautiful Venn diagram for me. Whether its learning a new tech stack to build the next iteration
+                of my music-generating app or creating a VR castle defense game, technical problem-solving + creativity
+                meet = *chef kiss*
+              </p>
+              <br />
+            </div>
+            <View>
+              <Common></Common>
+              <AvatarModel position={[0, -0.75, 0]} scale={2} />
+            </View>
+          </div>
         </section>
         <section id='projects' className='flex min-h-screen flex-col p-12'>
           <h2 className='text-6xl font-extrabold'>Projects</h2>
