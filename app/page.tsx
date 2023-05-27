@@ -1,6 +1,7 @@
 'use client'
 
 import { AvatarModel } from '@/components/AvatarModel'
+import { projects } from '@/projects'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -67,33 +68,25 @@ export default function Page() {
         <section id='project-list' className='flex min-h-screen flex-col p-8'>
           <h2 className='text-6xl font-extrabold'>Projects</h2>
           <ul className='flex grow flex-col justify-evenly gap-4  '>
-            <li>
-              <a
-                href='./projects'
-                className='text-4xl font-extrabold'
-                onClick={async (e) => {
-                  e.preventDefault()
-                  router.prefetch('./projects')
-                  await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
-                  router.push('./projects')
-                }}
-              >
-                SongSpark
-              </a>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Pedals</h3>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Tic-Tac-Toe+</h3>
-              <p>Tagline here</p>
-            </li>
-            <li>
-              <h3 className='text-4xl font-extrabold'>Android Projects</h3>
-              <p>Tagline here</p>
-            </li>
+            {projects.map((project) => {
+              return (
+                <li key={project.name}>
+                  <a
+                    href='./projects'
+                    className='text-4xl font-extrabold'
+                    onClick={async (e) => {
+                      e.preventDefault()
+                      router.prefetch('./projects')
+                      await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
+                      router.push('./projects')
+                    }}
+                  >
+                    {project.name}
+                  </a>
+                  <p>{project.shortDescription}</p>
+                </li>
+              )
+            })}
           </ul>
         </section>
       </div>
