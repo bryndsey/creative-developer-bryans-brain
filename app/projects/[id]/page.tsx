@@ -69,7 +69,7 @@ export default function Page({ params }: { params: { id: string } }) {
       </motion.section>
       <View id='project-hero-display'>
         <Common />
-        <AvatarModel />
+        {/* <AvatarModel /> */}
       </View>
     </motion.div>
   )
