@@ -47,15 +47,25 @@ export default function Page({ params }: { params: { id: string } }) {
         >
           Back
         </a>
+        <br />
         <h2 className='text-6xl font-bold'>{project.name}</h2>
         <br />
         <p>{project.description}</p>
+        <br />
+        <div className='flex flex-row gap-1'>
+          {project.tags &&
+            project.tags.map((tag) => (
+              <div key={tag.name} className='rounded bg-green-200 px-1'>
+                {tag.name}
+              </div>
+            ))}
+        </div>
+        <br />
         {project.url && (
           <a className='rounded bg-yellow-300 p-2' href={project.url}>
             Try it out!
           </a>
         )}
-        <p>Tech stack info here</p>
       </motion.section>
       <View id='project-hero-display'>
         <Common />
