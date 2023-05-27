@@ -38,15 +38,30 @@ export default function Page() {
       <div className='bg-white'>
         <section id='about' className='p-8'>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
-          {"Here is where my 'About Me' content will go."}
+          <p>I love making things.</p>
           <br />
-          {"Here is where my 'About Me' content will go."}
+          <p>
+            As a kid, I would invent my own dinosaurs, reverse-engineering them by drawing them skeleton-first. I once
+            spent 3 hours folding an origami moose. I buy Legos for my kids, but secretly (ok, maybe not so secretly…)
+            relish putting them together myself.
+          </p>
           <br />
-          {"Here is where my 'About Me' content will go."}
           <br />
-          {"Here is where my 'About Me' content will go."}
+          <p>I also love solving problems.</p>
           <br />
-          {"Here is where my 'About Me' content will go."}
+          <p>
+            I was the kid in calculus class who was a little too eager to raise their hand. I do logic puzzles like
+            sudoku and nurikabe for fun. I’ve mastered the art of finding the optimal arrangement of dishes in the
+            dishwasher.
+          </p>
+          <br />
+          <br />
+          <p>
+            But most of all, I love the intersection of the two. And software development sits right in the middle of
+            that beautiful Venn diagram for me. Whether its learning a new tech stack to build the next iteration of my
+            music-generating app or creating a VR castle defense game, technical problem-solving + creativity meet =
+            *chef kiss*
+          </p>
           <br />
         </section>
         <section id='project-list' className='flex min-h-screen flex-col p-8'>
