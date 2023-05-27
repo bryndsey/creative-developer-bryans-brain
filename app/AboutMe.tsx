@@ -21,9 +21,10 @@ export const Common = dynamic(() => import('@/components/canvas/View').then((mod
 export function AboutMe() {
   return (
     <section id='about' className='p-12'>
-      <div className='grid w-full grid-cols-2 gap-4'>
+      <div className='flex w-full flex-col gap-4 sm:grid sm:grid-cols-2'>
         <div>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
+          <br />
           <p>I love making things.</p>
           <br />
           <p>
@@ -50,7 +51,7 @@ export function AboutMe() {
           </p>
           <br />
         </div>
-        <View>
+        <View className='min-h-[300px]'>
           <Common></Common>
           <AvatarModel position={[0, -0.75, 0]} scale={2} />
         </View>
