@@ -58,16 +58,36 @@ export const projects: Project[] = [
   {
     id: 'pedals',
     name: 'Pedals',
-    shortDescription: 'Making more music, man',
-    description: "Seriously, it's all about making more music, dude",
+    shortDescription: 'Create a virtual pedal board of effects for guitar',
+    description:
+      "This project was inspired by my son's interest in the guitar pedals of the GarageBand app on iPad (especially the Wah pedal you can control with your face!). " +
+      'I wanted to be able to design my own pedals so I could do whatever I wanted with them. Looking around, I found the fantastic ' +
+      'Tone.js library, which seemed like a perfect musical engine, and Konva which let me build an interactive 2D ' +
+      'experience using HTML Canvas.',
+    features: [
+      'Drag and drop interface for placing guitar pedals and connecting them together',
+      'Adjust pedal settings to dial in just the right sound',
+      'Pass audio from a microphone (or other audio input) through your pedals',
+      'Simple synth to test out pedal setups without audio input',
+    ],
     url: 'https://pedals.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag],
   },
   {
     id: 'tictactoeplus',
     name: 'Tic-Tac-Toe+',
-    shortDescription: 'Fight to the death',
-    description: 'A more strategic version of a classic game',
+    shortDescription: 'A unique twist on the classic game with an extra layer of strategy',
+    description:
+      'I decided to challenge myself to see how quickly I could make a React app. I just needed an idea.' +
+      'Scrolling through Reddit one day, I saw a board game version of tic-tac-toe where players could place a larger ' +
+      'on top of a smaller piece that had been played, adding an extra level of strategy to an otherwise fairly ' +
+      'straightforward game. It felt simple enough to implement quickly while complex enough to be interesting.' +
+      'I whipped up the original version on CodeSandbox in just a few hours, and eventually fleshed out the 3D version you see today.',
+    features: [
+      'Local two-player game of Tic-tac-toe... with a twist',
+      'Place larger pieces on top of smaller ones to steal spaces',
+      'Simple drag and drop controls and 3D visuals',
+    ],
     url: 'https://tictactoeplus.bryanlindsey.dev',
     tags: [ReactTag, ThreeJsTag, TypeScriptTag],
   },
