@@ -25,7 +25,7 @@ export function AboutMe() {
         <div>
           <h2 className='text-6xl font-extrabold'>About Me</h2>
           <br />
-          <p>I love making things.</p>
+          <p className='text-xl font-extrabold'>I love making things.</p>
           <br />
           <p>
             As a kid, I would invent my own dinosaurs, reverse-engineering them by drawing them skeleton-first. I once
@@ -34,7 +34,7 @@ export function AboutMe() {
           </p>
           <br />
           <br />
-          <p>I also love solving problems.</p>
+          <p className='text-xl font-extrabold'>I also love solving problems.</p>
           <br />
           <p>
             I was the kid in calculus class who was a little too eager to raise their hand. I do logic puzzles like
@@ -43,11 +43,11 @@ export function AboutMe() {
           </p>
           <br />
           <br />
+          <p className='text-xl font-extrabold'>But most of all, I love the intersection of the two.</p>
           <p>
-            But most of all, I love the intersection of the two. And software development sits right in the middle of
-            that beautiful Venn diagram for me. Whether its learning a new tech stack to build the next iteration of my
-            music-generating app or creating a VR castle defense game, technical problem-solving + creativity = *chef
-            kiss*
+            And software development sits right in the middle of that beautiful Venn diagram for me. Whether its
+            learning a new tech stack to build the next iteration of my music-generating app or creating a VR castle
+            defense game, technical problem-solving + creativity = *chef kiss*
           </p>
           <br />
         </div>
