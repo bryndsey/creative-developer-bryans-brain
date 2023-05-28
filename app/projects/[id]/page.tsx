@@ -1,6 +1,5 @@
 'use client'
 
-import { AvatarModel } from '@/components/AvatarModel'
 import { Project, projectMap, projects } from '@/projects'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
@@ -81,11 +80,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </a>
         )}
       </motion.section>
-      <div id='project-hero-display'>
-        {/* <Common /> */}
-        {/* <AvatarModel /> */}
-        {project.hero && <project.hero />}
-      </div>
+      <div id='project-hero-display'>{project.hero && <project.hero />}</div>
     </motion.div>
   )
 }
