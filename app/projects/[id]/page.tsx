@@ -33,7 +33,12 @@ export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   return (
-    <motion.div ref={scope} className='grid min-h-screen grid-cols-2' initial={{ x: '-100%' }} animate={{ x: 0 }}>
+    <motion.div
+      ref={scope}
+      className='flex flex-col-reverse md:grid md:min-h-screen md:grid-cols-2'
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+    >
       <motion.section className='bg-white p-8'>
         <a
           href='/'
@@ -80,7 +85,9 @@ export default function Page({ params }: { params: { id: string } }) {
           </a>
         )}
       </motion.section>
-      <div id='project-hero-display'>{project.hero && <project.hero />}</div>
+      <div id='project-hero-display' className='min-h-[400px]'>
+        {project.hero && <project.hero />}
+      </div>
     </motion.div>
   )
 }
