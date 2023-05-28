@@ -39,8 +39,12 @@ export const projects: Project[] = [
   {
     id: 'songspark',
     name: 'SongSpark',
-    shortDescription: 'Making music, man',
-    description: "Like I said, it's all about making music, man",
+    shortDescription: 'Inspire your inner songwriter with generated musical ideas',
+    description:
+      'The web version of my pet project for the past decade or so. The idea was inspired by a music theory class I took in college. ' +
+      'The underlying mathematical nature of what makes music appealing felt like fertile ground for exploration through code. ' +
+      'The original app was broader in scope, including generating a full verse and chorus. However, I pared things down for the latest ' +
+      'iteration to focus on generating small melodic ideas to spur creativity.',
     url: 'https://songspark.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag],
   },
