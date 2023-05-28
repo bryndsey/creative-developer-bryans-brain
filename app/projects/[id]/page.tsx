@@ -63,15 +63,17 @@ export default function Page({ params }: { params: { id: string } }) {
           </>
         )}
         {project.tags && (
-          <div className='flex flex-row flex-wrap gap-1'>
-            {project.tags.map((tag) => (
-              <div key={tag.name} className='rounded bg-green-200 px-1'>
-                {tag.name}
-              </div>
-            ))}
-          </div>
+          <>
+            <div className='flex flex-row flex-wrap gap-1'>
+              {project.tags.map((tag) => (
+                <div key={tag.name} className='rounded bg-green-200 px-1'>
+                  {tag.name}
+                </div>
+              ))}
+            </div>
+            <br />
+          </>
         )}
-        <br />
         {project.url && (
           <a className='rounded bg-yellow-300 p-2' href={project.url}>
             Try it out!
