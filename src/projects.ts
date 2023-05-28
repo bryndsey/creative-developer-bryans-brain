@@ -31,6 +31,7 @@ export type Project = {
   name: string
   shortDescription: string
   description: string
+  features?: string[]
   url?: string
   tags?: TechTag[]
 }
@@ -45,6 +46,12 @@ export const projects: Project[] = [
       'The underlying mathematical nature of what makes music appealing felt like fertile ground for exploration through code. ' +
       'The original app was broader in scope, including generating a full verse and chorus. However, I pared things down for the latest ' +
       'iteration to focus on generating small melodic ideas to spur creativity.',
+    features: [
+      'Algorithmically-generated melodies and underlying chord progressions',
+      'Listen to generated the melodies and chords right in the browser',
+      'Decide your own key, time signature, tempo, and instruments',
+      'Export ideas to MIDI format for importing into your favorite DAW or other music software',
+    ],
     url: 'https://songspark.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag, TailwindTag],
   },

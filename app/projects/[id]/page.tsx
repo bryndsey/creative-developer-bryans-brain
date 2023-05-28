@@ -52,6 +52,16 @@ export default function Page({ params }: { params: { id: string } }) {
         <br />
         <p>{project.description}</p>
         <br />
+        {project.features && (
+          <>
+            <ul>
+              {project.features.map((feature, index) => {
+                return <li key={index}>{feature}</li>
+              })}
+            </ul>
+            <br />
+          </>
+        )}
         {project.tags && (
           <div className='flex flex-row flex-wrap gap-1'>
             {project.tags.map((tag) => (
