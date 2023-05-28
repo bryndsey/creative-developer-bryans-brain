@@ -21,7 +21,7 @@ type GLTFResult = GLTF & {
 }
 
 export function KeyboardModel(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('./keyboard.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/keyboard.glb') as GLTFResult
   return (
     <Suspense fallback={null}>
       <group {...props} dispose={null}>
@@ -33,4 +33,4 @@ export function KeyboardModel(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('./keyboard.glb')
+useGLTF.preload('/keyboard.glb')

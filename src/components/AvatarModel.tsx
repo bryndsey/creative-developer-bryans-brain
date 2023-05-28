@@ -38,7 +38,7 @@ const normalizedMousePosition = null
 const lastTargetVector = new Vector3()
 const targetVector = new Vector3()
 export function AvatarModel(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('./avatar.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/avatar.glb') as GLTFResult
   const headGroup = useRef<Group | null>(null)
 
   // useFrame((state) => {
@@ -81,4 +81,4 @@ export function AvatarModel(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('./avatar.glb')
+useGLTF.preload('/avatar.glb')

@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function ViolinModel() {
-  const gltf = useGLTF('./violin.glb')
+  const gltf = useGLTF('/violin.glb')
   return (
     <Suspense fallback={null}>
       <primitive object={gltf.scene} />
@@ -10,4 +10,4 @@ export function ViolinModel() {
   )
 }
 
-useGLTF.preload('./violin.glb')
+useGLTF.preload('/violin.glb')
