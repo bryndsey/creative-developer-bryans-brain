@@ -54,7 +54,8 @@ export default function Page({ params }: { params: { id: string } }) {
         <br />
         {project.features && (
           <>
-            <ul>
+            <h3>Features:</h3>
+            <ul className='list-inside list-disc'>
               {project.features.map((feature, index) => {
                 return <li key={index}>{feature}</li>
               })}
