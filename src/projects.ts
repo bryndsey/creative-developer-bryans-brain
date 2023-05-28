@@ -46,7 +46,7 @@ export const projects: Project[] = [
       'The original app was broader in scope, including generating a full verse and chorus. However, I pared things down for the latest ' +
       'iteration to focus on generating small melodic ideas to spur creativity.',
     url: 'https://songspark.bryanlindsey.dev',
-    tags: [ReactTag, TypeScriptTag, WebAudioTag],
+    tags: [ReactTag, TypeScriptTag, WebAudioTag, TailwindTag],
   },
   {
     id: 'pedals',
