@@ -81,10 +81,11 @@ export default function Page({ params }: { params: { id: string } }) {
           </a>
         )}
       </motion.section>
-      <View id='project-hero-display'>
-        <Common />
+      <div id='project-hero-display'>
+        {/* <Common /> */}
         {/* <AvatarModel /> */}
-      </View>
+        {project.hero && <project.hero />}
+      </div>
     </motion.div>
   )
 }

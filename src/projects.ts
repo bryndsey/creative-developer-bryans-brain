@@ -1,3 +1,5 @@
+import { SongSparkHero } from './songspark/SongSparkHero'
+
 interface TechTag {
   name: string
 }
@@ -34,6 +36,7 @@ export type Project = {
   features?: string[]
   url?: string
   tags?: TechTag[]
+  hero?: () => JSX.Element
 }
 
 export const projects: Project[] = [
@@ -54,6 +57,7 @@ export const projects: Project[] = [
     ],
     url: 'https://songspark.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag, TailwindTag],
+    hero: SongSparkHero,
   },
   {
     id: 'pedals',
