@@ -52,7 +52,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <br />
         <p>{project.description}</p>
         <br />
-        <div className='flex flex-row gap-1'>
+        <div className='flex flex-row flex-wrap gap-1'>
           {project.tags &&
             project.tags.map((tag) => (
               <div key={tag.name} className='rounded bg-green-200 px-1'>
