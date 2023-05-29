@@ -16,8 +16,10 @@
     "framer-motion": "^10.12.16",
     "glsl-random": "^0.0.5",
     "next": "^13.4.4",
+    "r3f-perf": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-use-measure": "^2.1.1",
     "three": "^0.152.2",
     "three-stdlib": "^2.23.4",
     "tunnel-rat": "^0.1.2"
