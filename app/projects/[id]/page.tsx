@@ -54,8 +54,6 @@ export default function Page({ params }: { params: { id: string } }) {
         <br />
         <h2 className='text-6xl font-bold'>{project.name}</h2>
         <br />
-        <p>{project.description}</p>
-        <br />
         {project.features && (
           <>
             <h3>Features:</h3>
@@ -80,10 +78,15 @@ export default function Page({ params }: { params: { id: string } }) {
           </>
         )}
         {project.url && (
-          <a className='rounded bg-yellow-300 p-2' href={project.url}>
-            Try it out!
-          </a>
+          <>
+            <a className='rounded bg-yellow-300 p-2' href={project.url}>
+              Try it out!
+            </a>
+            <br />
+          </>
         )}
+        <br />
+        <p>{project.description}</p>
       </motion.section>
       <div id='project-hero-display' className='min-h-[400px]'>
         <project.hero />
