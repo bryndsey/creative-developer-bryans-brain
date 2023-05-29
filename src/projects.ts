@@ -1,3 +1,5 @@
+import { SongSparkHero } from './songspark/SongSparkHero'
+
 interface TechTag {
   name: string
 }
@@ -34,6 +36,7 @@ export type Project = {
   features?: string[]
   url?: string
   tags?: TechTag[]
+  hero: () => JSX.Element
 }
 
 export const projects: Project[] = [
@@ -54,6 +57,7 @@ export const projects: Project[] = [
     ],
     url: 'https://songspark.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag, TailwindTag],
+    hero: SongSparkHero,
   },
   {
     id: 'pedals',
@@ -72,6 +76,7 @@ export const projects: Project[] = [
     ],
     url: 'https://pedals.bryanlindsey.dev',
     tags: [ReactTag, TypeScriptTag, WebAudioTag],
+    hero: SongSparkHero,
   },
   {
     id: 'tictactoeplus',
@@ -90,6 +95,7 @@ export const projects: Project[] = [
     ],
     url: 'https://tictactoeplus.bryanlindsey.dev',
     tags: [ReactTag, ThreeJsTag, TypeScriptTag],
+    hero: SongSparkHero,
   },
   {
     id: 'android',
@@ -97,6 +103,7 @@ export const projects: Project[] = [
     shortDescription: 'Projects... for Android',
     description: 'I make apps that run on Android devices',
     tags: [AndroidTag],
+    hero: SongSparkHero,
   },
 ]
 

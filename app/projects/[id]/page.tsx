@@ -1,6 +1,5 @@
 'use client'
 
-import { AvatarModel } from '@/components/AvatarModel'
 import { Project, projectMap, projects } from '@/projects'
 import { motion, useAnimate } from 'framer-motion'
 import dynamic from 'next/dynamic'
@@ -34,7 +33,12 @@ export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   return (
-    <motion.div ref={scope} className='grid min-h-screen grid-cols-2' initial={{ x: '-100%' }} animate={{ x: 0 }}>
+    <motion.div
+      ref={scope}
+      className='flex min-h-screen flex-col-reverse md:grid md:grid-cols-2'
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+    >
       <motion.section className='bg-white p-8'>
         <a
           href='/'
@@ -49,8 +53,6 @@ export default function Page({ params }: { params: { id: string } }) {
         </a>
         <br />
         <h2 className='text-6xl font-bold'>{project.name}</h2>
-        <br />
-        <p>{project.description}</p>
         <br />
         {project.features && (
           <>
@@ -76,15 +78,19 @@ export default function Page({ params }: { params: { id: string } }) {
           </>
         )}
         {project.url && (
-          <a className='rounded bg-yellow-300 p-2' href={project.url}>
-            Try it out!
-          </a>
+          <>
+            <a className='rounded bg-yellow-300 p-2' href={project.url}>
+              Try it out!
+            </a>
+            <br />
+          </>
         )}
+        <br />
+        <p>{project.description}</p>
       </motion.section>
-      <View id='project-hero-display'>
-        <Common />
-        {/* <AvatarModel /> */}
-      </View>
+      <div id='project-hero-display' className='min-h-[400px]'>
+        <project.hero />
+      </div>
     </motion.div>
   )
 }
