@@ -35,7 +35,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <motion.div
       ref={scope}
-      className='flex flex-col-reverse md:grid md:min-h-screen md:grid-cols-2'
+      className='flex min-h-screen flex-col-reverse md:grid md:grid-cols-2'
       initial={{ x: '-100%' }}
       animate={{ x: 0 }}
     >
@@ -86,7 +86,7 @@ export default function Page({ params }: { params: { id: string } }) {
         )}
       </motion.section>
       <div id='project-hero-display' className='min-h-[400px]'>
-        {project.hero && <project.hero />}
+        <project.hero />
       </div>
     </motion.div>
   )
