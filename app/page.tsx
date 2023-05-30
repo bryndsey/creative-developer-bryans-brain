@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { AboutMe } from './AboutMe'
+import { links } from '@/links'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -60,6 +61,19 @@ export default function Page() {
                     {project.name}
                   </a>
                   <p>{project.shortDescription}</p>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+        <section id='links' className='p-12'>
+          <h2 className='text-2xl font-extrabold'>Find out more</h2>
+          <br />
+          <ul>
+            {links.map((link) => {
+              return (
+                <li key={link.displayName}>
+                  <a href={link.url}>{link.displayName}</a>
                 </li>
               )
             })}
