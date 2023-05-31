@@ -90,6 +90,27 @@ export default function Page() {
           </h2>
         </div>
       </div>
+
+      <section id='about' className='grid h-screen grid-cols-3 gap-3 p-4'>
+        <div className='justify-self-end text-end'>
+          <h2 className='text-2xl font-extrabold'>I love to make things</h2>
+          <ul>
+            <li>Invented my own dinosaurs as a child by drawing the skeleton and then adding muscle and skin.</li>
+            <li>Once spent 3 hours folding an origami moose.</li>
+            <li>I buy Legos for my children, but really I just get them for myself.</li>
+          </ul>
+        </div>
+        <div className='col-start-3'>
+          <h2 className='text-2xl font-extrabold'>I love solving problems</h2>
+          <ul>
+            <li>Was the kid in calculus class who was too eager to raise their hand.</li>
+            <li>Solves nurikabe puzzles for fun.</li>
+            <li>
+              Often spends longer to fit more dishes in the dishwasher than it would take to hand wash the dishes.
+            </li>
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }
