@@ -33,64 +33,60 @@ export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   return (
-    <motion.div
-      ref={scope}
-      className='flex min-h-screen flex-col-reverse md:grid md:grid-cols-2'
-      initial={{ x: '-100%' }}
-      animate={{ x: 0 }}
-    >
-      <motion.section className='bg-white p-8'>
-        <a
-          href='/'
-          onClick={async (e) => {
-            e.preventDefault()
-            router.prefetch('/')
-            await animate(scope.current, { x: '-100%' }, { duration: 0.5, ease: 'circIn' })
-            router.push('/#projects')
-          }}
-        >
-          Back
-        </a>
-        <br />
-        <h2 className='text-6xl font-bold'>{project.name}</h2>
-        <br />
-        {project.features && (
-          <>
-            <h3>Features:</h3>
-            <ul className='list-inside list-disc'>
-              {project.features.map((feature, index) => {
-                return <li key={index}>{feature}</li>
-              })}
-            </ul>
-            <br />
-          </>
-        )}
-        {project.tags && (
-          <>
-            <div className='flex flex-row flex-wrap gap-1'>
-              {project.tags.map((tag) => (
-                <div key={tag.name} className='rounded bg-green-200 px-1'>
-                  {tag.name}
-                </div>
-              ))}
-            </div>
-            <br />
-          </>
-        )}
-        {project.url && (
-          <>
-            <a className='rounded bg-yellow-300 p-2' href={project.url}>
-              Try it out!
-            </a>
-            <br />
-          </>
-        )}
-        <br />
-        <p>{project.description}</p>
-      </motion.section>
-      <div id='project-hero-display' className='min-h-[400px]'>
-        <project.hero />
+    <motion.div ref={scope} className='flex flex-col' initial={{ x: '-100%' }} animate={{ x: 0 }}>
+      <div className='flex min-h-screen flex-col-reverse md:grid md:grid-cols-2'>
+        <motion.section className='flex flex-col items-start bg-white p-12'>
+          <a
+            href='/'
+            onClick={async (e) => {
+              e.preventDefault()
+              router.prefetch('/')
+              await animate(scope.current, { x: '-100%' }, { duration: 0.5, ease: 'circIn' })
+              router.push('/#projects')
+            }}
+          >
+            Back
+          </a>
+          <h2 className='text-6xl font-bold'>{project.name}</h2>
+          <div className='min-h-[2rem] flex-1' />
+          {project.features && (
+            <>
+              <h3 className='font-bold'>Features</h3>
+              <ul className='list-inside list-disc'>
+                {project.features.map((feature, index) => {
+                  return <li key={index}>{feature}</li>
+                })}
+              </ul>
+              <br />
+            </>
+          )}
+          {project.tags && (
+            <>
+              <div className='flex flex-row flex-wrap gap-1'>
+                {project.tags.map((tag) => (
+                  <div key={tag.name} className='rounded bg-green-200 px-1'>
+                    {tag.name}
+                  </div>
+                ))}
+              </div>
+              <br />
+            </>
+          )}
+          {project.url && (
+            <>
+              <a className='rounded bg-yellow-300 p-2' href={project.url}>
+                Try it out!
+              </a>
+            </>
+          )}
+        </motion.section>
+        <div id='project-hero-display' className='min-h-[400px]'>
+          <project.hero />
+        </div>
       </div>
+      <section className='bg-green-100 p-12'>
+        <p>{project.description}</p>
+      </section>
     </motion.div>
   )
 }
