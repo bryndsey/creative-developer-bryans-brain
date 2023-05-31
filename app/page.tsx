@@ -89,7 +89,9 @@ export default function Page() {
             <br />
             <span className='text-4xl font-extrabold line-through opacity-20'>PORTFOLIO WEBSITE</span>
             <br />
-            <span className='text-4xl font-extrabold'>CREATIVE DEVELOPER</span>
+            <span className='text-4xl font-extrabold'>
+              <span className='font-sans italic'>CREATIVE </span>DEVELOPER
+            </span>
           </h2>
         </div>
       </div>
@@ -97,7 +99,9 @@ export default function Page() {
       <section id='about' className='flex min-h-screen flex-col'>
         <div className='grid flex-1 grid-cols-3 gap-3 p-4'>
           <div className='justify-self-end text-end'>
-            <h2 className='text-2xl font-extrabold'>I love to make things</h2>
+            <h2 className='text-2xl font-extrabold'>
+              I love to <span className='font-sans italic'>make things</span>
+            </h2>
             <ul>
               <li>Invented my own dinosaurs as a child by drawing the skeleton and then adding muscle and skin.</li>
               <li>Once spent 3 hours folding an origami moose.</li>
@@ -105,7 +109,9 @@ export default function Page() {
             </ul>
           </div>
           <div className='col-start-3'>
-            <h2 className='text-2xl font-extrabold'>I love solving problems</h2>
+            <h2 className='text-2xl font-extrabold'>
+              I <span className='font-sans italic'>love </span>solving problems
+            </h2>
             <ul>
               <li>Was the kid in calculus class who was too eager to raise their hand.</li>
               <li>Solves nurikabe puzzles for fun.</li>
@@ -115,7 +121,10 @@ export default function Page() {
             </ul>
           </div>
         </div>
-        <h2 className='p-8 text-center text-4xl font-extrabold'>I especially love doing both at the same time</h2>
+        <h2 className='p-8 text-center text-4xl font-extrabold'>
+          I especially love doing <span className='font-sans'>both</span> at the{' '}
+          <span className='italic'>same time</span>
+        </h2>
       </section>
       <section id='projects' className='flex min-h-screen flex-col p-12'>
         <h2 className='text-6xl font-extrabold'>Projects</h2>
