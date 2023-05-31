@@ -1,6 +1,8 @@
 'use client'
 
 import { Three } from '@/helpers/components/Three'
+import { links } from '@/links'
+import { projects } from '@/projects'
 import {
   Box,
   Capsule,
@@ -114,6 +116,22 @@ export default function Page() {
           </div>
         </div>
         <h2 className='p-8 text-center text-4xl font-extrabold'>I especially love doing both at the same time</h2>
+      </section>
+      <section id='projects' className='flex min-h-screen flex-col p-12'>
+        <h2 className='text-6xl font-extrabold'>Projects</h2>
+      </section>
+      <section id='links' className='p-12'>
+        <h2 className='text-2xl font-extrabold'>Find out more</h2>
+        <br />
+        <ul>
+          {links.map((link) => {
+            return (
+              <li key={link.displayName}>
+                <a href={link.url}>{link.displayName}</a>
+              </li>
+            )
+          })}
+        </ul>
       </section>
     </div>
   )
