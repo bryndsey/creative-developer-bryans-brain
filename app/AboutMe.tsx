@@ -23,7 +23,7 @@ export function AboutMe() {
     <section id='about' className='p-12'>
       <div className='flex w-full flex-col gap-4 sm:grid sm:grid-cols-2'>
         <div>
-          <h2 className='text-6xl font-extrabold'>About Me</h2>
+          <h2 className='-skew-y-3 skew-x-3 text-6xl font-extrabold'>About Me</h2>
           <br />
           <p className='text-xl font-extrabold'>I love making things.</p>
           <br />
@@ -56,6 +56,14 @@ export function AboutMe() {
           <AvatarModel position={[0, -0.75, 0]} scale={2} />
         </View>
       </div>
+      <h3>Things I make</h3>
+      <ul>
+        <li>Web apps</li>
+        <li>Mobile apps</li>
+        <li>Video games</li>
+        <li>Music</li>
+        <li>Dad jokes</li>
+      </ul>
     </section>
   )
 }

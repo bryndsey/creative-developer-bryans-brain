@@ -1,14 +1,16 @@
 'use client'
 
-import { AvatarModel } from '@/components/AvatarModel'
-import { projects } from '@/projects'
-import { ContactShadows } from '@react-three/drei'
-import { motion, useAnimate } from 'framer-motion'
+import {
+  Box,
+  Capsule,
+  ContactShadows,
+  Cylinder,
+  Float,
+  MeshTransmissionMaterial,
+  PerspectiveCamera,
+  Sphere,
+} from '@react-three/drei'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
-import { AboutMe } from './AboutMe'
-import { links } from '@/links'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -28,58 +30,66 @@ export const View = dynamic(() => import('@/components/canvas/View').then((mod) 
 export const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
-  const [scope, animate] = useAnimate()
-  const router = useRouter()
-
   return (
-    <motion.div ref={scope} className='relative' initial={{ x: '100%' }} animate={{ x: 0 }}>
-      <View className='flex h-screen flex-col items-center justify-center'>
-        <Suspense fallback={null}>
-          <AvatarModel position={[-0.25, -0.75, 0]} scale={2} />
-          <ContactShadows position-y={-0.75} opacity={0.33} scale={8} blur={1} />
+    <div>
+      <div id='hero' className='relative h-screen'>
+        <View className='h-full w-full'>
+          <color attach={'background'} args={[200, 200, 200]} />
           <Common />
-        </Suspense>
-      </View>
-      <div className='bg-white'>
-        <AboutMe />
-        <section id='projects' className='flex min-h-screen flex-col p-12'>
-          <h2 className='text-6xl font-extrabold'>Projects</h2>
-          <ul className='flex grow flex-col justify-evenly gap-4  '>
-            {projects.map((project) => {
-              return (
-                <li key={project.id}>
-                  <a
-                    href={`./projects/${project.id}`}
-                    className='text-4xl font-extrabold'
-                    onClick={async (e) => {
-                      e.preventDefault()
-                      router.prefetch(`./projects/${project.id}`)
-                      await animate(scope.current, { x: '100%' }, { duration: 0.5, ease: 'circIn' })
-                      router.push(`./projects/${project.id}`)
-                    }}
-                  >
-                    {project.name}
-                  </a>
-                  <p>{project.shortDescription}</p>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-        <section id='links' className='p-12'>
-          <h2 className='text-2xl font-extrabold'>Find out more</h2>
+          <group position={[-1, 1, 0]}>
+            <Float>
+              <Sphere args={[0.5]} scale-y={0.7}>
+                <meshStandardMaterial color={'salmon'} />
+              </Sphere>
+              <Sphere args={[0.2]} position={[0.2, -0.3, 0]}>
+                <meshStandardMaterial color={'palevioletred'} />
+              </Sphere>
+              <Cylinder args={[0.025, 0.025]} position={[0.2, -0.4, 0]}>
+                <meshStandardMaterial color={'palevioletred'} />
+              </Cylinder>
+            </Float>
+            <Cylinder args={[0.66, 0.66, 2, 32, 4]}>
+              <MeshTransmissionMaterial
+                distortionScale={0.5}
+                temporalDistortion={0}
+                thickness={0.2}
+                color={'white'}
+                transmission={0.95}
+                backside
+                // roughness={0.1}
+              />
+            </Cylinder>
+            <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-1}>
+              <meshStandardMaterial metalness={1} color={'gray'} />
+            </Cylinder>
+          </group>
+          <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
+            <meshStandardMaterial color={'blue'} />
+          </Box>
+          <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} />
+          <ContactShadows />
+        </View>
+        <div className='absolute inset-y-0 right-0 z-10 w-1/2 p-4'>
+          <p>Hello. My name is</p>
+          <h1>
+            <span className='text-8xl font-extrabold line-through opacity-20'>BRAIN</span>
+            <br />
+            <span className='text-8xl font-extrabold line-through opacity-20'>BRIAN</span>
+            <br />
+            <span className='text-8xl font-extrabold'>BRYAN</span>
+          </h1>
           <br />
-          <ul>
-            {links.map((link) => {
-              return (
-                <li key={link.displayName}>
-                  <a href={link.url}>{link.displayName}</a>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
+          <br />
+          <p>I am a</p>
+          <h2>
+            <span className='text-4xl font-extrabold line-through opacity-20'>BRAIN</span>
+            <br />
+            <span className='text-4xl font-extrabold line-through opacity-20'>PORTFOLIO WEBSITE</span>
+            <br />
+            <span className='text-4xl font-extrabold'>CREATIVE DEVELOPER</span>
+          </h2>
+        </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

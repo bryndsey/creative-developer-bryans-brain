@@ -19,7 +19,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           overflow: 'auto',
           touchAction: 'auto',
         }}
-        className='bg-green-400'
       >
         {children}
         <Scene
