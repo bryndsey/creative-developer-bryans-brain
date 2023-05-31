@@ -32,7 +32,7 @@ export const Common = dynamic(() => import('@/components/canvas/View').then((mod
 
 export default function Page() {
   return (
-    <div className='relative'>
+    <div>
       <Three>
         <color attach={'background'} args={[200, 200, 200]} />
         <Common />
@@ -70,7 +70,7 @@ export default function Page() {
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
-        <div className='absolute inset-y-0 right-0 z-10 w-1/2 p-4'>
+        <div className='absolute inset-y-0 right-0 w-1/2 p-4'>
           <p>Hello. My name is</p>
           <h1>
             <span className='text-8xl font-extrabold line-through opacity-20'>BRAIN</span>
@@ -92,8 +92,8 @@ export default function Page() {
         </div>
       </div>
 
-      <section id='about' className='z-10 flex min-h-screen flex-col'>
-        <div className='z-10 grid flex-1 grid-cols-3 gap-3 p-4'>
+      <section id='about' className='flex min-h-screen flex-col'>
+        <div className='grid flex-1 grid-cols-3 gap-3 p-4'>
           <div className='justify-self-end text-end'>
             <h2 className='text-2xl font-extrabold'>I love to make things</h2>
             <ul>
@@ -113,7 +113,7 @@ export default function Page() {
             </ul>
           </div>
         </div>
-        <h2 className='z-10 p-8 text-center text-4xl font-extrabold'>I especially love doing both at the same time</h2>
+        <h2 className='p-8 text-center text-4xl font-extrabold'>I especially love doing both at the same time</h2>
       </section>
     </div>
   )
