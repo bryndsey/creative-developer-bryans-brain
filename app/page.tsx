@@ -61,12 +61,12 @@ export default function Page() {
               // roughness={0.1}
             />
           </Cylinder>
-          <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-1}>
-            <meshStandardMaterial metalness={1} color={'gray'} />
+          <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-0.95}>
+            <meshStandardMaterial metalness={1} color={'white'} />
           </Cylinder>
         </group>
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
-          <meshStandardMaterial color={'blue'} />
+          <meshStandardMaterial metalness={1} color={'white'} />
         </Box>
         <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} />
         <ContactShadows />
