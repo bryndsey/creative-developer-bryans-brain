@@ -36,10 +36,15 @@ export const View = dynamic(() => import('@/components/canvas/View').then((mod) 
 export const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
+  const aboutRef = useRef<HTMLElement>(null)
+
   const cameraRef = useRef(null)
   useLenis((lenis: Lenis) => {
     if (cameraRef.current === null) return
-    cameraRef.current.position.x = 1 - lenis.progress
+
+    if (aboutRef.current === null) return
+    const progressToScrollPoint = lenis.animatedScroll / aboutRef.current.offsetTop
+    cameraRef.current.position.x = 1 - progressToScrollPoint
   })
 
   return (
@@ -108,7 +113,7 @@ export default function Page() {
         </div>
       </div>
 
-      <section id='about' className='flex min-h-screen flex-col'>
+      <section id='about' className='flex min-h-screen flex-col' ref={aboutRef}>
         <div className='grid flex-1 grid-cols-3 gap-3 p-4'>
           <div className='justify-self-end text-end'>
             <h2 className='text-2xl font-extrabold'>
