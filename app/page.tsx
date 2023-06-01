@@ -8,6 +8,7 @@ import {
   Capsule,
   ContactShadows,
   Cylinder,
+  Environment,
   Float,
   MeshTransmissionMaterial,
   PerspectiveCamera,
@@ -17,6 +18,7 @@ import { useLenis } from '@studio-freight/react-lenis'
 import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
 import { useRef } from 'react'
+import { Color, ColorRepresentation } from 'three'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -35,6 +37,8 @@ export const View = dynamic(() => import('@/components/canvas/View').then((mod) 
 })
 export const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
+const background = new Color('white')
+
 export default function Page() {
   const aboutRef = useRef<HTMLElement>(null)
 
@@ -50,8 +54,7 @@ export default function Page() {
   return (
     <div>
       <Three>
-        <color attach={'background'} args={[200, 200, 200]} />
-        <Common />
+        <Environment preset='warehouse' />
         <group position={[0, 1, 0]}>
           <Float>
             <Sphere args={[0.5]} scale-y={0.7}>
@@ -67,20 +70,20 @@ export default function Page() {
           <Cylinder args={[0.66, 0.66, 2, 32, 4]}>
             <MeshTransmissionMaterial
               distortionScale={0.5}
+              distortion={0.5}
               temporalDistortion={0}
               thickness={0.2}
-              color={'white'}
-              transmission={0.95}
               backside
+              background={background}
               // roughness={0.1}
             />
           </Cylinder>
           <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-0.95}>
-            <meshStandardMaterial metalness={1} color={'white'} />
+            <meshStandardMaterial metalness={1} color={'gray'} />
           </Cylinder>
         </group>
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
-          <meshStandardMaterial metalness={1} color={'white'} />
+          <meshStandardMaterial metalness={1} color={'gray'} />
         </Box>
         <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} ref={cameraRef} />
         <ContactShadows />

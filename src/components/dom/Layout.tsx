@@ -31,7 +31,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               width: '100vw',
               height: '100vh',
               pointerEvents: 'none',
-              zIndex: -1,
+              // zIndex: -1,
             }}
             eventSource={ref}
             eventPrefix='client'
