@@ -72,27 +72,30 @@ export default function Page() {
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
-        <div className='absolute inset-y-0 right-0 w-1/2 p-4'>
-          <p>Hello. My name is</p>
-          <h1>
-            <span className='text-8xl font-extrabold line-through opacity-20'>BRAIN</span>
-            <br />
-            <span className='text-8xl font-extrabold line-through opacity-20'>BRIAN</span>
-            <br />
-            <span className='text-8xl font-extrabold'>BRYAN</span>
-          </h1>
-          <br />
-          <br />
-          <p>I am a</p>
-          <h2>
-            <span className='text-4xl font-extrabold line-through opacity-20'>BRAIN</span>
-            <br />
-            <span className='text-4xl font-extrabold line-through opacity-20'>PORTFOLIO WEBSITE</span>
-            <br />
-            <span className='text-4xl font-extrabold'>
-              <span className='font-sans italic'>CREATIVE </span>DEVELOPER
-            </span>
-          </h2>
+        <div className='absolute inset-y-0 right-0 flex w-1/2 flex-col justify-around p-8'>
+          <div>
+            <p>Hello. My name is</p>
+            <h1>
+              <span className='text-8xl font-extrabold line-through opacity-20'>BRAIN</span>
+              <br />
+              <span className='text-8xl font-extrabold line-through opacity-20'>BRIAN</span>
+              <br />
+              <span className='text-8xl font-extrabold'>BRYAN</span>
+            </h1>
+          </div>
+
+          <div>
+            <p>I am a</p>
+            <h2>
+              <span className='text-4xl font-extrabold line-through opacity-20'>BRAIN</span>
+              <br />
+              <span className='text-4xl font-extrabold line-through opacity-20'>PORTFOLIO WEBSITE</span>
+              <br />
+              <span className='text-4xl font-extrabold'>
+                <span className='font-sans italic'>CREATIVE </span>DEVELOPER
+              </span>
+            </h2>
+          </div>
         </div>
       </div>
 
