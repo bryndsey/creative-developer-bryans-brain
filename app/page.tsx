@@ -13,7 +13,10 @@ import {
   PerspectiveCamera,
   Sphere,
 } from '@react-three/drei'
+import { useLenis } from '@studio-freight/react-lenis'
+import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
+import { useRef } from 'react'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -33,20 +36,26 @@ export const View = dynamic(() => import('@/components/canvas/View').then((mod) 
 export const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
+  const cameraRef = useRef(null)
+  useLenis((lenis: Lenis) => {
+    if (cameraRef.current === null) return
+    cameraRef.current.position.x = 1 - lenis.progress
+  })
+
   return (
     <div>
       <Three>
         <color attach={'background'} args={[200, 200, 200]} />
         <Common />
-        <group position={[-1, 1, 0]}>
+        <group position={[0, 1, 0]}>
           <Float>
             <Sphere args={[0.5]} scale-y={0.7}>
               <meshStandardMaterial color={'salmon'} />
             </Sphere>
-            <Sphere args={[0.2]} position={[0.2, -0.3, 0]}>
+            <Sphere args={[0.2]} position={[0, -0.3, -0.2]}>
               <meshStandardMaterial color={'palevioletred'} />
             </Sphere>
-            <Cylinder args={[0.025, 0.025]} position={[0.2, -0.4, 0]}>
+            <Cylinder args={[0.025, 0.025]} position={[0, -0.4, -0.2]}>
               <meshStandardMaterial color={'palevioletred'} />
             </Cylinder>
           </Float>
@@ -68,7 +77,7 @@ export default function Page() {
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'white'} />
         </Box>
-        <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} />
+        <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} ref={cameraRef} />
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
