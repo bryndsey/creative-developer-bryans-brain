@@ -18,7 +18,7 @@ import { useLenis } from '@studio-freight/react-lenis'
 import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
 import { useRef } from 'react'
-import { Color, ColorRepresentation } from 'three'
+import { Camera, Color, ColorRepresentation, MathUtils, Vector3 } from 'three'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -39,16 +39,39 @@ export const Common = dynamic(() => import('@/components/canvas/View').then((mod
 
 const background = new Color('white')
 
+const startCameraPosition = new Vector3(0.8, 1.25, 3)
+const aboutCameraPosition = new Vector3(0, 1, 3)
+const projectCameraPosition = new Vector3(-0.5, 1.25, 3)
+const endPosition = new Vector3(-0.5, -1, 3)
+const actualTarget = new Vector3()
+
 export default function Page() {
   const aboutRef = useRef<HTMLElement>(null)
+  const projectsRef = useRef<HTMLElement>(null)
 
-  const cameraRef = useRef(null)
+  const cameraRef = useRef<Camera>(null)
   useLenis((lenis: Lenis) => {
     if (cameraRef.current === null) return
 
     if (aboutRef.current === null) return
-    const progressToScrollPoint = lenis.animatedScroll / aboutRef.current.offsetTop
-    cameraRef.current.position.x = 1 - progressToScrollPoint
+    if (projectsRef.current === null) return
+    const positions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endPosition]
+
+    const scrollKeyframes = [-1, aboutRef.current.offsetTop, projectsRef.current.offsetTop, lenis.limit + 1]
+    const scrollPoint = lenis.animatedScroll
+    const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
+    const nextTargetPosition = positions[nextTargetIndex]
+    const previousTargetPosition = positions[nextTargetIndex - 1]
+
+    const scrollProgressBetweenTargets = MathUtils.inverseLerp(
+      scrollKeyframes[nextTargetIndex - 1],
+      scrollKeyframes[nextTargetIndex],
+      scrollPoint,
+    )
+    const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
+    actualTarget.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
+    cameraRef.current.position.set(actualTarget.x, actualTarget.y, actualTarget.z)
+    // console.log(actualTarget)
   })
 
   return (
@@ -89,7 +112,7 @@ export default function Page() {
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box>
-        <PerspectiveCamera makeDefault position={[0, 1.25, 3]} rotation-x={-0.1} ref={cameraRef} />
+        <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} />
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
@@ -150,7 +173,8 @@ export default function Page() {
           <span className='italic'>same time</span>
         </h2>
       </section>
-      <section id='projects' className='flex min-h-screen flex-col p-12'>
+
+      <section id='projects' className='flex min-h-screen flex-col p-12' ref={projectsRef}>
         <h2 className='text-6xl font-extrabold'>Projects</h2>
       </section>
       <section id='links' className='p-12'>
