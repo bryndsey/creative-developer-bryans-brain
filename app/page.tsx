@@ -57,14 +57,17 @@ export default function Page() {
         <Environment preset='warehouse' />
         <group position={[0, 1, 0]}>
           <Float>
-            <Sphere args={[0.5]} scale-y={0.7}>
-              <meshStandardMaterial color={'salmon'} />
+            <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={0.125}>
+              <meshStandardMaterial color={'salmon'} roughness={0.25} />
+            </Sphere>
+            <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={-0.125}>
+              <meshStandardMaterial color={'salmon'} roughness={0.25} />
             </Sphere>
             <Sphere args={[0.2]} position={[0, -0.3, -0.2]}>
-              <meshStandardMaterial color={'palevioletred'} />
+              <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
             </Sphere>
             <Cylinder args={[0.025, 0.025]} position={[0, -0.4, -0.2]}>
-              <meshStandardMaterial color={'palevioletred'} />
+              <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
             </Cylinder>
           </Float>
           <Cylinder args={[0.66, 0.66, 2, 32, 4]}>
@@ -77,6 +80,7 @@ export default function Page() {
               background={background}
               // roughness={0.1}
             />
+            {/* <meshPhysicalMaterial transmission={1} roughness={0} thickness={0.1} /> */}
           </Cylinder>
           <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-0.95}>
             <meshStandardMaterial metalness={1} color={'gray'} />
@@ -85,7 +89,7 @@ export default function Page() {
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box>
-        <PerspectiveCamera makeDefault position={[0, 1, 3]} rotation-x={-0.1} ref={cameraRef} />
+        <PerspectiveCamera makeDefault position={[0, 1.25, 3]} rotation-x={-0.1} ref={cameraRef} />
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
