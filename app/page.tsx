@@ -143,6 +143,8 @@ export default function Page() {
         </div>
       </div>
 
+      <div className='h-screen' />
+
       <section id='about' className='flex min-h-screen flex-col' ref={aboutRef}>
         <div className='grid flex-1 grid-cols-3 gap-3 p-4'>
           <div className='justify-self-end text-end'>
@@ -174,9 +176,14 @@ export default function Page() {
         </h2>
       </section>
 
+      <div className='h-screen' />
+
       <section id='projects' className='flex min-h-screen flex-col p-12' ref={projectsRef}>
         <h2 className='text-6xl font-extrabold'>Projects</h2>
       </section>
+
+      <div className='h-screen' />
+
       <section id='links' className='p-12'>
         <h2 className='text-2xl font-extrabold'>Find out more</h2>
         <br />
