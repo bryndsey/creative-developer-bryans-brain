@@ -75,11 +75,18 @@ function PlaceholderBrain() {
   )
 }
 
-const startCameraPosition = new Vector3(1, 1.25, 3)
+const startCameraPosition = new Vector3(1, 1.5, 4)
 const aboutCameraPosition = new Vector3(0, 1, 3)
-const projectCameraPosition = new Vector3(-0.5, 1.25, 3)
-const endCameraPosition = new Vector3(-0.5, -1, 3)
+const projectCameraPosition = new Vector3(-3, 1.25, -1)
+const endCameraPosition = new Vector3(-3, 2, 10)
 const actualTargetCameraPosition = new Vector3()
+
+const startCameraLookTargetPosition = new Vector3(1, 1.25, 0)
+const aboutCameraLookTargetPosition = new Vector3(0, 1, 0)
+const projectCameraLookTargetPosition = new Vector3(-0.5, 1.25, -1)
+const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
+
+const actualCameraLookTargetPosition = new Vector3()
 
 export default function Page() {
   const aboutRef = useRef<HTMLElement>(null)
@@ -91,13 +98,17 @@ export default function Page() {
 
     if (aboutRef.current === null) return
     if (projectsRef.current === null) return
-    const positions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endCameraPosition]
+    const cameraPositions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endCameraPosition]
+    const cameraLookPositions = [
+      startCameraLookTargetPosition,
+      aboutCameraLookTargetPosition,
+      projectCameraLookTargetPosition,
+      endCameraLookTargetPosition,
+    ]
 
     const scrollKeyframes = [-1, aboutRef.current.offsetTop, projectsRef.current.offsetTop, lenis.limit + 1]
     const scrollPoint = lenis.animatedScroll
     const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
-    const nextTargetPosition = positions[nextTargetIndex]
-    const previousTargetPosition = positions[nextTargetIndex - 1]
 
     const scrollProgressBetweenTargets = MathUtils.inverseLerp(
       scrollKeyframes[nextTargetIndex - 1],
@@ -105,12 +116,22 @@ export default function Page() {
       scrollPoint,
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
+
+    const nextTargetPosition = cameraPositions[nextTargetIndex]
+    const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
+
     actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
     cameraRef.current.position.set(
       actualTargetCameraPosition.x,
       actualTargetCameraPosition.y,
       actualTargetCameraPosition.z,
     )
+
+    const nextLookTargetPosition = cameraLookPositions[nextTargetIndex]
+    const previousLookTargetPosition = cameraLookPositions[nextTargetIndex - 1]
+
+    actualCameraLookTargetPosition.lerpVectors(previousLookTargetPosition, nextLookTargetPosition, smoothedValue)
+    cameraRef.current.lookAt(actualCameraLookTargetPosition)
     // console.log(actualTarget)
   })
 
