@@ -19,6 +19,7 @@ import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { Camera, Color, ColorRepresentation, MathUtils, Vector3 } from 'three'
+import { BrainTank } from '@/BrainTank'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -39,7 +40,42 @@ export const Common = dynamic(() => import('@/components/canvas/View').then((mod
 
 const background = new Color('white')
 
-const startCameraPosition = new Vector3(0.8, 1.25, 3)
+function PlaceholderBrain() {
+  return (
+    <group position={[0, 1, 0]}>
+      <Float>
+        <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={0.125}>
+          <meshStandardMaterial color={'salmon'} roughness={0.25} />
+        </Sphere>
+        <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={-0.125}>
+          <meshStandardMaterial color={'salmon'} roughness={0.25} />
+        </Sphere>
+        <Sphere args={[0.2]} position={[0, -0.3, -0.2]}>
+          <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
+        </Sphere>
+        <Cylinder args={[0.025, 0.025]} position={[0, -0.4, -0.2]}>
+          <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
+        </Cylinder>
+      </Float>
+      <Cylinder args={[0.66, 0.66, 2, 32, 4]}>
+        <MeshTransmissionMaterial
+          distortionScale={0.5}
+          distortion={0.5}
+          temporalDistortion={0}
+          thickness={0.2}
+          backside
+          background={background}
+          // roughness={0.1}
+        />
+      </Cylinder>
+      <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-0.95}>
+        <meshStandardMaterial metalness={1} color={'gray'} />
+      </Cylinder>
+    </group>
+  )
+}
+
+const startCameraPosition = new Vector3(1, 1.25, 3)
 const aboutCameraPosition = new Vector3(0, 1, 3)
 const projectCameraPosition = new Vector3(-0.5, 1.25, 3)
 const endPosition = new Vector3(-0.5, -1, 3)
@@ -78,37 +114,7 @@ export default function Page() {
     <div>
       <Three>
         <Environment preset='warehouse' />
-        <group position={[0, 1, 0]}>
-          <Float>
-            <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={0.125}>
-              <meshStandardMaterial color={'salmon'} roughness={0.25} />
-            </Sphere>
-            <Sphere args={[0.5]} scale={[0.66, 0.7, 1]} position-x={-0.125}>
-              <meshStandardMaterial color={'salmon'} roughness={0.25} />
-            </Sphere>
-            <Sphere args={[0.2]} position={[0, -0.3, -0.2]}>
-              <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
-            </Sphere>
-            <Cylinder args={[0.025, 0.025]} position={[0, -0.4, -0.2]}>
-              <meshStandardMaterial color={'palevioletred'} roughness={0.25} />
-            </Cylinder>
-          </Float>
-          <Cylinder args={[0.66, 0.66, 2, 32, 4]}>
-            <MeshTransmissionMaterial
-              distortionScale={0.5}
-              distortion={0.5}
-              temporalDistortion={0}
-              thickness={0.2}
-              backside
-              background={background}
-              // roughness={0.1}
-            />
-            {/* <meshPhysicalMaterial transmission={1} roughness={0} thickness={0.1} /> */}
-          </Cylinder>
-          <Cylinder args={[0.7, 0.7, 0.1, 16, 1]} position-y={-0.95}>
-            <meshStandardMaterial metalness={1} color={'gray'} />
-          </Cylinder>
-        </group>
+        <BrainTank scale={1.5} />
         <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box>
