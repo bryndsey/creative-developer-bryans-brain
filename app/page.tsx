@@ -78,8 +78,8 @@ function PlaceholderBrain() {
 const startCameraPosition = new Vector3(1, 1.25, 3)
 const aboutCameraPosition = new Vector3(0, 1, 3)
 const projectCameraPosition = new Vector3(-0.5, 1.25, 3)
-const endPosition = new Vector3(-0.5, -1, 3)
-const actualTarget = new Vector3()
+const endCameraPosition = new Vector3(-0.5, -1, 3)
+const actualTargetCameraPosition = new Vector3()
 
 export default function Page() {
   const aboutRef = useRef<HTMLElement>(null)
@@ -91,7 +91,7 @@ export default function Page() {
 
     if (aboutRef.current === null) return
     if (projectsRef.current === null) return
-    const positions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endPosition]
+    const positions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endCameraPosition]
 
     const scrollKeyframes = [-1, aboutRef.current.offsetTop, projectsRef.current.offsetTop, lenis.limit + 1]
     const scrollPoint = lenis.animatedScroll
@@ -105,8 +105,12 @@ export default function Page() {
       scrollPoint,
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
-    actualTarget.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
-    cameraRef.current.position.set(actualTarget.x, actualTarget.y, actualTarget.z)
+    actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
+    cameraRef.current.position.set(
+      actualTargetCameraPosition.x,
+      actualTargetCameraPosition.y,
+      actualTargetCameraPosition.z,
+    )
     // console.log(actualTarget)
   })
 
