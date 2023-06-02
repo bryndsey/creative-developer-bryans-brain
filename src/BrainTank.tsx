@@ -30,9 +30,9 @@ export function BrainTank(props: JSX.IntrinsicElements['group']) {
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Tank.geometry}>
         <MeshTransmissionMaterial
-          distortionScale={0.5}
-          distortion={0.5}
-          temporalDistortion={0}
+          distortionScale={1}
+          distortion={0.25}
+          temporalDistortion={0.1}
           thickness={0.2}
           backside
           background={background}
