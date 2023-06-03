@@ -18,7 +18,7 @@ import { useLenis } from '@studio-freight/react-lenis'
 import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
 import { useRef } from 'react'
-import { Camera, Color, ColorRepresentation, MathUtils, Vector3 } from 'three'
+import { Camera, Color, ColorRepresentation, Group, MathUtils, Vector3 } from 'three'
 import { BrainTank } from '@/BrainTank'
 import StickyBox from 'react-sticky-box'
 
@@ -76,11 +76,18 @@ function PlaceholderBrain() {
   )
 }
 
-const startCameraPosition = new Vector3(1, 1.5, 4)
-const about1CameraPosition = new Vector3(-3, 1, -1)
-const about2CameraPosition = new Vector3(3, 1, -1)
-const about3CameraPosition = new Vector3(0, 1, 3)
-const projectCameraPosition = new Vector3(-3, 1.25, -1)
+const startCameraBaseRotation = 0
+const about1CameraBaseRotation = -Math.PI / 2
+const about2CameraBaseRotation = Math.PI / 2
+const about3CameraBaseRotation = 0
+const projectCameraBaseRotation = 0
+const endCameraBaseRotation = 0
+
+const startCameraPosition = new Vector3(0, 1.5, 4)
+const about1CameraPosition = new Vector3(-1, 1, 4)
+const about2CameraPosition = new Vector3(1, 1, 4)
+const about3CameraPosition = new Vector3(0, 1, 4)
+const projectCameraPosition = new Vector3(0, 1.25, 4)
 const endCameraPosition = new Vector3(-3, 2, 10)
 const actualTargetCameraPosition = new Vector3()
 
@@ -99,14 +106,24 @@ export default function Page() {
   const about3Ref = useRef<HTMLHeadingElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
 
+  const cameraBaseRef = useRef<Group>(null)
   const cameraRef = useRef<Camera>(null)
   useLenis((lenis: Lenis) => {
     if (cameraRef.current === null) return
+    if (cameraBaseRef.current === null) return
 
     if (about1Ref.current === null) return
     if (about2Ref.current === null) return
     if (about3Ref.current === null) return
     if (projectsRef.current === null) return
+    const cameraBaseRotations = [
+      startCameraBaseRotation,
+      about1CameraBaseRotation,
+      about2CameraBaseRotation,
+      about3CameraBaseRotation,
+      projectCameraBaseRotation,
+      endCameraBaseRotation,
+    ]
     const cameraPositions = [
       startCameraPosition,
       about1CameraPosition,
@@ -142,6 +159,12 @@ export default function Page() {
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
 
+    const nextTargetBaseRotation = cameraBaseRotations[nextTargetIndex]
+    const previousTargetBaseRotation = cameraBaseRotations[nextTargetIndex - 1]
+
+    const actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
+    cameraBaseRef.current.rotation.y = actualRotation
+
     const nextTargetPosition = cameraPositions[nextTargetIndex]
     const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
 
@@ -165,10 +188,12 @@ export default function Page() {
       <Three>
         <Environment preset='warehouse' />
         <BrainTank scale={1.5} />
-        <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
+        {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
-        </Box>
-        <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} />
+        </Box> */}
+        <group ref={cameraBaseRef}>
+          <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} />
+        </group>
         <ContactShadows />
       </Three>
       <div id='hero' className='relative h-screen'>
