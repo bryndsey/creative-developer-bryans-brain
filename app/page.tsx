@@ -76,19 +76,19 @@ function PlaceholderBrain() {
   )
 }
 
-const startCameraBaseRotation = 0
-const about1CameraBaseRotation = -Math.PI / 2
-const about2CameraBaseRotation = Math.PI / 2
+const startCameraBaseRotation = 0.5
+const about1CameraBaseRotation = -Math.PI / 2 + 0.33
+const about2CameraBaseRotation = Math.PI / 2 - 0.33
 const about3CameraBaseRotation = 0
 const projectCameraBaseRotation = 0
 const endCameraBaseRotation = 0
 
-const startCameraPosition = new Vector3(0, 1.5, 4)
-const about1CameraPosition = new Vector3(-1, 1, 4)
-const about2CameraPosition = new Vector3(1, 1, 4)
-const about3CameraPosition = new Vector3(0, 1, 4)
-const projectCameraPosition = new Vector3(0, 1.25, 4)
-const endCameraPosition = new Vector3(-3, 2, 10)
+const startCameraPosition = new Vector3(0, 0.5, 10)
+const about1CameraPosition = new Vector3(-1.5, 0, 8)
+const about2CameraPosition = new Vector3(1.5, 0, 8)
+const about3CameraPosition = new Vector3(0, 0, 10)
+const projectCameraPosition = new Vector3(0, 0.25, 10)
+const endCameraPosition = new Vector3(-3, 1, 20)
 const actualTargetCameraPosition = new Vector3()
 
 const startCameraLookTargetPosition = new Vector3(1, 1.25, 0)
@@ -191,8 +191,8 @@ export default function Page() {
         {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box> */}
-        <group ref={cameraBaseRef}>
-          <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} />
+        <group ref={cameraBaseRef} position-y={1}>
+          <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} fov={20} />
         </group>
         <ContactShadows />
       </Three>
