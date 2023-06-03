@@ -8,7 +8,7 @@ import { useFrame } from '@react-three/fiber'
 import Lenis from '@studio-freight/lenis'
 import { useLenis } from '@studio-freight/react-lenis'
 import dynamic from 'next/dynamic'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import StickyBox from 'react-sticky-box'
 import { Camera, Group, MathUtils, Vector3 } from 'three'
 
@@ -28,6 +28,13 @@ export const View = dynamic(() => import('@/components/canvas/View').then((mod) 
   ),
 })
 export const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
+
+interface Keyframe {
+  id: string | 'start' | 'end'
+  cameraRigRotation: number
+  cameraPositionOnRig: Vector3
+  cameraLookTargetPosition: Vector3
+}
 
 const startCameraBaseRotation = 0.5
 const about1CameraBaseRotation = -Math.PI / 2 + 0.33
@@ -54,6 +61,45 @@ const projectCameraLookTargetPosition = new Vector3(-0.5, 1.25, -1)
 const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
 
 const actualCameraLookTargetPosition = new Vector3()
+
+const keyframes: Keyframe[] = [
+  {
+    id: 'start',
+    cameraRigRotation: startCameraBaseRotation,
+    cameraPositionOnRig: startCameraPosition,
+    cameraLookTargetPosition: startCameraLookTargetPosition,
+  },
+  {
+    id: 'about',
+    cameraRigRotation: about1CameraBaseRotation,
+    cameraPositionOnRig: about1CameraPosition,
+    cameraLookTargetPosition: about1CameraLookTargetPosition,
+  },
+  {
+    id: 'makeThings',
+    cameraRigRotation: about2CameraBaseRotation,
+    cameraPositionOnRig: about2CameraPosition,
+    cameraLookTargetPosition: about2CameraLookTargetPosition,
+  },
+  {
+    id: 'solveProblems',
+    cameraRigRotation: about3CameraBaseRotation,
+    cameraPositionOnRig: about3CameraPosition,
+    cameraLookTargetPosition: about3CameraLookTargetPosition,
+  },
+  {
+    id: 'projects',
+    cameraRigRotation: projectCameraBaseRotation,
+    cameraPositionOnRig: projectCameraPosition,
+    cameraLookTargetPosition: projectCameraLookTargetPosition,
+  },
+  {
+    id: 'end',
+    cameraRigRotation: endCameraBaseRotation,
+    cameraPositionOnRig: endCameraPosition,
+    cameraLookTargetPosition: endCameraLookTargetPosition,
+  },
+]
 
 function ThreeContent() {
   const cameraBaseRef = useRef<Group>(null)
@@ -86,52 +132,74 @@ function ThreeContent() {
   )
 }
 
+function getElementPositionsForKeyframes() {
+  return keyframes.map((keyframe) => {
+    if (keyframe.id === 'start') {
+      return 0
+    } else if (keyframe.id === 'end') {
+      return document.body.scrollHeight
+    } else {
+      // TODO: Figure out safer way to do this
+      const element = document.querySelector(`#${keyframe.id}`) as HTMLElement
+      return element.offsetTop
+    }
+  })
+}
+
 export default function Page() {
   const about1Ref = useRef<HTMLElement>(null)
   const about2Ref = useRef<HTMLDivElement>(null!)
   const about3Ref = useRef<HTMLHeadingElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
 
-  useLenis((lenis: Lenis) => {
-    if (about1Ref.current === null) return
-    if (about2Ref.current === null) return
-    if (about3Ref.current === null) return
-    if (projectsRef.current === null) return
-    const cameraBaseRotations = [
-      startCameraBaseRotation,
-      about1CameraBaseRotation,
-      about2CameraBaseRotation,
-      about3CameraBaseRotation,
-      projectCameraBaseRotation,
-      endCameraBaseRotation,
-    ]
-    const cameraPositions = [
-      startCameraPosition,
-      about1CameraPosition,
-      about2CameraPosition,
-      about3CameraPosition,
-      projectCameraPosition,
-      endCameraPosition,
-    ]
-    const cameraLookPositions = [
-      startCameraLookTargetPosition,
-      about1CameraLookTargetPosition,
-      about2CameraLookTargetPosition,
-      about3CameraLookTargetPosition,
-      projectCameraLookTargetPosition,
-      endCameraLookTargetPosition,
-    ]
+  // useEffect(() => {
+  //   console.log(getElementPositionsForKeyframes())
+  // }, [])
 
-    const scrollKeyframes = [
-      -1,
-      about1Ref.current.offsetTop,
-      about2Ref.current.offsetTop,
-      about3Ref.current.offsetTop,
-      projectsRef.current.offsetTop,
-      lenis.limit + 1,
-    ]
+  useLenis((lenis: Lenis) => {
+    // if (about1Ref.current === null) return
+    // if (about2Ref.current === null) return
+    // if (about3Ref.current === null) return
+    // if (projectsRef.current === null) return
+    // const cameraBaseRotations = [
+    //   startCameraBaseRotation,
+    //   about1CameraBaseRotation,
+    //   about2CameraBaseRotation,
+    //   about3CameraBaseRotation,
+    //   projectCameraBaseRotation,
+    //   endCameraBaseRotation,
+    // ]
+    // const cameraPositions = [
+    //   startCameraPosition,
+    //   about1CameraPosition,
+    //   about2CameraPosition,
+    //   about3CameraPosition,
+    //   projectCameraPosition,
+    //   endCameraPosition,
+    // ]
+    // const cameraLookPositions = [
+    //   startCameraLookTargetPosition,
+    //   about1CameraLookTargetPosition,
+    //   about2CameraLookTargetPosition,
+    //   about3CameraLookTargetPosition,
+    //   projectCameraLookTargetPosition,
+    //   endCameraLookTargetPosition,
+    // ]
+
+    // const scrollKeyframes = [
+    //   -1,
+    //   about1Ref.current.offsetTop,
+    //   about2Ref.current.offsetTop,
+    //   about3Ref.current.offsetTop,
+    //   projectsRef.current.offsetTop,
+    //   lenis.limit + 1,
+    // ]
+    const scrollKeyframes = getElementPositionsForKeyframes()
+
     const scrollPoint = lenis.animatedScroll
     const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
+    const nextKeyframe = keyframes[nextTargetIndex]
+    const previousKeyframe = keyframes[nextTargetIndex - 1]
 
     const scrollProgressBetweenTargets = MathUtils.inverseLerp(
       scrollKeyframes[nextTargetIndex - 1],
@@ -140,20 +208,31 @@ export default function Page() {
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
 
-    const nextTargetBaseRotation = cameraBaseRotations[nextTargetIndex]
-    const previousTargetBaseRotation = cameraBaseRotations[nextTargetIndex - 1]
+    // const nextTargetBaseRotation = cameraBaseRotations[nextTargetIndex]
+    // const previousTargetBaseRotation = cameraBaseRotations[nextTargetIndex - 1]
 
-    actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
+    // actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
+    actualRotation = MathUtils.lerp(previousKeyframe.cameraRigRotation, nextKeyframe.cameraRigRotation, smoothedValue)
 
-    const nextTargetPosition = cameraPositions[nextTargetIndex]
-    const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
+    // const nextTargetPosition = cameraPositions[nextTargetIndex]
+    // const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
 
-    actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
+    // actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
+    actualTargetCameraPosition.lerpVectors(
+      previousKeyframe.cameraPositionOnRig,
+      nextKeyframe.cameraPositionOnRig,
+      smoothedValue,
+    )
 
-    const nextLookTargetPosition = cameraLookPositions[nextTargetIndex]
-    const previousLookTargetPosition = cameraLookPositions[nextTargetIndex - 1]
+    // const nextLookTargetPosition = cameraLookPositions[nextTargetIndex]
+    // const previousLookTargetPosition = cameraLookPositions[nextTargetIndex - 1]
 
-    actualCameraLookTargetPosition.lerpVectors(previousLookTargetPosition, nextLookTargetPosition, smoothedValue)
+    // actualCameraLookTargetPosition.lerpVectors(previousLookTargetPosition, nextLookTargetPosition, smoothedValue)
+    actualCameraLookTargetPosition.lerpVectors(
+      previousKeyframe.cameraLookTargetPosition,
+      nextKeyframe.cameraLookTargetPosition,
+      smoothedValue,
+    )
   })
 
   return (
@@ -205,7 +284,7 @@ export default function Page() {
           </StickyBox>
           <div className='col-start-3 flex h-full flex-col'>
             <div className='h-[200vh]' />
-            <div ref={about2Ref} />
+            <div id='makeThings' ref={about2Ref} />
             <StickyBox className='flex min-h-screen flex-col justify-center'>
               <h2 className='text-2xl font-extrabold'>
                 I <span className='font-sans italic'>love </span>solving problems
@@ -220,7 +299,7 @@ export default function Page() {
             </StickyBox>
           </div>
         </div>
-        <h2 className='p-8 text-center text-4xl font-extrabold' ref={about3Ref}>
+        <h2 className='p-8 text-center text-4xl font-extrabold' id='solveProblems' ref={about3Ref}>
           I especially love doing <span className='font-sans'>both</span> at the{' '}
           <span className='italic'>same time</span>
         </h2>
