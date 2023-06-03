@@ -20,6 +20,7 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { Camera, Color, ColorRepresentation, MathUtils, Vector3 } from 'three'
 import { BrainTank } from '@/BrainTank'
+import StickyBox from 'react-sticky-box'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -76,37 +77,61 @@ function PlaceholderBrain() {
 }
 
 const startCameraPosition = new Vector3(1, 1.5, 4)
-const aboutCameraPosition = new Vector3(0, 1, 3)
+const about1CameraPosition = new Vector3(-3, 1, -1)
+const about2CameraPosition = new Vector3(3, 1, -1)
+const about3CameraPosition = new Vector3(0, 1, 3)
 const projectCameraPosition = new Vector3(-3, 1.25, -1)
 const endCameraPosition = new Vector3(-3, 2, 10)
 const actualTargetCameraPosition = new Vector3()
 
 const startCameraLookTargetPosition = new Vector3(1, 1.25, 0)
-const aboutCameraLookTargetPosition = new Vector3(0, 1, 0)
+const about1CameraLookTargetPosition = new Vector3(0, 1, -1)
+const about2CameraLookTargetPosition = new Vector3(0, 1, -1)
+const about3CameraLookTargetPosition = new Vector3(0, 1, 0)
 const projectCameraLookTargetPosition = new Vector3(-0.5, 1.25, -1)
 const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
 
 const actualCameraLookTargetPosition = new Vector3()
 
 export default function Page() {
-  const aboutRef = useRef<HTMLElement>(null)
+  const about1Ref = useRef<HTMLElement>(null)
+  const about2Ref = useRef<HTMLDivElement>(null!)
+  const about3Ref = useRef<HTMLHeadingElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
 
   const cameraRef = useRef<Camera>(null)
   useLenis((lenis: Lenis) => {
     if (cameraRef.current === null) return
 
-    if (aboutRef.current === null) return
+    if (about1Ref.current === null) return
+    if (about2Ref.current === null) return
+    if (about3Ref.current === null) return
     if (projectsRef.current === null) return
-    const cameraPositions = [startCameraPosition, aboutCameraPosition, projectCameraPosition, endCameraPosition]
+    const cameraPositions = [
+      startCameraPosition,
+      about1CameraPosition,
+      about2CameraPosition,
+      about3CameraPosition,
+      projectCameraPosition,
+      endCameraPosition,
+    ]
     const cameraLookPositions = [
       startCameraLookTargetPosition,
-      aboutCameraLookTargetPosition,
+      about1CameraLookTargetPosition,
+      about2CameraLookTargetPosition,
+      about3CameraLookTargetPosition,
       projectCameraLookTargetPosition,
       endCameraLookTargetPosition,
     ]
 
-    const scrollKeyframes = [-1, aboutRef.current.offsetTop, projectsRef.current.offsetTop, lenis.limit + 1]
+    const scrollKeyframes = [
+      -1,
+      about1Ref.current.offsetTop,
+      about2Ref.current.offsetTop,
+      about3Ref.current.offsetTop,
+      projectsRef.current.offsetTop,
+      lenis.limit + 1,
+    ]
     const scrollPoint = lenis.animatedScroll
     const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
 
@@ -176,9 +201,9 @@ export default function Page() {
 
       <div className='h-screen' />
 
-      <section id='about' className='flex min-h-screen flex-col' ref={aboutRef}>
-        <div className='grid flex-1 grid-cols-3 gap-3 p-4'>
-          <div className='justify-self-end text-end'>
+      <section id='about' ref={about1Ref}>
+        <div className='flex h-[400vh] flex-row items-start'>
+          <StickyBox className='flex min-h-screen w-1/2 flex-col justify-center'>
             <h2 className='text-2xl font-extrabold'>
               I love to <span className='font-sans italic'>make things</span>
             </h2>
@@ -187,21 +212,25 @@ export default function Page() {
               <li>Once spent 3 hours folding an origami moose.</li>
               <li>I buy Legos for my children, but really I just get them for myself.</li>
             </ul>
-          </div>
-          <div className='col-start-3'>
-            <h2 className='text-2xl font-extrabold'>
-              I <span className='font-sans italic'>love </span>solving problems
-            </h2>
-            <ul>
-              <li>Was the kid in calculus class who was too eager to raise their hand.</li>
-              <li>Solves nurikabe puzzles for fun.</li>
-              <li>
-                Often spends longer to fit more dishes in the dishwasher than it would take to hand wash the dishes.
-              </li>
-            </ul>
+          </StickyBox>
+          <div className='flex h-full w-1/2 flex-col'>
+            <div className='h-[200vh]' />
+            <div ref={about2Ref} />
+            <StickyBox className='flex min-h-screen flex-col justify-center'>
+              <h2 className='text-2xl font-extrabold'>
+                I <span className='font-sans italic'>love </span>solving problems
+              </h2>
+              <ul>
+                <li>Was the kid in calculus class who was too eager to raise their hand.</li>
+                <li>Solves nurikabe puzzles for fun.</li>
+                <li>
+                  Often spends longer to fit more dishes in the dishwasher than it would take to hand wash the dishes.
+                </li>
+              </ul>
+            </StickyBox>
           </div>
         </div>
-        <h2 className='p-8 text-center text-4xl font-extrabold'>
+        <h2 className='p-8 text-center text-4xl font-extrabold' ref={about3Ref}>
           I especially love doing <span className='font-sans'>both</span> at the{' '}
           <span className='italic'>same time</span>
         </h2>
