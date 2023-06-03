@@ -4,6 +4,7 @@ import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { links } from '@/links'
 import { ContactShadows, Environment, PerspectiveCamera } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import Lenis from '@studio-freight/lenis'
 import { useLenis } from '@studio-freight/react-lenis'
 import dynamic from 'next/dynamic'
@@ -35,6 +36,8 @@ const about3CameraBaseRotation = 0
 const projectCameraBaseRotation = 0
 const endCameraBaseRotation = 0
 
+let actualRotation = startCameraBaseRotation
+
 const startCameraPosition = new Vector3(0, 0.5, 10)
 const about1CameraPosition = new Vector3(-1.5, 0, 8)
 const about2CameraPosition = new Vector3(1.5, 0, 8)
@@ -52,18 +55,44 @@ const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
 
 const actualCameraLookTargetPosition = new Vector3()
 
+function ThreeContent() {
+  const cameraBaseRef = useRef<Group>(null)
+  const cameraRef = useRef<Camera>(null)
+
+  useFrame((state) => {
+    cameraBaseRef.current.rotation.y = actualRotation
+
+    cameraRef.current.position.set(
+      actualTargetCameraPosition.x,
+      actualTargetCameraPosition.y,
+      actualTargetCameraPosition.z,
+    )
+
+    cameraRef.current.lookAt(actualCameraLookTargetPosition)
+  })
+
+  return (
+    <>
+      <Environment preset='warehouse' />
+      <BrainTank scale={1.5} />
+      {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
+          <meshStandardMaterial metalness={1} color={'gray'} />
+        </Box> */}
+      <group ref={cameraBaseRef} position-y={1}>
+        <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} fov={20} />
+      </group>
+      <ContactShadows />
+    </>
+  )
+}
+
 export default function Page() {
   const about1Ref = useRef<HTMLElement>(null)
   const about2Ref = useRef<HTMLDivElement>(null!)
   const about3Ref = useRef<HTMLHeadingElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
 
-  const cameraBaseRef = useRef<Group>(null)
-  const cameraRef = useRef<Camera>(null)
   useLenis((lenis: Lenis) => {
-    if (cameraRef.current === null) return
-    if (cameraBaseRef.current === null) return
-
     if (about1Ref.current === null) return
     if (about2Ref.current === null) return
     if (about3Ref.current === null) return
@@ -114,39 +143,23 @@ export default function Page() {
     const nextTargetBaseRotation = cameraBaseRotations[nextTargetIndex]
     const previousTargetBaseRotation = cameraBaseRotations[nextTargetIndex - 1]
 
-    const actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
-    cameraBaseRef.current.rotation.y = actualRotation
+    actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
 
     const nextTargetPosition = cameraPositions[nextTargetIndex]
     const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
 
     actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
-    cameraRef.current.position.set(
-      actualTargetCameraPosition.x,
-      actualTargetCameraPosition.y,
-      actualTargetCameraPosition.z,
-    )
 
     const nextLookTargetPosition = cameraLookPositions[nextTargetIndex]
     const previousLookTargetPosition = cameraLookPositions[nextTargetIndex - 1]
 
     actualCameraLookTargetPosition.lerpVectors(previousLookTargetPosition, nextLookTargetPosition, smoothedValue)
-    cameraRef.current.lookAt(actualCameraLookTargetPosition)
-    // console.log(actualTarget)
   })
 
   return (
     <div>
       <Three>
-        <Environment preset='warehouse' />
-        <BrainTank scale={1.5} />
-        {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
-          <meshStandardMaterial metalness={1} color={'gray'} />
-        </Box> */}
-        <group ref={cameraBaseRef} position-y={1}>
-          <PerspectiveCamera makeDefault position={startCameraPosition} rotation-x={-0.1} ref={cameraRef} fov={20} />
-        </group>
-        <ContactShadows />
+        <ThreeContent />
       </Three>
       <div id='hero' className='relative h-screen'>
         <div className='absolute inset-y-0 right-0 flex w-1/2 flex-col justify-around p-8'>
