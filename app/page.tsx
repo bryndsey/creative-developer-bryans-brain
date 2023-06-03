@@ -227,25 +227,25 @@ export default function Page() {
       <div className='h-screen' />
 
       <section id='about' ref={about1Ref}>
-        <div className='flex h-[400vh] flex-row items-start'>
-          <StickyBox className='flex min-h-screen w-1/2 flex-col justify-center'>
+        <div className='grid h-[400vh] grid-cols-3 items-start p-16'>
+          <StickyBox className='flex min-h-screen flex-col justify-center'>
             <h2 className='text-2xl font-extrabold'>
               I love to <span className='font-sans italic'>make things</span>
             </h2>
-            <ul>
+            <ul className='list-disc'>
               <li>Invented my own dinosaurs as a child by drawing the skeleton and then adding muscle and skin.</li>
               <li>Once spent 3 hours folding an origami moose.</li>
               <li>I buy Legos for my children, but really I just get them for myself.</li>
             </ul>
           </StickyBox>
-          <div className='flex h-full w-1/2 flex-col'>
+          <div className='col-start-3 flex h-full flex-col'>
             <div className='h-[200vh]' />
             <div ref={about2Ref} />
             <StickyBox className='flex min-h-screen flex-col justify-center'>
               <h2 className='text-2xl font-extrabold'>
                 I <span className='font-sans italic'>love </span>solving problems
               </h2>
-              <ul>
+              <ul className='list-disc'>
                 <li>Was the kid in calculus class who was too eager to raise their hand.</li>
                 <li>Solves nurikabe puzzles for fun.</li>
                 <li>
