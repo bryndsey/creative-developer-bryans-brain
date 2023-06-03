@@ -147,53 +147,7 @@ function getElementPositionsForKeyframes() {
 }
 
 export default function Page() {
-  const about1Ref = useRef<HTMLElement>(null)
-  const about2Ref = useRef<HTMLDivElement>(null!)
-  const about3Ref = useRef<HTMLHeadingElement>(null)
-  const projectsRef = useRef<HTMLElement>(null)
-
-  // useEffect(() => {
-  //   console.log(getElementPositionsForKeyframes())
-  // }, [])
-
   useLenis((lenis: Lenis) => {
-    // if (about1Ref.current === null) return
-    // if (about2Ref.current === null) return
-    // if (about3Ref.current === null) return
-    // if (projectsRef.current === null) return
-    // const cameraBaseRotations = [
-    //   startCameraBaseRotation,
-    //   about1CameraBaseRotation,
-    //   about2CameraBaseRotation,
-    //   about3CameraBaseRotation,
-    //   projectCameraBaseRotation,
-    //   endCameraBaseRotation,
-    // ]
-    // const cameraPositions = [
-    //   startCameraPosition,
-    //   about1CameraPosition,
-    //   about2CameraPosition,
-    //   about3CameraPosition,
-    //   projectCameraPosition,
-    //   endCameraPosition,
-    // ]
-    // const cameraLookPositions = [
-    //   startCameraLookTargetPosition,
-    //   about1CameraLookTargetPosition,
-    //   about2CameraLookTargetPosition,
-    //   about3CameraLookTargetPosition,
-    //   projectCameraLookTargetPosition,
-    //   endCameraLookTargetPosition,
-    // ]
-
-    // const scrollKeyframes = [
-    //   -1,
-    //   about1Ref.current.offsetTop,
-    //   about2Ref.current.offsetTop,
-    //   about3Ref.current.offsetTop,
-    //   projectsRef.current.offsetTop,
-    //   lenis.limit + 1,
-    // ]
     const scrollKeyframes = getElementPositionsForKeyframes()
 
     const scrollPoint = lenis.animatedScroll
@@ -208,26 +162,14 @@ export default function Page() {
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
 
-    // const nextTargetBaseRotation = cameraBaseRotations[nextTargetIndex]
-    // const previousTargetBaseRotation = cameraBaseRotations[nextTargetIndex - 1]
-
-    // actualRotation = MathUtils.lerp(previousTargetBaseRotation, nextTargetBaseRotation, smoothedValue)
     actualRotation = MathUtils.lerp(previousKeyframe.cameraRigRotation, nextKeyframe.cameraRigRotation, smoothedValue)
 
-    // const nextTargetPosition = cameraPositions[nextTargetIndex]
-    // const previousTargetPosition = cameraPositions[nextTargetIndex - 1]
-
-    // actualTargetCameraPosition.lerpVectors(previousTargetPosition, nextTargetPosition, smoothedValue)
     actualTargetCameraPosition.lerpVectors(
       previousKeyframe.cameraPositionOnRig,
       nextKeyframe.cameraPositionOnRig,
       smoothedValue,
     )
 
-    // const nextLookTargetPosition = cameraLookPositions[nextTargetIndex]
-    // const previousLookTargetPosition = cameraLookPositions[nextTargetIndex - 1]
-
-    // actualCameraLookTargetPosition.lerpVectors(previousLookTargetPosition, nextLookTargetPosition, smoothedValue)
     actualCameraLookTargetPosition.lerpVectors(
       previousKeyframe.cameraLookTargetPosition,
       nextKeyframe.cameraLookTargetPosition,
@@ -270,7 +212,7 @@ export default function Page() {
 
       <div className='h-screen' />
 
-      <section id='about' ref={about1Ref}>
+      <section id='about'>
         <div className='grid h-[400vh] grid-cols-3 items-start p-16'>
           <StickyBox className='flex min-h-screen flex-col justify-center'>
             <h2 className='text-2xl font-extrabold'>
@@ -284,7 +226,7 @@ export default function Page() {
           </StickyBox>
           <div className='col-start-3 flex h-full flex-col'>
             <div className='h-[200vh]' />
-            <div id='makeThings' ref={about2Ref} />
+            <div id='makeThings' />
             <StickyBox className='flex min-h-screen flex-col justify-center'>
               <h2 className='text-2xl font-extrabold'>
                 I <span className='font-sans italic'>love </span>solving problems
@@ -299,7 +241,7 @@ export default function Page() {
             </StickyBox>
           </div>
         </div>
-        <h2 className='p-8 text-center text-4xl font-extrabold' id='solveProblems' ref={about3Ref}>
+        <h2 className='p-8 text-center text-4xl font-extrabold' id='solveProblems'>
           I especially love doing <span className='font-sans'>both</span> at the{' '}
           <span className='italic'>same time</span>
         </h2>
@@ -307,7 +249,7 @@ export default function Page() {
 
       <div className='h-screen' />
 
-      <section id='projects' className='flex min-h-screen flex-col p-12' ref={projectsRef}>
+      <section id='projects' className='flex min-h-screen flex-col p-12'>
         <h2 className='text-6xl font-extrabold'>Projects</h2>
       </section>
 
