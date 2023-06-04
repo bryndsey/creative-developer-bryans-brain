@@ -36,18 +36,6 @@ interface Keyframe {
   cameraLookTargetPosition: Vector3
 }
 
-const startCameraLookTargetPosition = new Vector3(1, 1.25, 0)
-
-const about1CameraLookTargetPosition = new Vector3(0, 1, -1)
-
-const about2CameraLookTargetPosition = new Vector3(0, 1, -1)
-
-const about3CameraLookTargetPosition = new Vector3(0, 1, 0)
-
-const projectCameraLookTargetPosition = new Vector3(-0.5, 1.25, -1)
-
-const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
-
 let actualRotation = 0
 const actualTargetCameraPosition = new Vector3()
 const actualCameraLookTargetPosition = new Vector3()
@@ -57,43 +45,43 @@ const keyframes: Keyframe[] = [
     id: 'start',
     worldRotation: -0.5,
     worldPosition: new Vector3(-1, -0.5, -2),
-    cameraLookTargetPosition: startCameraLookTargetPosition,
+    cameraLookTargetPosition: new Vector3(1, 1.25, 0),
   },
   {
     id: 'about',
     worldRotation: Math.PI / 2 - 0.33,
     worldPosition: new Vector3(1.5, 0, 0),
-    cameraLookTargetPosition: about1CameraLookTargetPosition,
+    cameraLookTargetPosition: new Vector3(0, 1, -1),
   },
   {
     id: 'makeThings',
     worldRotation: -Math.PI / 2 + 0.33,
     worldPosition: new Vector3(-1.5, 0, 0),
-    cameraLookTargetPosition: about2CameraLookTargetPosition,
+    cameraLookTargetPosition: new Vector3(0, 1, -1),
   },
   {
     id: 'solveProblems',
     worldRotation: 0,
     worldPosition: new Vector3(0, 0, -2),
-    cameraLookTargetPosition: about3CameraLookTargetPosition,
+    cameraLookTargetPosition: new Vector3(0, 1, 0),
   },
   {
     id: 'projects',
     worldRotation: 0,
     worldPosition: new Vector3(0, -0.25, -2),
-    cameraLookTargetPosition: projectCameraLookTargetPosition,
+    cameraLookTargetPosition: new Vector3(-0.5, 1.25, -1),
   },
   {
     id: 'end',
     worldRotation: 0,
-    worldPosition: new Vector3(3, -1, -12),
-    cameraLookTargetPosition: endCameraLookTargetPosition,
+    worldPosition: new Vector3(3, -3, -12),
+    cameraLookTargetPosition: new Vector3(-0.5, 0, 0),
   },
 ]
 
 function ThreeContent() {
   const sceneRef = useRef<Group>(null)
-  const cameraBaseRef = useRef<Group>(null)
+  // const cameraBaseRef = useRef<Group>(null)
   const cameraRef = useRef<Camera>(null)
 
   useFrame((state) => {
@@ -111,16 +99,18 @@ function ThreeContent() {
 
     sceneRef.current.position.set(
       actualTargetCameraPosition.x,
-      actualTargetCameraPosition.y - 0.5,
+      0, //actualTargetCameraPosition.y - 0.5,
       actualTargetCameraPosition.z,
     )
+
+    cameraRef.current.position.y = 1 - actualTargetCameraPosition.y
+
+    cameraRef.current.lookAt(0, actualCameraLookTargetPosition.y, actualTargetCameraPosition.z)
   })
 
   return (
     <>
-      <group ref={cameraBaseRef} position-y={1}>
-        <PerspectiveCamera makeDefault position={[0, 0.5, 10]} rotation-x={-0.1} ref={cameraRef} fov={20} />
-      </group>
+      <PerspectiveCamera makeDefault position-z={10} ref={cameraRef} fov={20} />
       <group ref={sceneRef}>
         <Environment preset='warehouse' />
         <BrainTank scale={1.5} />
@@ -128,7 +118,7 @@ function ThreeContent() {
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box> */}
       </group>
-      <ContactShadows />
+      <ContactShadows scale={20} />
     </>
   )
 }
