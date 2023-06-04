@@ -31,73 +31,67 @@ export const Common = dynamic(() => import('@/components/canvas/View').then((mod
 
 interface Keyframe {
   id: string | 'start' | 'end'
-  cameraRigRotation: number
+  worldRotation: number
   cameraPositionOnRig: Vector3
   cameraLookTargetPosition: Vector3
 }
 
-const startCameraBaseRotation = 0.5
 const startCameraPosition = new Vector3(1, 0.5, 2)
 const startCameraLookTargetPosition = new Vector3(1, 1.25, 0)
 
-const about1CameraBaseRotation = -Math.PI / 2 + 0.33
 const about1CameraPosition = new Vector3(-1.5, 0, 0)
 const about1CameraLookTargetPosition = new Vector3(0, 1, -1)
 
-const about2CameraBaseRotation = Math.PI / 2 - 0.33
 const about2CameraPosition = new Vector3(1.5, 0, 0)
 const about2CameraLookTargetPosition = new Vector3(0, 1, -1)
 
 const about3CameraPosition = new Vector3(0, 0, 2)
-const about3CameraBaseRotation = 0
 const about3CameraLookTargetPosition = new Vector3(0, 1, 0)
 
-const projectCameraBaseRotation = 0
 const projectCameraPosition = new Vector3(0, 0.25, 2)
 const projectCameraLookTargetPosition = new Vector3(-0.5, 1.25, -1)
 
-const endCameraBaseRotation = 0
 const endCameraPosition = new Vector3(-3, 1, 12)
 const endCameraLookTargetPosition = new Vector3(-0.5, 1, 0)
 
-let actualRotation = startCameraBaseRotation
+let actualRotation = 0
 const actualTargetCameraPosition = new Vector3()
 const actualCameraLookTargetPosition = new Vector3()
 
 const keyframes: Keyframe[] = [
   {
     id: 'start',
-    cameraRigRotation: startCameraBaseRotation,
+    worldRotation: -0.5,
     cameraPositionOnRig: startCameraPosition,
     cameraLookTargetPosition: startCameraLookTargetPosition,
   },
   {
     id: 'about',
-    cameraRigRotation: about1CameraBaseRotation,
+    worldRotation: Math.PI / 2 - 0.33,
     cameraPositionOnRig: about1CameraPosition,
     cameraLookTargetPosition: about1CameraLookTargetPosition,
   },
   {
     id: 'makeThings',
-    cameraRigRotation: about2CameraBaseRotation,
+    worldRotation: -Math.PI / 2 + 0.33,
     cameraPositionOnRig: about2CameraPosition,
     cameraLookTargetPosition: about2CameraLookTargetPosition,
   },
   {
     id: 'solveProblems',
-    cameraRigRotation: about3CameraBaseRotation,
+    worldRotation: 0,
     cameraPositionOnRig: about3CameraPosition,
     cameraLookTargetPosition: about3CameraLookTargetPosition,
   },
   {
     id: 'projects',
-    cameraRigRotation: projectCameraBaseRotation,
+    worldRotation: 0,
     cameraPositionOnRig: projectCameraPosition,
     cameraLookTargetPosition: projectCameraLookTargetPosition,
   },
   {
     id: 'end',
-    cameraRigRotation: endCameraBaseRotation,
+    worldRotation: 0,
     cameraPositionOnRig: endCameraPosition,
     cameraLookTargetPosition: endCameraLookTargetPosition,
   },
@@ -119,7 +113,7 @@ function ThreeContent() {
 
     // cameraRef.current.lookAt(actualCameraLookTargetPosition)
 
-    sceneRef.current.rotation.y = -actualRotation
+    sceneRef.current.rotation.y = actualRotation
 
     sceneRef.current.position.set(
       -actualTargetCameraPosition.x,
@@ -175,7 +169,7 @@ export default function Page() {
     )
     const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
 
-    actualRotation = MathUtils.lerp(previousKeyframe.cameraRigRotation, nextKeyframe.cameraRigRotation, smoothedValue)
+    actualRotation = MathUtils.lerp(previousKeyframe.worldRotation, nextKeyframe.worldRotation, smoothedValue)
 
     actualTargetCameraPosition.lerpVectors(
       previousKeyframe.cameraPositionOnRig,
