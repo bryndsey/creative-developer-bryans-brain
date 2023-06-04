@@ -3,7 +3,7 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { links } from '@/links'
-import { ContactShadows, Environment, PerspectiveCamera } from '@react-three/drei'
+import { Environment, PerspectiveCamera, Shadow } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import Lenis from '@studio-freight/lenis'
 import { useLenis } from '@studio-freight/react-lenis'
@@ -117,8 +117,8 @@ function ThreeContent() {
         {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box> */}
+        <Shadow scale={2.5} />
       </group>
-      <ContactShadows scale={20} />
     </>
   )
 }
