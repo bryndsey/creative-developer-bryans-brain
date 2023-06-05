@@ -3,8 +3,8 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { links } from '@/links'
-import { Environment, PerspectiveCamera, Shadow } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { Environment, Html, PerspectiveCamera, Shadow, Text } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
 import Lenis from '@studio-freight/lenis'
 import { useLenis } from '@studio-freight/react-lenis'
 import dynamic from 'next/dynamic'
@@ -44,7 +44,7 @@ const keyframes: Keyframe[] = [
   {
     id: 'start',
     worldRotation: -0.5,
-    worldPosition: new Vector3(-1, -0.5, -2),
+    worldPosition: new Vector3(-1, -1.5, -2),
     cameraLookTargetPosition: new Vector3(1, 1.25, 0),
   },
   {
@@ -97,13 +97,15 @@ function ThreeContent() {
 
     sceneRef.current.rotation.y = actualRotation
 
-    sceneRef.current.position.set(
-      actualTargetCameraPosition.x,
-      0, //actualTargetCameraPosition.y - 0.5,
-      actualTargetCameraPosition.z,
-    )
+    // sceneRef.current.position.set(
+    //   actualTargetCameraPosition.x,
+    //   0,
+    //   actualTargetCameraPosition.z,
+    // )
+    sceneRef.current.position.x = actualTargetCameraPosition.x
 
     cameraRef.current.position.y = 1 - actualTargetCameraPosition.y
+    cameraRef.current.position.z = 10 - actualTargetCameraPosition.z
 
     cameraRef.current.lookAt(0, actualCameraLookTargetPosition.y, actualTargetCameraPosition.z)
   })
