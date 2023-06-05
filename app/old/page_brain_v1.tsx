@@ -3,10 +3,14 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { links } from '@/links'
-import { CameraControls, Environment, Shadow } from '@react-three/drei'
+import { Environment, Html, PerspectiveCamera, Shadow, Text } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import Lenis from '@studio-freight/lenis'
+import { useLenis } from '@studio-freight/react-lenis'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
-import { Vector3 } from 'three'
+import StickyBox from 'react-sticky-box'
+import { Camera, Group, MathUtils, Vector3 } from 'three'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -76,52 +80,47 @@ const keyframes: Keyframe[] = [
 ]
 
 function ThreeContent() {
-  const cameraControlsRef = useRef<CameraControls>(null!)
+  const sceneRef = useRef<Group>(null)
+  // const cameraBaseRef = useRef<Group>(null)
+  const cameraRef = useRef<Camera>(null)
 
-  useEffect(() => {
-    cameraControlsRef.current.mouseButtons.wheel = 0
-    cameraControlsRef.current.mouseButtons.right = 0
-    cameraControlsRef.current.touches.two = 0
-    cameraControlsRef.current.touches.three = 0
-    cameraControlsRef.current.maxPolarAngle = Math.PI / 2
-    cameraControlsRef.current.elevate(1)
-    // cameraControlsRef.current.enabled = false
-  }, [])
+  useFrame((state) => {
+    // cameraBaseRef.current.rotation.y = actualRotation
 
-  // useFrame((state, delta) => {
-  //   cameraControlsRef.current.rotate(delta, 0, false)
-  // })
+    // cameraRef.current.position.set(
+    //   actualTargetCameraPosition.x,
+    //   actualTargetCameraPosition.y,
+    //   actualTargetCameraPosition.z,
+    // )
 
-  // useFrame((state) => {
-  // cameraBaseRef.current.rotation.y = actualRotation
-  // cameraRef.current.position.set(
-  //   actualTargetCameraPosition.x,
-  //   actualTargetCameraPosition.y,
-  //   actualTargetCameraPosition.z,
-  // )
-  // cameraRef.current.lookAt(actualCameraLookTargetPosition)
-  // sceneRef.current.rotation.y = actualRotation
-  // sceneRef.current.position.set(
-  //   actualTargetCameraPosition.x,
-  //   0,
-  //   actualTargetCameraPosition.z,
-  // )
-  // sceneRef.current.position.x = actualTargetCameraPosition.x
-  // cameraRef.current.position.y = 1 - actualTargetCameraPosition.y
-  // cameraRef.current.position.z = 10 - actualTargetCameraPosition.z
-  // cameraRef.current.lookAt(0, actualCameraLookTargetPosition.y, actualTargetCameraPosition.z)
-  // })
+    // cameraRef.current.lookAt(actualCameraLookTargetPosition)
+
+    sceneRef.current.rotation.y = actualRotation
+
+    // sceneRef.current.position.set(
+    //   actualTargetCameraPosition.x,
+    //   0,
+    //   actualTargetCameraPosition.z,
+    // )
+    sceneRef.current.position.x = actualTargetCameraPosition.x
+
+    cameraRef.current.position.y = 1 - actualTargetCameraPosition.y
+    cameraRef.current.position.z = 10 - actualTargetCameraPosition.z
+
+    cameraRef.current.lookAt(0, actualCameraLookTargetPosition.y, actualTargetCameraPosition.z)
+  })
 
   return (
     <>
-      {/* <PerspectiveCamera fov={20} /> */}
-      <CameraControls makeDefault ref={cameraControlsRef} />
-      <Environment preset='warehouse' />
-      <BrainTank />
-      {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
+      <PerspectiveCamera makeDefault position-z={10} ref={cameraRef} fov={20} />
+      <group ref={sceneRef}>
+        <Environment preset='warehouse' />
+        <BrainTank scale={1.5} />
+        {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
           <meshStandardMaterial metalness={1} color={'gray'} />
         </Box> */}
-      <Shadow scale={1.5} />
+        <Shadow scale={2.5} />
+      </group>
     </>
   )
 }
@@ -141,31 +140,31 @@ function getElementPositionsForKeyframes() {
 }
 
 export default function Page() {
-  // useLenis((lenis: Lenis) => {
-  //   const scrollKeyframes = getElementPositionsForKeyframes()
+  useLenis((lenis: Lenis) => {
+    const scrollKeyframes = getElementPositionsForKeyframes()
 
-  //   const scrollPoint = lenis.animatedScroll
-  //   const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
-  //   const nextKeyframe = keyframes[nextTargetIndex]
-  //   const previousKeyframe = keyframes[nextTargetIndex - 1]
+    const scrollPoint = lenis.animatedScroll
+    const nextTargetIndex = scrollKeyframes.findIndex((offset) => offset > scrollPoint)
+    const nextKeyframe = keyframes[nextTargetIndex]
+    const previousKeyframe = keyframes[nextTargetIndex - 1]
 
-  //   const scrollProgressBetweenTargets = MathUtils.inverseLerp(
-  //     scrollKeyframes[nextTargetIndex - 1],
-  //     scrollKeyframes[nextTargetIndex],
-  //     scrollPoint,
-  //   )
-  //   const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
+    const scrollProgressBetweenTargets = MathUtils.inverseLerp(
+      scrollKeyframes[nextTargetIndex - 1],
+      scrollKeyframes[nextTargetIndex],
+      scrollPoint,
+    )
+    const smoothedValue = MathUtils.smootherstep(scrollProgressBetweenTargets, 0, 1)
 
-  //   actualRotation = MathUtils.lerp(previousKeyframe.worldRotation, nextKeyframe.worldRotation, smoothedValue)
+    actualRotation = MathUtils.lerp(previousKeyframe.worldRotation, nextKeyframe.worldRotation, smoothedValue)
 
-  //   actualTargetCameraPosition.lerpVectors(previousKeyframe.worldPosition, nextKeyframe.worldPosition, smoothedValue)
+    actualTargetCameraPosition.lerpVectors(previousKeyframe.worldPosition, nextKeyframe.worldPosition, smoothedValue)
 
-  //   actualCameraLookTargetPosition.lerpVectors(
-  //     previousKeyframe.cameraLookTargetPosition,
-  //     nextKeyframe.cameraLookTargetPosition,
-  //     smoothedValue,
-  //   )
-  // })
+    actualCameraLookTargetPosition.lerpVectors(
+      previousKeyframe.cameraLookTargetPosition,
+      nextKeyframe.cameraLookTargetPosition,
+      smoothedValue,
+    )
+  })
 
   return (
     <div>
@@ -173,26 +172,26 @@ export default function Page() {
         <ThreeContent />
       </Three>
       <div id='hero' className='relative h-screen'>
-        <div className='grid h-screen grid-cols-3 p-8'>
-          <div className='self-center'>
+        <div className='absolute inset-y-0 right-0 flex w-1/2 flex-col justify-around p-8'>
+          <div>
             <p>Hello. My name is</p>
-            <h1 className='text-8xl font-extrabold'>
-              <span className='line-through opacity-20'>BRAIN</span>
+            <h1>
+              <span className='text-8xl font-extrabold line-through opacity-20'>BRAIN</span>
               <br />
-              <span className='line-through opacity-20'>BRIAN</span>
+              <span className='text-8xl font-extrabold line-through opacity-20'>BRIAN</span>
               <br />
-              <span>BRYAN</span>
+              <span className='text-8xl font-extrabold'>BRYAN</span>
             </h1>
           </div>
 
-          <div className='col-start-3'>
+          <div>
             <p>I am a</p>
-            <h2 className='text-4xl font-extrabold'>
-              <span className='line-through opacity-20'>BRAIN</span>
+            <h2>
+              <span className='text-4xl font-extrabold line-through opacity-20'>BRAIN</span>
               <br />
-              <span className='line-through opacity-20'>PORTFOLIO WEBSITE</span>
+              <span className='text-4xl font-extrabold line-through opacity-20'>PORTFOLIO WEBSITE</span>
               <br />
-              <span>
+              <span className='text-4xl font-extrabold'>
                 <span className='font-sans italic'>CREATIVE </span>DEVELOPER
               </span>
             </h2>
@@ -203,8 +202,8 @@ export default function Page() {
       <div className='h-screen' />
 
       <section id='about'>
-        <div className='grid h-screen grid-cols-3 items-start p-16'>
-          <div>
+        <div className='grid h-[400vh] grid-cols-3 items-start p-16'>
+          <StickyBox className='flex min-h-screen flex-col justify-center'>
             <h2 className='text-2xl font-extrabold'>
               I love to <span className='font-sans italic'>make things</span>
             </h2>
@@ -213,9 +212,11 @@ export default function Page() {
               <li>Once spent 3 hours folding an origami moose.</li>
               <li>I buy Legos for my children, but really I just get them for myself.</li>
             </ul>
-          </div>
-          <div className='col-start-3 h-full'>
-            <div className='flex flex-col justify-center'>
+          </StickyBox>
+          <div className='col-start-3 flex h-full flex-col'>
+            <div className='h-[200vh]' />
+            <div id='makeThings' />
+            <StickyBox className='flex min-h-screen flex-col justify-center'>
               <h2 className='text-2xl font-extrabold'>
                 I <span className='font-sans italic'>love </span>solving problems
               </h2>
@@ -226,7 +227,7 @@ export default function Page() {
                   Often spends longer to fit more dishes in the dishwasher than it would take to hand wash the dishes.
                 </li>
               </ul>
-            </div>
+            </StickyBox>
           </div>
         </div>
         <h2 className='p-8 text-center text-4xl font-extrabold' id='solveProblems'>
