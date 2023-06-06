@@ -3,10 +3,13 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { links } from '@/links'
-import { CameraControls, Environment, Shadow } from '@react-three/drei'
+import { CameraControls, Cylinder, Environment, Resize, Shadow } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import { useLenis } from '@studio-freight/react-lenis'
+import Lenis from '@studio-freight/lenis'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
-import { Vector3 } from 'three'
+import { Box3, Group, Mesh, Vector3 } from 'three'
 
 export const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -75,8 +78,11 @@ const keyframes: Keyframe[] = [
   },
 ]
 
+const boundingBox = new Box3()
+
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
+  const tankRef = useRef<Group>(null!)
 
   useEffect(() => {
     cameraControlsRef.current.mouseButtons.wheel = 0
@@ -84,44 +90,33 @@ function ThreeContent() {
     cameraControlsRef.current.touches.two = 0
     cameraControlsRef.current.touches.three = 0
     cameraControlsRef.current.maxPolarAngle = Math.PI / 2
-    cameraControlsRef.current.elevate(1)
+    // cameraControlsRef.current.setPosition(0, 2, 4)
+
     // cameraControlsRef.current.enabled = false
   }, [])
 
-  // useFrame((state, delta) => {
-  //   cameraControlsRef.current.rotate(delta, 0, false)
-  // })
+  useFrame((state, delta) => {
+    if (tankRef.current === null) return
+    if (boundingBox.isEmpty()) {
+      boundingBox.setFromObject(tankRef.current)
+    }
 
-  // useFrame((state) => {
-  // cameraBaseRef.current.rotation.y = actualRotation
-  // cameraRef.current.position.set(
-  //   actualTargetCameraPosition.x,
-  //   actualTargetCameraPosition.y,
-  //   actualTargetCameraPosition.z,
-  // )
-  // cameraRef.current.lookAt(actualCameraLookTargetPosition)
-  // sceneRef.current.rotation.y = actualRotation
-  // sceneRef.current.position.set(
-  //   actualTargetCameraPosition.x,
-  //   0,
-  //   actualTargetCameraPosition.z,
-  // )
-  // sceneRef.current.position.x = actualTargetCameraPosition.x
-  // cameraRef.current.position.y = 1 - actualTargetCameraPosition.y
-  // cameraRef.current.position.z = 10 - actualTargetCameraPosition.z
-  // cameraRef.current.lookAt(0, actualCameraLookTargetPosition.y, actualTargetCameraPosition.z)
-  // })
+    cameraControlsRef.current.fitToBox(boundingBox, false, {
+      cover: false,
+      paddingRight: 0.5,
+      paddingLeft: 0.01,
+      paddingTop: 0.01,
+      paddingBottom: 0.01,
+    })
+  })
 
   return (
     <>
-      {/* <PerspectiveCamera fov={20} /> */}
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
-      <BrainTank />
-      {/* <Box position={[-1, 0.5, -2]} rotation-y={0.7}>
-          <meshStandardMaterial metalness={1} color={'gray'} />
-        </Box> */}
-      <Shadow scale={1.5} />
+      <Resize scale={0.5}>
+        <BrainTank ref={tankRef} />
+      </Resize>
     </>
   )
 }
@@ -172,11 +167,11 @@ export default function Page() {
       <Three>
         <ThreeContent />
       </Three>
-      <div id='hero' className='relative h-screen'>
-        <div className='grid h-screen grid-cols-3 p-8'>
-          <div className='self-center'>
+      <div id='hero' className='relative grid h-screen grid-cols-2'>
+        <div className='col-start-2 flex h-screen flex-col justify-around p-4'>
+          <div>
             <p>Hello. My name is</p>
-            <h1 className='text-8xl font-extrabold'>
+            <h1 className='text-9xl font-extrabold'>
               <span className='line-through opacity-20'>BRAIN</span>
               <br />
               <span className='line-through opacity-20'>BRIAN</span>
@@ -185,7 +180,7 @@ export default function Page() {
             </h1>
           </div>
 
-          <div className='col-start-3'>
+          <div>
             <p>I am a</p>
             <h2 className='text-4xl font-extrabold'>
               <span className='line-through opacity-20'>BRAIN</span>

@@ -4,9 +4,10 @@ Command: npx gltfjsx@6.2.3 brain-tank.glb -t
 */
 
 import * as THREE from 'three'
-import React, { useRef } from 'react'
+import React, { forwardRef, useRef } from 'react'
 import { MeshTransmissionMaterial, useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { Group } from 'three'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,10 +25,10 @@ type GLTFResult = GLTF & {
 
 const background = new THREE.Color('white')
 
-export function BrainTank(props: JSX.IntrinsicElements['group']) {
+export const BrainTank = forwardRef<Group, JSX.IntrinsicElements['group']>((props, ref) => {
   const { nodes, materials } = useGLTF('/brain-tank.glb') as GLTFResult
   return (
-    <group {...props} dispose={null}>
+    <group {...props} ref={ref} dispose={null}>
       <mesh geometry={nodes.Tank.geometry}>
         <MeshTransmissionMaterial
           distortionScale={1}
@@ -44,6 +45,7 @@ export function BrainTank(props: JSX.IntrinsicElements['group']) {
       <mesh geometry={nodes.Brain.geometry} material={materials.Brain} />
     </group>
   )
-}
+})
+BrainTank.displayName = 'BrainTank'
 
 useGLTF.preload('/brain-tank.glb')
