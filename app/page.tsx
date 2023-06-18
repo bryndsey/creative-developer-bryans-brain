@@ -2,7 +2,7 @@
 
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
-import { CameraControls, Cylinder, Environment, Resize, Shadow } from '@react-three/drei'
+import { CameraControls, Cylinder, Environment, Resize, Shadow, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLenis } from '@studio-freight/react-lenis'
 import Lenis from '@studio-freight/lenis'
@@ -47,6 +47,12 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
+      <Text position={[0.66, 0.25, 0]} fontSize={0.1} color={'dimgrey'}>
+        LEFT BRAIN
+      </Text>
+      <Text position={[-0.66, 0.25, 0]} fontSize={0.1} color={'dimgrey'}>
+        RIGHT BRAIN
+      </Text>
       <BrainTank ref={tankRef} position-y={-0.5} scale={0.5} />
     </>
   )
