@@ -47,34 +47,46 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
-      <Text position={[1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
-        LEFT BRAIN
-      </Text>
-      <Text position={[1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
-        Logic
-      </Text>
-      <Text position={[1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
-        Analysis
-      </Text>
-      <Text position={[1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
-        Reason
-      </Text>
-      <Text position={[-1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
-        RIGHT BRAIN
-      </Text>
-      <Text position={[-1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
-        Creativity
-      </Text>
-      <Text position={[-1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
-        Expression
-      </Text>
-      <Text position={[-1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
-        Imagination
-      </Text>
-      <BrainTank ref={tankRef} position-y={-1} />
-      {/* <Html transform position={[0, 0, -1]} distanceFactor={1}>
-        <MetaContent />
-      </Html> */}
+      <group position-y={-0.5}>
+        {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
+        CREATIVE DEVELOPER
+      </Text> */}
+        <Text position={[-0.85, 0, 0]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
+          CREATIVE
+        </Text>
+        <Text position={[0.85, 0, 0]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
+          DEVELOPER
+        </Text>
+
+        <Text position={[1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
+          LEFT BRAIN
+        </Text>
+        <Text position={[1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
+          Logic
+        </Text>
+        <Text position={[1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
+          Analysis
+        </Text>
+        <Text position={[1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
+          Reason
+        </Text>
+        <Text position={[-1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
+          RIGHT BRAIN
+        </Text>
+        <Text position={[-1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
+          Creativity
+        </Text>
+        <Text position={[-1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
+          Expression
+        </Text>
+        <Text position={[-1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
+          Imagination
+        </Text>
+        <BrainTank ref={tankRef} position-y={-1} />
+        <Html transform position={[0, 1.5, 0]} distanceFactor={1}>
+          <MetaContent />
+        </Html>
+      </group>
     </>
   )
 }
