@@ -83,7 +83,8 @@ function ThreeContent() {
           Imagination
         </Text>
         <BrainTank ref={tankRef} position-y={-1} />
-        <Html transform position={[0, 1.5, 0]} distanceFactor={1}>
+
+        <Html transform position={[0, 1.55, 0]} distanceFactor={1}>
           <MetaContent />
         </Html>
       </group>
@@ -95,16 +96,17 @@ function MetaContent() {
   return (
     <div>
       <p>Made by</p>
-      <h1 className='text-9xl font-extrabold'>
-        <span className='line-through opacity-20'>BRAIN</span>
-        <br />
-        <span className='line-through opacity-20'>BRIAN</span>
-        <br />
-        <span>BRYAN</span>
-        <br />
-        {/* This calue is chosen for the ratio of size between first and last name, assuming monospace */}
-        <span className='text-[0.71em]'>LINDSEY</span>
-      </h1>
+      <div className='text-9xl font-extrabold leading-none'>
+        <p>
+          <span className='line-through opacity-20'>BRAIN</span>
+          <br />
+          <span className='line-through opacity-20'>BRIAN</span>
+          <br />
+          <span className='leading-none'>BRYAN</span>
+        </p>
+        {/* This value is chosen for the ratio of size between first and last name, assuming monospace */}
+        <p className='text-[0.71em] leading-none'>LINDSEY</p>
+      </div>
     </div>
   )
 }
