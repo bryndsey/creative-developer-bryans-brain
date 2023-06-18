@@ -48,13 +48,17 @@ function ThreeContent() {
       <Environment preset='warehouse' />
 
       <group position-y={-0.5}>
+        <Html transform position={[0, 1.55, -0.2]} distanceFactor={1}>
+          <MetaContent />
+        </Html>
+
         {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
         CREATIVE DEVELOPER
       </Text> */}
-        <Text position={[-0.85, 0, 0]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
+        <Text position={[-0.85, 0, 0.1]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
           CREATIVE
         </Text>
-        <Text position={[0.85, 0, 0]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
+        <Text position={[0.85, 0, 0.1]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
           DEVELOPER
         </Text>
 
@@ -83,10 +87,6 @@ function ThreeContent() {
           Imagination
         </Text>
         <BrainTank ref={tankRef} position-y={-1} />
-
-        <Html transform position={[0, 1.55, 0]} distanceFactor={1}>
-          <MetaContent />
-        </Html>
       </group>
     </>
   )
