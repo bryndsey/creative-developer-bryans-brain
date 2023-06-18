@@ -2,7 +2,7 @@
 
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
-import { CameraControls, Cylinder, Environment, Resize, Shadow, Text } from '@react-three/drei'
+import { CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLenis } from '@studio-freight/react-lenis'
 import Lenis from '@studio-freight/lenis'
@@ -50,10 +50,31 @@ function ThreeContent() {
       <Text position={[1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
         LEFT BRAIN
       </Text>
+      <Text position={[1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
+        Logic
+      </Text>
+      <Text position={[1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
+        Analysis
+      </Text>
+      <Text position={[1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
+        Reason
+      </Text>
       <Text position={[-1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
         RIGHT BRAIN
       </Text>
+      <Text position={[-1.25, 0, 0]} fontSize={0.1} color={'lightgrey'}>
+        Creativity
+      </Text>
+      <Text position={[-1.25, -0.15, 0]} fontSize={0.1} color={'lightgrey'}>
+        Expression
+      </Text>
+      <Text position={[-1.25, -0.3, 0]} fontSize={0.1} color={'lightgrey'}>
+        Imagination
+      </Text>
       <BrainTank ref={tankRef} position-y={-1} />
+      {/* <Html transform position={[0, 0, -1]} distanceFactor={1}>
+        <MetaContent />
+      </Html> */}
     </>
   )
 }
@@ -86,7 +107,7 @@ export default function Page() {
       <Three>
         <ThreeContent />
       </Three>
-      <MetaContent />
+      {/* <MetaContent /> */}
     </div>
   )
 }
