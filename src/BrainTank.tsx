@@ -14,7 +14,9 @@ type GLTFResult = GLTF & {
     Tank: THREE.Mesh
     Base: THREE.Mesh
     Top: THREE.Mesh
-    Brain: THREE.Mesh
+    BrainCerebrum: THREE.Mesh
+    BrainStem: THREE.Mesh
+    BrainCerebellum: THREE.Mesh
   }
   materials: {
     Glass: THREE.MeshStandardMaterial
@@ -42,7 +44,9 @@ export const BrainTank = forwardRef<Group, JSX.IntrinsicElements['group']>((prop
       </mesh>
       <mesh geometry={nodes.Base.geometry} material={materials.Metal} />
       <mesh geometry={nodes.Top.geometry} material={materials.Metal} />
-      <mesh geometry={nodes.Brain.geometry} material={materials.Brain} />
+      <mesh geometry={nodes.BrainCerebrum.geometry} material={materials.Brain} />
+      <mesh geometry={nodes.BrainStem.geometry} material={materials.Brain} />
+      <mesh geometry={nodes.BrainCerebellum.geometry} material={materials.Brain} />
     </group>
   )
 })
