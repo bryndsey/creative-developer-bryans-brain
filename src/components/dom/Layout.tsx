@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             eventSource={ref}
             eventPrefix='client'
             // orthographic
-            camera={{ fov: 20 }}
+            camera={{ fov: 40 }}
           />
         </div>
       </ReactLenis>

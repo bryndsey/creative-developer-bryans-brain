@@ -47,13 +47,13 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
-      <Text position={[0.66, 0.25, 0]} fontSize={0.1} color={'dimgrey'}>
+      <Text position={[1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
         LEFT BRAIN
       </Text>
-      <Text position={[-0.66, 0.25, 0]} fontSize={0.1} color={'dimgrey'}>
+      <Text position={[-1.25, 0.25, 0]} fontSize={0.2} color={'dimgrey'}>
         RIGHT BRAIN
       </Text>
-      <BrainTank ref={tankRef} position-y={-0.5} scale={0.5} />
+      <BrainTank ref={tankRef} position-y={-1} />
     </>
   )
 }
@@ -96,7 +96,7 @@ export default function Page() {
   // })
 
   return (
-    <div>
+    <div className='h-screen'>
       <Three>
         <ThreeContent />
       </Three>
