@@ -62,34 +62,38 @@ function ThreeContent() {
           DEVELOPER
         </Text>
 
-        <group position-x={1.25}>
-          <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
-            LEFT BRAIN
-          </Text>
-          <Text fontSize={0.1} color={'lightgrey'}>
-            Logic
-          </Text>
-          <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
-            Analysis
-          </Text>
-          <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
-            Reason
-          </Text>
+        <group rotation-y={0.75}>
+          <group position-x={1.25}>
+            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
+              LEFT BRAIN
+            </Text>
+            <Text fontSize={0.1} color={'lightgrey'}>
+              Logic
+            </Text>
+            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
+              Analysis
+            </Text>
+            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
+              Reason
+            </Text>
+          </group>
         </group>
 
-        <group position-x={-1.25}>
-          <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
-            RIGHT BRAIN
-          </Text>
-          <Text fontSize={0.1} color={'lightgrey'}>
-            Creativity
-          </Text>
-          <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
-            Expression
-          </Text>
-          <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
-            Imagination
-          </Text>
+        <group rotation-y={-0.75}>
+          <group position-x={-1.25}>
+            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
+              RIGHT BRAIN
+            </Text>
+            <Text fontSize={0.1} color={'lightgrey'}>
+              Creativity
+            </Text>
+            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
+              Expression
+            </Text>
+            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
+              Imagination
+            </Text>
+          </group>
         </group>
 
         <BrainTank ref={tankRef} position-y={-1} />
