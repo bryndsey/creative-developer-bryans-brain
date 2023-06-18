@@ -2,7 +2,6 @@
 
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
-import { links } from '@/links'
 import { CameraControls, Cylinder, Environment, Resize, Shadow } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useLenis } from '@studio-freight/react-lenis'
@@ -194,63 +193,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-
-      <div className='h-screen' />
-
-      <section id='about'>
-        <div className='grid h-screen grid-cols-3 items-start p-16'>
-          <div>
-            <h2 className='text-2xl font-extrabold'>
-              I love to <span className='font-sans italic'>make things</span>
-            </h2>
-            <ul className='list-disc'>
-              <li>Invented my own dinosaurs as a child by drawing the skeleton and then adding muscle and skin.</li>
-              <li>Once spent 3 hours folding an origami moose.</li>
-              <li>I buy Legos for my children, but really I just get them for myself.</li>
-            </ul>
-          </div>
-          <div className='col-start-3 h-full'>
-            <div className='flex flex-col justify-center'>
-              <h2 className='text-2xl font-extrabold'>
-                I <span className='font-sans italic'>love </span>solving problems
-              </h2>
-              <ul className='list-disc'>
-                <li>Was the kid in calculus class who was too eager to raise their hand.</li>
-                <li>Solves nurikabe puzzles for fun.</li>
-                <li>
-                  Often spends longer to fit more dishes in the dishwasher than it would take to hand wash the dishes.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <h2 className='p-8 text-center text-4xl font-extrabold' id='solveProblems'>
-          I especially love doing <span className='font-sans'>both</span> at the{' '}
-          <span className='italic'>same time</span>
-        </h2>
-      </section>
-
-      <div className='h-screen' />
-
-      <section id='projects' className='flex min-h-screen flex-col p-12'>
-        <h2 className='text-6xl font-extrabold'>Projects</h2>
-      </section>
-
-      <div className='h-screen' />
-
-      <section id='links' className='p-12'>
-        <h2 className='text-2xl font-extrabold'>Find out more</h2>
-        <br />
-        <ul>
-          {links.map((link) => {
-            return (
-              <li key={link.displayName}>
-                <a href={link.url}>{link.displayName}</a>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
     </div>
   )
 }
