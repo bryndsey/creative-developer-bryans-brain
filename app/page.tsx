@@ -60,32 +60,18 @@ function ThreeContent() {
 
 function MetaContent() {
   return (
-    <div className='relative grid h-screen grid-cols-2'>
-      <div className='col-start-2 flex h-screen flex-col justify-around p-4'>
-        <div>
-          <p>Hello. My name is</p>
-          <h1 className='text-9xl font-extrabold'>
-            <span className='line-through opacity-20'>BRAIN</span>
-            <br />
-            <span className='line-through opacity-20'>BRIAN</span>
-            <br />
-            <span>BRYAN</span>
-          </h1>
-        </div>
-
-        <div>
-          <p>I am a</p>
-          <h2 className='text-4xl font-extrabold'>
-            <span className='line-through opacity-20'>BRAIN</span>
-            <br />
-            <span className='line-through opacity-20'>PORTFOLIO WEBSITE</span>
-            <br />
-            <span>
-              <span className='font-sans italic'>CREATIVE </span>DEVELOPER
-            </span>
-          </h2>
-        </div>
-      </div>
+    <div>
+      <p>Made by</p>
+      <h1 className='text-9xl font-extrabold'>
+        <span className='line-through opacity-20'>BRAIN</span>
+        <br />
+        <span className='line-through opacity-20'>BRIAN</span>
+        <br />
+        <span>BRYAN</span>
+        <br />
+        {/* This calue is chosen for the ratio of size between first and last name, assuming monospace */}
+        <span className='text-[0.71em]'>LINDSEY</span>
+      </h1>
     </div>
   )
 }
