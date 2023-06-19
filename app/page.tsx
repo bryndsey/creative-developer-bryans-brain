@@ -4,9 +4,8 @@ import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useLenis } from '@studio-freight/react-lenis'
-import Lenis from '@studio-freight/lenis'
-import dynamic from 'next/dynamic'
+import { useAnimate, useMotionValue } from 'framer-motion'
+import { motion } from 'framer-motion-3d'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Mesh, Vector3 } from 'three'
 
@@ -41,6 +40,32 @@ function ThreeContent() {
   //     paddingBottom: 0.01,
   //   })
   // })
+
+  const leftBrainTransitionProgress = useMotionValue(0)
+  const rightBrainTransitionProgress = useMotionValue(0)
+  const [scope, animate] = useAnimate()
+
+  useFrame((state) => {
+    // console.log(cameraControlsRef.current.)
+    if (
+      cameraControlsRef.current.azimuthAngle > 0.5 &&
+      leftBrainTransitionProgress.get() !== 1 &&
+      !leftBrainTransitionProgress.isAnimating()
+    ) {
+      console.log('Triggering left brain')
+      animate(leftBrainTransitionProgress, 1, { duration: 1 }).play()
+    } else if (
+      cameraControlsRef.current.azimuthAngle < 0.5 &&
+      leftBrainTransitionProgress.get() !== 0 &&
+      !leftBrainTransitionProgress.isAnimating()
+    ) {
+      console.log('Hiding left brain')
+      // leftBrainTransitionProgress.set(0)
+      animate(leftBrainTransitionProgress, 0, { duration: 1 }).play()
+    }
+
+    // console.log(leftBrainTransitionProgress.get())
+  })
 
   return (
     <>
