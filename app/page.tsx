@@ -7,9 +7,13 @@ import { useFrame } from '@react-three/fiber'
 import { transform, useAnimate, useMotionValue, useTransform } from 'framer-motion'
 import { motion } from 'framer-motion-3d'
 import { useEffect, useRef } from 'react'
-import { Box3, Group, Mesh, Vector3 } from 'three'
+import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
 
 const boundingBox = new Box3()
+
+function normalizeAngle(angle: number) {
+  return MathUtils.euclideanModulo(angle, Math.PI * 2)
+}
 
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
@@ -54,16 +58,16 @@ function ThreeContent() {
   const leftBrainTextOffset = useTransform(leftBrainTransitionProgress, [0, 1], [-0.5, 0])
 
   useFrame((state) => {
-    // console.log(cameraControlsRef.current.)
+    const normalizedAzimuth = normalizeAngle(cameraControlsRef.current.azimuthAngle)
     if (
-      // TODO: Normalize the angle so repeated rotations still work
-      cameraControlsRef.current.azimuthAngle > 0.5 &&
+      normalizedAzimuth < Math.PI &&
+      normalizedAzimuth > 0.5 &&
       leftBrainTransitionProgress.get() !== 1 &&
       !leftBrainTransitionProgress.isAnimating()
     ) {
       animate(leftBrainTransitionProgress, 1, { duration: 0.3 }).play()
     } else if (
-      cameraControlsRef.current.azimuthAngle < 0.5 &&
+      (normalizedAzimuth > Math.PI || normalizedAzimuth < 0.5) &&
       leftBrainTransitionProgress.get() !== 0 &&
       !leftBrainTransitionProgress.isAnimating()
     ) {
@@ -71,14 +75,14 @@ function ThreeContent() {
     }
 
     if (
-      // TODO: Normalize the angle so repeated rotations still work
-      cameraControlsRef.current.azimuthAngle < -0.5 &&
+      normalizedAzimuth > Math.PI &&
+      normalizedAzimuth < Math.PI * 2 - 0.5 &&
       rightBrainTransitionProgress.get() !== 1 &&
       !rightBrainTransitionProgress.isAnimating()
     ) {
       animate(rightBrainTransitionProgress, 1, { duration: 0.3 }).play()
     } else if (
-      cameraControlsRef.current.azimuthAngle > -0.5 &&
+      (normalizedAzimuth < Math.PI || normalizedAzimuth > Math.PI * 2 - 0.5) &&
       rightBrainTransitionProgress.get() !== 0 &&
       !rightBrainTransitionProgress.isAnimating()
     ) {
