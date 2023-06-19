@@ -45,6 +45,10 @@ function ThreeContent() {
   const rightBrainTransitionProgress = useMotionValue(0)
   const [scope, animate] = useAnimate()
 
+  const creativeTextOpacity = useTransform(rightBrainTransitionProgress, [0, 1], [1, 0])
+  const creativeTextOffset = useTransform(rightBrainTransitionProgress, [0, 1], [0, 0.5])
+  const rightBrainTextOffset = useTransform(rightBrainTransitionProgress, [0, 1], [-0.5, 0])
+
   const developerTextOpacity = useTransform(leftBrainTransitionProgress, [0, 1], [1, 0])
   const developerTextOffset = useTransform(leftBrainTransitionProgress, [0, 1], [0, 0.5])
   const leftBrainTextOffset = useTransform(leftBrainTransitionProgress, [0, 1], [-0.5, 0])
@@ -57,19 +61,29 @@ function ThreeContent() {
       leftBrainTransitionProgress.get() !== 1 &&
       !leftBrainTransitionProgress.isAnimating()
     ) {
-      console.log('Triggering left brain')
       animate(leftBrainTransitionProgress, 1, { duration: 0.3 }).play()
     } else if (
       cameraControlsRef.current.azimuthAngle < 0.5 &&
       leftBrainTransitionProgress.get() !== 0 &&
       !leftBrainTransitionProgress.isAnimating()
     ) {
-      console.log('Hiding left brain')
-      // leftBrainTransitionProgress.set(0)
       animate(leftBrainTransitionProgress, 0, { duration: 0.3 }).play()
     }
 
-    // console.log(leftBrainTransitionProgress.get())
+    if (
+      // TODO: Normalize the angle so repeated rotations still work
+      cameraControlsRef.current.azimuthAngle < -0.5 &&
+      rightBrainTransitionProgress.get() !== 1 &&
+      !rightBrainTransitionProgress.isAnimating()
+    ) {
+      animate(rightBrainTransitionProgress, 1, { duration: 0.3 }).play()
+    } else if (
+      cameraControlsRef.current.azimuthAngle > -0.5 &&
+      rightBrainTransitionProgress.get() !== 0 &&
+      !rightBrainTransitionProgress.isAnimating()
+    ) {
+      animate(rightBrainTransitionProgress, 0, { duration: 0.3 }).play()
+    }
   })
 
   return (
@@ -85,9 +99,12 @@ function ThreeContent() {
         {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
         CREATIVE DEVELOPER
       </Text> */}
-        <Text position={[-0.85, 0, 0.1]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
-          CREATIVE
-        </Text>
+        <motion.group position-z={creativeTextOffset}>
+          <Text position={[-0.85, 0, 0.1]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
+            CREATIVE
+            <motion.meshBasicMaterial transparent opacity={creativeTextOpacity} />
+          </Text>
+        </motion.group>
         <motion.group position-z={developerTextOffset}>
           <Text position={[0.85, 0, 0.1]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
             DEVELOPER
@@ -117,20 +134,24 @@ function ThreeContent() {
         </group>
 
         <group rotation-y={-0.75}>
-          <group position-x={-1.25}>
+          <motion.group position-x={-1.25} position-z={rightBrainTextOffset}>
             <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
               RIGHT BRAIN
+              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
             </Text>
             <Text fontSize={0.1} color={'lightgrey'}>
               Creativity
+              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
             </Text>
             <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
               Expression
+              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
             </Text>
             <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
               Imagination
+              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
             </Text>
-          </group>
+          </motion.group>
         </group>
 
         <BrainTank ref={tankRef} position-y={-1} />
