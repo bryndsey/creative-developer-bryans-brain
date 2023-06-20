@@ -4,7 +4,7 @@ import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { animated, useSpringValue } from '@react-spring/three'
 import { Box, CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
 
@@ -17,6 +17,7 @@ function normalizeAngle(angle: number) {
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
   const tankRef = useRef<Group>(null!)
+  const itemsRef = useRef<Group>(null!)
 
   useEffect(() => {
     cameraControlsRef.current.mouseButtons.wheel = 0
@@ -28,6 +29,16 @@ function ThreeContent() {
 
     // cameraControlsRef.current.enabled = false
   }, [])
+
+  const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
+
+  useEffect(() => {
+    if (itemsRef.current === null) return
+    const itemsScale = isTall ? 1 : 1.25
+    itemsRef.current.scale.setScalar(itemsScale)
+    const itemsPosition = isTall ? -0.5 : 0
+    itemsRef.current.position.setY(itemsPosition)
+  }, [isTall])
 
   // useFrame((state, delta) => {
   //   if (tankRef.current === null) return
@@ -71,7 +82,7 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
-      <group position-y={-0.5}>
+      <group position-y={-0.5} ref={itemsRef}>
         {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
           <MetaContent />
         </Html> */}
