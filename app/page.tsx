@@ -3,7 +3,7 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { animated, useSpringValue } from '@react-spring/three'
-import { Box, CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
+import { Box, CameraControls, Center, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
@@ -36,10 +36,6 @@ function ThreeContent() {
 
   useEffect(() => {
     if (itemsRef.current === null) return
-    // const itemsScale = isTall ? 1 : 1.25
-    // itemsRef.current.scale.setScalar(itemsScale)
-    const itemsPosition = isTall ? -0.5 : 0
-    itemsRef.current.position.setY(itemsPosition)
 
     const brainSideTextXOffset = isTall ? 0 : 1.25
     const brainSideTextYOffset = isTall ? 1.5 : 0
@@ -66,7 +62,10 @@ function ThreeContent() {
   // })
 
   useFrame((state) => {
-    const minScale = Math.min(state.viewport.width, state.viewport.height)
+    // const minScale = Math.min(state.viewport.width, state.viewport.height)
+    const minScale = isTall
+      ? Math.min(state.viewport.width * 1.25, state.viewport.height / 1.25)
+      : state.viewport.height * 1.25
     itemsRef.current.scale.setScalar(minScale)
   })
 
@@ -97,83 +96,85 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
-      <Resize ref={itemsRef}>
-        {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
+      <Center>
+        <Resize ref={itemsRef}>
+          {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
           <MetaContent />
         </Html> */}
 
-        {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
+          {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
         CREATIVE DEVELOPER
       </Text> */}
-        <animated.group position-z={rightBrainSpringValue}>
-          <Text
-            position={[-0.85, 0, 0.1]}
-            fontSize={0.4}
-            color={'dimgrey'}
-            rotation-z={Math.PI / 2}
-            font='/SpaceMono-BoldItalic.ttf'
-          >
-            Creative
-            <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue.to((value) => 1 - value)} />
-          </Text>
-        </animated.group>
-        <animated.group position-z={leftBrainSpringValue}>
-          <Text
-            position={[0.85, 0, 0.1]}
-            fontSize={0.35}
-            color={'dimgrey'}
-            rotation-z={-Math.PI / 2}
-            font='/telegrama_render.otf'
-          >
-            Developer
-            <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue.to((value) => 1 - value)} />
-          </Text>
-        </animated.group>
-
-        <group rotation-y={0.75}>
-          <animated.group position-z={leftBrainSpringValue.to((value) => value - 1)} ref={leftBrainTextRef}>
-            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/telegrama_render.otf'>
-              Left Brain
-              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-            </Text>
-            <Text fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-              Logic
-              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-            </Text>
-            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-              Analysis
-              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-            </Text>
-            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-              Reason
-              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+          <animated.group position-z={rightBrainSpringValue}>
+            <Text
+              position={[-0.85, 0, 0.1]}
+              fontSize={0.4}
+              color={'dimgrey'}
+              rotation-z={Math.PI / 2}
+              font='/SpaceMono-BoldItalic.ttf'
+            >
+              Creative
+              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue.to((value) => 1 - value)} />
             </Text>
           </animated.group>
-        </group>
-
-        <group rotation-y={-0.75}>
-          <animated.group position-z={rightBrainSpringValue.to((value) => value - 1)} ref={rightBrainTextRef}>
-            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/SpaceMono-BoldItalic.ttf'>
-              Right Brain
-              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
-            </Text>
-            <Text fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
-              Creativity
-              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
-            </Text>
-            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
-              Expression
-              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
-            </Text>
-            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
-              Imagination
-              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+          <animated.group position-z={leftBrainSpringValue}>
+            <Text
+              position={[0.85, 0, 0.1]}
+              fontSize={0.35}
+              color={'dimgrey'}
+              rotation-z={-Math.PI / 2}
+              font='/telegrama_render.otf'
+            >
+              Developer
+              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue.to((value) => 1 - value)} />
             </Text>
           </animated.group>
-        </group>
 
-        <BrainTank ref={tankRef} position-y={-1} />
-      </Resize>
+          <group rotation-y={0.75}>
+            <animated.group position-z={leftBrainSpringValue.to((value) => value - 1)} ref={leftBrainTextRef}>
+              <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/telegrama_render.otf'>
+                Left Brain
+                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+              </Text>
+              <Text fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
+                Logic
+                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+              </Text>
+              <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
+                Analysis
+                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+              </Text>
+              <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
+                Reason
+                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+              </Text>
+            </animated.group>
+          </group>
+
+          <group rotation-y={-0.75}>
+            <animated.group position-z={rightBrainSpringValue.to((value) => value - 1)} ref={rightBrainTextRef}>
+              <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/SpaceMono-BoldItalic.ttf'>
+                Right Brain
+                <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+              </Text>
+              <Text fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+                Creativity
+                <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+              </Text>
+              <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+                Expression
+                <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+              </Text>
+              <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+                Imagination
+                <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+              </Text>
+            </animated.group>
+          </group>
+
+          <BrainTank ref={tankRef} position-y={-1} />
+        </Resize>
+      </Center>
     </>
   )
 }
