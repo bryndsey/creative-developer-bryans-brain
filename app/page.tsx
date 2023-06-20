@@ -2,10 +2,9 @@
 
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
-import { CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
+import { animated, useSpringValue } from '@react-spring/three'
+import { Box, CameraControls, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { transform, useAnimate, useMotionValue, useTransform } from 'framer-motion'
-import { motion } from 'framer-motion-3d'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
 
@@ -45,48 +44,25 @@ function ThreeContent() {
   //   })
   // })
 
-  const leftBrainTransitionProgress = useMotionValue(0)
-  const rightBrainTransitionProgress = useMotionValue(0)
-  const [scope, animate] = useAnimate()
-
-  const creativeTextOpacity = useTransform(rightBrainTransitionProgress, [0, 1], [1, 0])
-  const creativeTextOffset = useTransform(rightBrainTransitionProgress, [0, 1], [0, 0.5])
-  const rightBrainTextOffset = useTransform(rightBrainTransitionProgress, [0, 1], [-0.5, 0])
-
-  const developerTextOpacity = useTransform(leftBrainTransitionProgress, [0, 1], [1, 0])
-  const developerTextOffset = useTransform(leftBrainTransitionProgress, [0, 1], [0, 0.5])
-  const leftBrainTextOffset = useTransform(leftBrainTransitionProgress, [0, 1], [-0.5, 0])
+  const leftBrainSpringValue = useSpringValue(0)
+  const rightBrainSpringValue = useSpringValue(0)
 
   useFrame((state) => {
     const normalizedAzimuth = normalizeAngle(cameraControlsRef.current.azimuthAngle)
-    if (
-      normalizedAzimuth < Math.PI &&
-      normalizedAzimuth > 0.5 &&
-      leftBrainTransitionProgress.get() !== 1 &&
-      !leftBrainTransitionProgress.isAnimating()
-    ) {
-      animate(leftBrainTransitionProgress, 1, { duration: 0.3 }).play()
-    } else if (
-      (normalizedAzimuth > Math.PI || normalizedAzimuth < 0.5) &&
-      leftBrainTransitionProgress.get() !== 0 &&
-      !leftBrainTransitionProgress.isAnimating()
-    ) {
-      animate(leftBrainTransitionProgress, 0, { duration: 0.3 }).play()
+
+    if (normalizedAzimuth < Math.PI && normalizedAzimuth > 0.5 && leftBrainSpringValue.goal !== 1) {
+      leftBrainSpringValue.start(1)
+    } else if ((normalizedAzimuth > Math.PI || normalizedAzimuth < 0.5) && leftBrainSpringValue.goal !== 0) {
+      leftBrainSpringValue.start(0)
     }
 
-    if (
-      normalizedAzimuth > Math.PI &&
-      normalizedAzimuth < Math.PI * 2 - 0.5 &&
-      rightBrainTransitionProgress.get() !== 1 &&
-      !rightBrainTransitionProgress.isAnimating()
-    ) {
-      animate(rightBrainTransitionProgress, 1, { duration: 0.3 }).play()
+    if (normalizedAzimuth > Math.PI && normalizedAzimuth < Math.PI * 2 - 0.5 && rightBrainSpringValue.goal !== 1) {
+      rightBrainSpringValue.start(1)
     } else if (
       (normalizedAzimuth < Math.PI || normalizedAzimuth > Math.PI * 2 - 0.5) &&
-      rightBrainTransitionProgress.get() !== 0 &&
-      !rightBrainTransitionProgress.isAnimating()
+      rightBrainSpringValue.goal !== 0
     ) {
-      animate(rightBrainTransitionProgress, 0, { duration: 0.3 }).play()
+      rightBrainSpringValue.start(0)
     }
   })
 
@@ -96,66 +72,66 @@ function ThreeContent() {
       <Environment preset='warehouse' />
 
       <group position-y={-0.5}>
-        <Html transform position={[0, 1.55, -0.2]} distanceFactor={1}>
+        {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
           <MetaContent />
-        </Html>
+        </Html> */}
 
         {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
         CREATIVE DEVELOPER
       </Text> */}
-        <motion.group position-z={creativeTextOffset}>
+        <animated.group position-z={rightBrainSpringValue}>
           <Text position={[-0.85, 0, 0.1]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
             CREATIVE
-            <motion.meshBasicMaterial transparent opacity={creativeTextOpacity} />
+            <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue.to((value) => 1 - value)} />
           </Text>
-        </motion.group>
-        <motion.group position-z={developerTextOffset}>
+        </animated.group>
+        <animated.group position-z={leftBrainSpringValue}>
           <Text position={[0.85, 0, 0.1]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
             DEVELOPER
-            <motion.meshBasicMaterial transparent opacity={developerTextOpacity} />
+            <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue.to((value) => 1 - value)} />
           </Text>
-        </motion.group>
+        </animated.group>
 
         <group rotation-y={0.75}>
-          <motion.group position-x={1.25} position-z={leftBrainTextOffset}>
+          <animated.group position-x={1.25} position-z={leftBrainSpringValue.to((value) => value - 1)}>
             <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
               LEFT BRAIN
-              <motion.meshBasicMaterial transparent opacity={leftBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
             <Text fontSize={0.1} color={'lightgrey'}>
               Logic
-              <motion.meshBasicMaterial transparent opacity={leftBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
             <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
               Analysis
-              <motion.meshBasicMaterial transparent opacity={leftBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
             <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
               Reason
-              <motion.meshBasicMaterial transparent opacity={leftBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
-          </motion.group>
+          </animated.group>
         </group>
 
         <group rotation-y={-0.75}>
-          <motion.group position-x={-1.25} position-z={rightBrainTextOffset}>
+          <animated.group position-x={-1.25} position-z={rightBrainSpringValue.to((value) => value - 1)}>
             <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
               RIGHT BRAIN
-              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
             <Text fontSize={0.1} color={'lightgrey'}>
               Creativity
-              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
             <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
               Expression
-              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
             <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
               Imagination
-              <motion.meshBasicMaterial transparent opacity={rightBrainTransitionProgress} />
+              <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
-          </motion.group>
+          </animated.group>
         </group>
 
         <BrainTank ref={tankRef} position-y={-1} />
