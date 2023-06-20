@@ -34,12 +34,13 @@ function ThreeContent() {
   }, [])
 
   const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
+  const brainSideTextZOffset = isTall ? 0.5 : 0
 
   useEffect(() => {
     if (itemsRef.current === null) return
 
     const brainSideTextXOffset = isTall ? 0 : 1.25
-    const brainSideTextYOffset = isTall ? 1.5 : 0
+    const brainSideTextYOffset = isTall ? -1.5 : 0
 
     leftBrainTextRef.current.position.setX(brainSideTextXOffset)
     leftBrainTextRef.current.position.setY(brainSideTextYOffset)
@@ -132,10 +133,18 @@ function ThreeContent() {
           </animated.group>
 
           <group rotation-y={0.75}>
-            <animated.group position-z={leftBrainSpringValue.to((value) => value - 1)} ref={leftBrainTextRef}>
-              <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/telegrama_render.otf'>
+            <animated.group
+              position-z={leftBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
+              ref={leftBrainTextRef}
+            >
+              <Text position-y={0.25} fontSize={0.2} font='/telegrama_render.otf'>
                 Left Brain
-                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+                <animated.meshBasicMaterial
+                  color={'dimgrey'}
+                  transparent
+                  opacity={leftBrainSpringValue}
+                  depthWrite={false}
+                />
               </Text>
               <Text fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
                 Logic
@@ -153,10 +162,18 @@ function ThreeContent() {
           </group>
 
           <group rotation-y={-0.75}>
-            <animated.group position-z={rightBrainSpringValue.to((value) => value - 1)} ref={rightBrainTextRef}>
-              <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/SpaceMono-BoldItalic.ttf'>
+            <animated.group
+              position-z={rightBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
+              ref={rightBrainTextRef}
+            >
+              <Text position-y={0.25} fontSize={0.2} font='/SpaceMono-BoldItalic.ttf'>
                 Right Brain
-                <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
+                <animated.meshBasicMaterial
+                  color={'dimgrey'}
+                  transparent
+                  opacity={rightBrainSpringValue}
+                  depthWrite={false}
+                />
               </Text>
               <Text fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
                 Creativity
