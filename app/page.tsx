@@ -18,6 +18,8 @@ function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
   const tankRef = useRef<Group>(null!)
   const itemsRef = useRef<Group>(null!)
+  const leftBrainTextRef = useRef<Group>(null!)
+  const rightBrainTextRef = useRef<Group>(null!)
 
   useEffect(() => {
     cameraControlsRef.current.mouseButtons.wheel = 0
@@ -38,6 +40,14 @@ function ThreeContent() {
     // itemsRef.current.scale.setScalar(itemsScale)
     const itemsPosition = isTall ? -0.5 : 0
     itemsRef.current.position.setY(itemsPosition)
+
+    const brainSideTextXOffset = isTall ? 0 : 1.25
+    const brainSideTextYOffset = isTall ? 1.5 : 0
+
+    leftBrainTextRef.current.position.setX(brainSideTextXOffset)
+    leftBrainTextRef.current.position.setY(brainSideTextYOffset)
+    rightBrainTextRef.current.position.setX(-brainSideTextXOffset)
+    rightBrainTextRef.current.position.setY(brainSideTextYOffset)
   }, [isTall])
 
   // useFrame((state, delta) => {
@@ -121,7 +131,7 @@ function ThreeContent() {
         </animated.group>
 
         <group rotation-y={0.75}>
-          <animated.group position-x={1.25} position-z={leftBrainSpringValue.to((value) => value - 1)}>
+          <animated.group position-z={leftBrainSpringValue.to((value) => value - 1)} ref={leftBrainTextRef}>
             <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/telegrama_render.otf'>
               Left Brain
               <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
@@ -142,7 +152,7 @@ function ThreeContent() {
         </group>
 
         <group rotation-y={-0.75}>
-          <animated.group position-x={-1.25} position-z={rightBrainSpringValue.to((value) => value - 1)}>
+          <animated.group position-z={rightBrainSpringValue.to((value) => value - 1)} ref={rightBrainTextRef}>
             <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/SpaceMono-BoldItalic.ttf'>
               Right Brain
               <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
