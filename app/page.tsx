@@ -91,33 +91,45 @@ function ThreeContent() {
         CREATIVE DEVELOPER
       </Text> */}
         <animated.group position-z={rightBrainSpringValue}>
-          <Text position={[-0.85, 0, 0.1]} fontSize={0.4} color={'dimgrey'} rotation-z={Math.PI / 2}>
-            CREATIVE
+          <Text
+            position={[-0.85, 0, 0.1]}
+            fontSize={0.4}
+            color={'dimgrey'}
+            rotation-z={Math.PI / 2}
+            font='/SpaceMono-BoldItalic.ttf'
+          >
+            Creative
             <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue.to((value) => 1 - value)} />
           </Text>
         </animated.group>
         <animated.group position-z={leftBrainSpringValue}>
-          <Text position={[0.85, 0, 0.1]} fontSize={0.35} color={'dimgrey'} rotation-z={-Math.PI / 2}>
-            DEVELOPER
+          <Text
+            position={[0.85, 0, 0.1]}
+            fontSize={0.35}
+            color={'dimgrey'}
+            rotation-z={-Math.PI / 2}
+            font='/telegrama_render.otf'
+          >
+            Developer
             <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue.to((value) => 1 - value)} />
           </Text>
         </animated.group>
 
         <group rotation-y={0.75}>
           <animated.group position-x={1.25} position-z={leftBrainSpringValue.to((value) => value - 1)}>
-            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
-              LEFT BRAIN
+            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/telegrama_render.otf'>
+              Left Brain
               <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
-            <Text fontSize={0.1} color={'lightgrey'}>
+            <Text fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
               Logic
               <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
-            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
+            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
               Analysis
               <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
-            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
+            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
               Reason
               <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
             </Text>
@@ -126,19 +138,19 @@ function ThreeContent() {
 
         <group rotation-y={-0.75}>
           <animated.group position-x={-1.25} position-z={rightBrainSpringValue.to((value) => value - 1)}>
-            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'}>
-              RIGHT BRAIN
+            <Text position-y={0.25} fontSize={0.2} color={'dimgrey'} font='/SpaceMono-BoldItalic.ttf'>
+              Right Brain
               <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
-            <Text fontSize={0.1} color={'lightgrey'}>
+            <Text fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
               Creativity
               <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
-            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'}>
+            <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
               Expression
               <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
-            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'}>
+            <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
               Imagination
               <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
             </Text>
