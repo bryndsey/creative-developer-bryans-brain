@@ -34,8 +34,8 @@ function ThreeContent() {
 
   useEffect(() => {
     if (itemsRef.current === null) return
-    const itemsScale = isTall ? 1 : 1.25
-    itemsRef.current.scale.setScalar(itemsScale)
+    // const itemsScale = isTall ? 1 : 1.25
+    // itemsRef.current.scale.setScalar(itemsScale)
     const itemsPosition = isTall ? -0.5 : 0
     itemsRef.current.position.setY(itemsPosition)
   }, [isTall])
@@ -54,6 +54,11 @@ function ThreeContent() {
   //     paddingBottom: 0.01,
   //   })
   // })
+
+  useFrame((state) => {
+    const minScale = Math.min(state.viewport.width, state.viewport.height)
+    itemsRef.current.scale.setScalar(minScale)
+  })
 
   const leftBrainSpringValue = useSpringValue(0)
   const rightBrainSpringValue = useSpringValue(0)
@@ -82,7 +87,7 @@ function ThreeContent() {
       <CameraControls makeDefault ref={cameraControlsRef} />
       <Environment preset='warehouse' />
 
-      <group position-y={-0.5} ref={itemsRef}>
+      <Resize ref={itemsRef}>
         {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
           <MetaContent />
         </Html> */}
@@ -158,7 +163,7 @@ function ThreeContent() {
         </group>
 
         <BrainTank ref={tankRef} position-y={-1} />
-      </group>
+      </Resize>
     </>
   )
 }
