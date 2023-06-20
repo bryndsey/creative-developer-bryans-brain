@@ -26,7 +26,8 @@ function ThreeContent() {
     cameraControlsRef.current.mouseButtons.right = 0
     cameraControlsRef.current.touches.two = 0
     cameraControlsRef.current.touches.three = 0
-    cameraControlsRef.current.maxPolarAngle = Math.PI / 2
+    cameraControlsRef.current.maxPolarAngle = Math.PI / 2 + 0.25
+    cameraControlsRef.current.minPolarAngle = Math.PI / 4
     // cameraControlsRef.current.setPosition(0, 2, 4)
 
     // cameraControlsRef.current.enabled = false
