@@ -124,16 +124,11 @@ function ThreeContent() {
 
       <Center>
         <Resize ref={itemsRef}>
-          <Html
-            transform
-            position={[0, -0.15, -0.95]}
-            distanceFactor={1}
-            rotation-y={Math.PI}
-            ref={metaContent}
-            scale={0.75}
-          >
-            <MetaContent />
-          </Html>
+          <animated.group position-y={-0.15} position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 - 0.95)}>
+            <Html transform distanceFactor={1} rotation-y={Math.PI} ref={metaContent} scale={0.75}>
+              <MetaContent />
+            </Html>
+          </animated.group>
 
           {/* <Text position={[0, -1, 1]} fontSize={0.4} color={primaryTextColor}>
         CREATIVE DEVELOPER
