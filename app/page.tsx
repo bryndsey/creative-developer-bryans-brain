@@ -10,6 +10,9 @@ import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
 
 const boundingBox = new Box3()
 
+const primaryTextColor = 'dimgrey'
+const secondaryTextColor = 'darkgrey'
+
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
@@ -105,14 +108,14 @@ function ThreeContent() {
           <MetaContent />
         </Html> */}
 
-          {/* <Text position={[0, -1, 1]} fontSize={0.4} color={'dimgrey'}>
+          {/* <Text position={[0, -1, 1]} fontSize={0.4} color={primaryTextColor}>
         CREATIVE DEVELOPER
       </Text> */}
           <animated.group position-z={rightBrainSpringValue}>
             <Text
               position={[-0.85, 0, 0.1]}
               fontSize={0.4}
-              color={'dimgrey'}
+              color={primaryTextColor}
               rotation-z={Math.PI / 2}
               font='/SpaceMono-BoldItalic.ttf'
             >
@@ -124,7 +127,7 @@ function ThreeContent() {
             <Text
               position={[0.85, 0, 0.1]}
               fontSize={0.35}
-              color={'dimgrey'}
+              color={primaryTextColor}
               rotation-z={-Math.PI / 2}
               font='/telegrama_render.otf'
             >
@@ -141,7 +144,7 @@ function ThreeContent() {
               <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/telegrama_render.otf'>
                 Left Brain
                 <animated.meshBasicMaterial
-                  color={'dimgrey'}
+                  color={primaryTextColor}
                   transparent
                   opacity={leftBrainSpringValue}
                   depthWrite={false}
@@ -153,7 +156,7 @@ function ThreeContent() {
                   anchorX={-0.25}
                   position-z={-0.05}
                   textAlign='center'
-                  color={'lightgrey'}
+                  color={secondaryTextColor}
                   font='/telegrama_render.otf'
                 >
                   Logic
@@ -164,7 +167,7 @@ function ThreeContent() {
                   anchorX={-0.25}
                   textAlign='center'
                   fontSize={0.1}
-                  color={'lightgrey'}
+                  color={secondaryTextColor}
                   font='/telegrama_render.otf'
                 >
                   Analysis
@@ -176,7 +179,7 @@ function ThreeContent() {
                   position-z={0.05}
                   textAlign='center'
                   fontSize={0.1}
-                  color={'lightgrey'}
+                  color={secondaryTextColor}
                   font='/telegrama_render.otf'
                 >
                   Reason
@@ -194,7 +197,7 @@ function ThreeContent() {
               <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/SpaceMono-BoldItalic.ttf'>
                 Right Brain
                 <animated.meshBasicMaterial
-                  color={'dimgrey'}
+                  color={primaryTextColor}
                   transparent
                   opacity={rightBrainSpringValue}
                   depthWrite={false}
@@ -205,7 +208,7 @@ function ThreeContent() {
                 rotation-y={0.05}
                 rotation-z={0.025}
                 position-z={0.05}
-                color={'lightgrey'}
+                color={secondaryTextColor}
                 font='/SpaceMono-BoldItalic.ttf'
               >
                 Creativity
@@ -217,7 +220,7 @@ function ThreeContent() {
                 rotation-y={0.1}
                 position-z={-0.05}
                 fontSize={0.1}
-                color={'lightgrey'}
+                color={secondaryTextColor}
                 font='/SpaceMono-BoldItalic.ttf'
               >
                 Expression
@@ -228,7 +231,7 @@ function ThreeContent() {
                 fontSize={0.1}
                 rotation-y={-0.1}
                 anchorX={0.2}
-                color={'lightgrey'}
+                color={secondaryTextColor}
                 font='/SpaceMono-BoldItalic.ttf'
               >
                 Imagination
