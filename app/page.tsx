@@ -157,7 +157,7 @@ function ThreeContent() {
           <animated.group position-z={leftBrainSpringValue}>
             <Text
               position={[0.85, 0, 0.1]}
-              fontSize={0.35}
+              fontSize={0.325}
               color={primaryTextColor}
               rotation-z={-Math.PI / 2}
               font='/telegrama_render.otf'
