@@ -24,6 +24,7 @@ function ThreeContent() {
   const leftBrainTextRef = useRef<Group>(null!)
   const rightBrainTextRef = useRef<Group>(null!)
   const metaContent = useRef<HTMLDivElement | null>(null)
+  const metaContentGroupRef = useRef<Group>(null!)
 
   useEffect(() => {
     cameraControlsRef.current.mouseButtons.wheel = 0
@@ -39,7 +40,8 @@ function ThreeContent() {
 
   const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
   const isPortrait = useThree((state) => state.viewport.aspect < 1)
-  const brainSideTextZOffset = isTall ? 0.5 : 0
+  const brainSideTextZOffset = isPortrait ? 0.5 : 0
+  const metaContentZOffset = isPortrait ? -0.75 : -0.95
 
   useEffect(() => {
     if (itemsRef.current === null) return
@@ -51,6 +53,9 @@ function ThreeContent() {
     leftBrainTextRef.current.position.setY(brainSideTextYOffset)
     rightBrainTextRef.current.position.setX(-brainSideTextXOffset)
     rightBrainTextRef.current.position.setY(brainSideTextYOffset)
+
+    const metaContentYOffset = isPortrait ? -1.5 : -0.15
+    metaContentGroupRef.current.position.setY(metaContentYOffset)
   }, [isPortrait])
 
   // useFrame((state, delta) => {
@@ -124,7 +129,11 @@ function ThreeContent() {
 
       <Center>
         <Resize ref={itemsRef}>
-          <animated.group position-y={-0.15} position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 - 0.95)}>
+          <animated.group
+            position-y={-0.15}
+            position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 + metaContentZOffset)}
+            ref={metaContentGroupRef}
+          >
             <Html transform distanceFactor={1} rotation-y={Math.PI} ref={metaContent} scale={0.75}>
               <MetaContent />
             </Html>
@@ -272,14 +281,14 @@ function ThreeContent() {
 function MetaContent() {
   return (
     <div>
-      <p>Made by</p>
+      <p className='text-4xl'>Made by</p>
       <div className='text-9xl font-extrabold leading-none' style={{ color: primaryTextColor }}>
         <p>
-          <span className='line-through opacity-80' style={{ color: secondaryTextColor }}>
+          <span className='line-through opacity-70' style={{ color: secondaryTextColor }}>
             BRAIN
           </span>
           <br />
-          <span className='line-through opacity-80' style={{ color: secondaryTextColor }}>
+          <span className='line-through opacity-70' style={{ color: secondaryTextColor }}>
             BRIAN
           </span>
           <br />
