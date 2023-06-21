@@ -138,7 +138,7 @@ function ThreeContent() {
               position-z={leftBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={leftBrainTextRef}
             >
-              <Text position-y={0.25} fontSize={0.2} font='/telegrama_render.otf'>
+              <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/telegrama_render.otf'>
                 Left Brain
                 <animated.meshBasicMaterial
                   color={'dimgrey'}
@@ -167,7 +167,7 @@ function ThreeContent() {
               position-z={rightBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={rightBrainTextRef}
             >
-              <Text position-y={0.25} fontSize={0.2} font='/SpaceMono-BoldItalic.ttf'>
+              <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/SpaceMono-BoldItalic.ttf'>
                 Right Brain
                 <animated.meshBasicMaterial
                   color={'dimgrey'}
