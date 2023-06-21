@@ -34,19 +34,20 @@ function ThreeContent() {
   }, [])
 
   const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
+  const isPortrait = useThree((state) => state.viewport.aspect < 1)
   const brainSideTextZOffset = isTall ? 0.5 : 0
 
   useEffect(() => {
     if (itemsRef.current === null) return
 
-    const brainSideTextXOffset = isTall ? 0 : 1.25
-    const brainSideTextYOffset = isTall ? -1.5 : 0
+    const brainSideTextXOffset = isPortrait ? 0 : 1.25
+    const brainSideTextYOffset = isPortrait ? -1.5 : 0
 
     leftBrainTextRef.current.position.setX(brainSideTextXOffset)
     leftBrainTextRef.current.position.setY(brainSideTextYOffset)
     rightBrainTextRef.current.position.setX(-brainSideTextXOffset)
     rightBrainTextRef.current.position.setY(brainSideTextYOffset)
-  }, [isTall])
+  }, [isPortrait])
 
   // useFrame((state, delta) => {
   //   if (tankRef.current === null) return
