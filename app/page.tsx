@@ -23,6 +23,7 @@ function ThreeContent() {
   const itemsRef = useRef<Group>(null!)
   const leftBrainTextRef = useRef<Group>(null!)
   const rightBrainTextRef = useRef<Group>(null!)
+  const metaContent = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     cameraControlsRef.current.mouseButtons.wheel = 0
@@ -70,13 +71,14 @@ function ThreeContent() {
   useFrame((state) => {
     // const minScale = Math.min(state.viewport.width, state.viewport.height)
     const minScale = isTall
-      ? Math.min(state.viewport.width * 1.25, state.viewport.height / 1.25)
+      ? Math.min(state.viewport.width * 1.5, state.viewport.height / 1.25)
       : state.viewport.height * 1.25
     itemsRef.current.scale.setScalar(minScale)
   })
 
   const leftBrainSpringValue = useSpringValue(0)
   const rightBrainSpringValue = useSpringValue(0)
+  const metaTextSpringValue = useSpringValue(0)
 
   useFrame((state) => {
     const normalizedAzimuth = normalizeAngle(cameraControlsRef.current.azimuthAngle)
@@ -95,6 +97,24 @@ function ThreeContent() {
     ) {
       rightBrainSpringValue.start(0)
     }
+
+    if (
+      normalizedAzimuth > (Math.PI * 2) / 3 &&
+      normalizedAzimuth < (Math.PI * 4) / 3 &&
+      metaTextSpringValue.goal !== 1
+    ) {
+      metaTextSpringValue.start(1)
+    } else if (
+      (normalizedAzimuth < (Math.PI * 2) / 3 || normalizedAzimuth > (Math.PI * 4) / 3) &&
+      metaTextSpringValue.goal !== 0
+    ) {
+      metaTextSpringValue.start(0)
+    }
+
+    if (metaContent.current !== null) {
+      metaContent.current.style.opacity = `${metaTextSpringValue.get()}`
+    }
+    // console.log(metaTextSpringValue.get())
   })
 
   return (
@@ -104,9 +124,16 @@ function ThreeContent() {
 
       <Center>
         <Resize ref={itemsRef}>
-          {/* <Html transform position={[0, 0, -0.75]} distanceFactor={1} rotation-y={Math.PI} occlude>
-          <MetaContent />
-        </Html> */}
+          <Html
+            transform
+            position={[0, -0.15, -0.95]}
+            distanceFactor={1}
+            rotation-y={Math.PI}
+            ref={metaContent}
+            scale={0.75}
+          >
+            <MetaContent />
+          </Html>
 
           {/* <Text position={[0, -1, 1]} fontSize={0.4} color={primaryTextColor}>
         CREATIVE DEVELOPER
@@ -136,7 +163,7 @@ function ThreeContent() {
             </Text>
           </animated.group>
 
-          <group rotation-y={Math.PI / 3}>
+          <group rotation-y={Math.PI / 4}>
             <animated.group
               position-z={leftBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={leftBrainTextRef}
@@ -189,7 +216,7 @@ function ThreeContent() {
             </animated.group>
           </group>
 
-          <group rotation-y={-Math.PI / 3}>
+          <group rotation-y={-Math.PI / 4}>
             <animated.group
               position-z={rightBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={rightBrainTextRef}
@@ -251,11 +278,15 @@ function MetaContent() {
   return (
     <div>
       <p>Made by</p>
-      <div className='text-9xl font-extrabold leading-none'>
+      <div className='text-9xl font-extrabold leading-none' style={{ color: primaryTextColor }}>
         <p>
-          <span className='line-through opacity-20'>BRAIN</span>
+          <span className='line-through opacity-80' style={{ color: secondaryTextColor }}>
+            BRAIN
+          </span>
           <br />
-          <span className='line-through opacity-20'>BRIAN</span>
+          <span className='line-through opacity-80' style={{ color: secondaryTextColor }}>
+            BRIAN
+          </span>
           <br />
           <span className='leading-none'>BRYAN</span>
         </p>
