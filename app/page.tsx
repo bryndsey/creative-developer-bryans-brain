@@ -147,18 +147,42 @@ function ThreeContent() {
                   depthWrite={false}
                 />
               </Text>
-              <Text fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-                Logic
-                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-              </Text>
-              <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-                Analysis
-                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-              </Text>
-              <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/telegrama_render.otf'>
-                Reason
-                <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
-              </Text>
+              <Center disableY disableZ>
+                <Text
+                  fontSize={0.1}
+                  anchorX={-0.25}
+                  position-z={-0.05}
+                  textAlign='center'
+                  color={'lightgrey'}
+                  font='/telegrama_render.otf'
+                >
+                  Logic
+                  <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+                </Text>
+                <Text
+                  position-y={-0.15}
+                  anchorX={-0.25}
+                  textAlign='center'
+                  fontSize={0.1}
+                  color={'lightgrey'}
+                  font='/telegrama_render.otf'
+                >
+                  Analysis
+                  <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+                </Text>
+                <Text
+                  position-y={-0.3}
+                  anchorX={-0.25}
+                  position-z={0.05}
+                  textAlign='center'
+                  fontSize={0.1}
+                  color={'lightgrey'}
+                  font='/telegrama_render.otf'
+                >
+                  Reason
+                  <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
+                </Text>
+              </Center>
             </animated.group>
           </group>
 
@@ -176,15 +200,37 @@ function ThreeContent() {
                   depthWrite={false}
                 />
               </Text>
-              <Text fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+              <Text
+                fontSize={0.1}
+                rotation-y={0.05}
+                rotation-z={0.025}
+                position-z={0.05}
+                color={'lightgrey'}
+                font='/SpaceMono-BoldItalic.ttf'
+              >
                 Creativity
                 <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
               </Text>
-              <Text position-y={-0.15} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+              <Text
+                position-y={-0.15}
+                anchorX={'right'}
+                rotation-y={0.1}
+                position-z={-0.05}
+                fontSize={0.1}
+                color={'lightgrey'}
+                font='/SpaceMono-BoldItalic.ttf'
+              >
                 Expression
                 <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
               </Text>
-              <Text position-y={-0.3} fontSize={0.1} color={'lightgrey'} font='/SpaceMono-BoldItalic.ttf'>
+              <Text
+                position-y={-0.3}
+                fontSize={0.1}
+                rotation-y={-0.1}
+                anchorX={0.2}
+                color={'lightgrey'}
+                font='/SpaceMono-BoldItalic.ttf'
+              >
                 Imagination
                 <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
               </Text>
