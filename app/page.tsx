@@ -133,7 +133,7 @@ function ThreeContent() {
             </Text>
           </animated.group>
 
-          <group rotation-y={0.75}>
+          <group rotation-y={Math.PI / 3}>
             <animated.group
               position-z={leftBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={leftBrainTextRef}
@@ -186,7 +186,7 @@ function ThreeContent() {
             </animated.group>
           </group>
 
-          <group rotation-y={-0.75}>
+          <group rotation-y={-Math.PI / 3}>
             <animated.group
               position-z={rightBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
               ref={rightBrainTextRef}
