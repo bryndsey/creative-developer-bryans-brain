@@ -3,10 +3,11 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { animated, useSpringValue } from '@react-spring/three'
-import { Box, CameraControls, Center, Cylinder, Environment, Html, Resize, Shadow, Text } from '@react-three/drei'
+import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
-import { Box3, Group, MathUtils, Mesh, Vector3 } from 'three'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Suspense, useEffect, useRef } from 'react'
+import { Box3, Group, MathUtils } from 'three'
 
 const boundingBox = new Box3()
 
@@ -302,16 +303,30 @@ function MetaContent() {
 }
 
 export default function Page() {
-  // useLenis((lenis: Lenis) => {
-
-  // })
+  const finishedLoading = useProgress((state) => !state.active && state.progress === 100)
 
   return (
     <div className='h-screen'>
       <Three>
-        <ThreeContent />
+        <Suspense fallback={null}>
+          <ThreeContent />
+        </Suspense>
       </Three>
       {/* <MetaContent /> */}
+      <AnimatePresence>
+        {!finishedLoading && (
+          <motion.div
+            key={'loader'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2 }}
+            className='fixed inset-0 z-20 grid place-items-center bg-white'
+          >
+            Loading
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
