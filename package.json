@@ -1,24 +1,20 @@
 {
-  "name": "react-three-next",
-  "version": "2.0.0",
-  "authors": [
-    "Renaud ROHLINGER <https://twitter.com/onirenaud>"
-  ],
-  "license": "MIT",
+  "name": "creative-developer-brain-tank",
+  "version": "1.0.1",
   "private": true,
   "engines": {
     "node": ">=14"
   },
   "dependencies": {
-    "@ducanh2912/next-pwa": "^8.7.1",
+    "@ducanh2912/next-pwa": "^9.0.1",
     "@react-spring/three": "^9.7.2",
-    "@react-three/drei": "^9.76.0",
+    "@react-three/drei": "^9.77.1",
     "@react-three/fiber": "^8.13.3",
     "@studio-freight/react-lenis": "^0.0.21",
     "framer-motion": "^10.12.16",
     "framer-motion-3d": "^10.12.16",
     "glsl-random": "^0.0.5",
-    "next": "^13.4.6",
+    "next": "^13.4.7",
     "r3f-perf": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,12 +25,12 @@
     "tunnel-rat": "^0.1.2"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^13.4.6",
+    "@next/bundle-analyzer": "^13.4.7",
     "@types/node": "^20.3.1",
-    "@types/react": "^18.2.12",
+    "@types/react": "^18.2.13",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.43.0",
-    "eslint-config-next": "^13.4.6",
+    "eslint-config-next": "^13.4.7",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-tailwindcss": "^3.12.1",
     "file-loader": "^6.2.0",
