@@ -40,8 +40,9 @@ export const BrainTank = forwardRef<Group, JSX.IntrinsicElements['group']>((prop
           distortionScale={1}
           distortion={0.25}
           temporalDistortion={0.1}
-          thickness={0.2}
+          thickness={0.175}
           backside
+          // backsideThickness={0.175}
           background={background}
           // roughness={0.1}
         />
