@@ -1,6 +1,6 @@
 {
   "name": "creative-developer-brain-tank",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "engines": {
     "node": ">=14"
@@ -8,6 +8,7 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.0.1",
     "@react-spring/three": "^9.7.2",
+    "@react-spring/web": "^9.7.2",
     "@react-three/drei": "^9.77.1",
     "@react-three/fiber": "^8.13.3",
     "@studio-freight/react-lenis": "^0.0.21",
