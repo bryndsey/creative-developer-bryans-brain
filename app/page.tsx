@@ -3,6 +3,7 @@
 import { BrainTank } from '@/BrainTank'
 import { Three } from '@/helpers/components/Three'
 import { animated, useSpringValue } from '@react-spring/three'
+import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -303,7 +304,14 @@ function MetaContent() {
 }
 
 export default function Page() {
-  const finishedLoading = useProgress((state) => !state.active && state.progress === 100)
+  const opacity = useSpringValue(0)
+  useProgress((state) => {
+    const finishedLoading = !state.active && state.progress === 100
+    const actualTarget = finishedLoading ? 0 : 1
+    if (opacity.goal !== actualTarget) {
+      opacity.start(actualTarget)
+    }
+  })
 
   return (
     <div className='h-screen'>
@@ -313,20 +321,11 @@ export default function Page() {
         </Suspense>
       </Three>
       {/* <MetaContent /> */}
-      <AnimatePresence>
-        {!finishedLoading && (
-          <motion.div
-            key={'loader'}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2 }}
-            className='fixed inset-0 z-20 grid place-items-center bg-white'
-          >
-            Loading
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {opacity.goal === 1 && (
+        <animatedDom.div style={{ opacity }} className='fixed inset-0 z-20 grid place-items-center bg-white'>
+          Loading
+        </animatedDom.div>
+      )}
     </div>
   )
 }
