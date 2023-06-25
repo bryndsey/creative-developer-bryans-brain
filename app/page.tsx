@@ -6,11 +6,8 @@ import { animated, useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, useEffect, useRef } from 'react'
-import { Box3, Group, MathUtils } from 'three'
-
-const boundingBox = new Box3()
+import { Group, MathUtils } from 'three'
 
 const primaryTextColor = 'dimgrey'
 const secondaryTextColor = 'darkgrey'
@@ -60,23 +57,7 @@ function ThreeContent() {
     metaContentGroupRef.current.position.setY(metaContentYOffset)
   }, [isPortrait])
 
-  // useFrame((state, delta) => {
-  //   if (tankRef.current === null) return
-  //   if (boundingBox.isEmpty()) {
-  //     boundingBox.setFromObject(tankRef.current)
-  //   }
-
-  //   cameraControlsRef.current.fitToBox(boundingBox, false, {
-  //     cover: false,
-  //     paddingRight: 0.5,
-  //     paddingLeft: 0.01,
-  //     paddingTop: 0.01,
-  //     paddingBottom: 0.01,
-  //   })
-  // })
-
   useFrame((state) => {
-    // const minScale = Math.min(state.viewport.width, state.viewport.height)
     const minScale = isTall
       ? Math.min(state.viewport.width * 1.5, state.viewport.height / 1.25)
       : state.viewport.height * 1.25
@@ -130,7 +111,6 @@ function ThreeContent() {
     if (metaContent.current !== null) {
       metaContent.current.style.opacity = `${metaTextSpringValue.get()}`
     }
-    // console.log(metaTextSpringValue.get())
   })
 
   return (
@@ -151,9 +131,6 @@ function ThreeContent() {
               </Html>
             </animated.group>
 
-            {/* <Text position={[0, -1, 1]} fontSize={0.4} color={primaryTextColor}>
-        CREATIVE DEVELOPER
-      </Text> */}
             <animated.group position-z={rightBrainSpringValue}>
               <Text
                 position={[-0.85, 0, 0.1]}
@@ -331,7 +308,6 @@ export default function Page() {
           <ThreeContent />
         </Suspense>
       </Three>
-      {/* <MetaContent /> */}
       {opacity.goal === 1 && (
         <animatedDom.div style={{ opacity }} className='fixed inset-0 z-20 grid place-items-center bg-white'>
           Loading
