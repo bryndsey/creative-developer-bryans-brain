@@ -68,6 +68,18 @@ function ThreeContent() {
     }
   }, [])
 
+  useEffect(() => {
+    if (useAutoRotate) {
+      currentAutoRotateSpeed.start(autoRotateSpeed)
+    } else {
+      if (timer.current !== null) {
+        clearTimeout(timer.current)
+        timer.current = null
+      }
+      currentAutoRotateSpeed.set(0)
+    }
+  }, [useAutoRotate])
+
   useFrame(() => {
     if (useAutoRotate && currentAutoRotateSpeed.get() > 0) {
       cameraControlsRef.current.rotate(currentAutoRotateSpeed.get(), 0, false)
