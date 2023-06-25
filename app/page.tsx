@@ -38,6 +38,8 @@ function ThreeContent() {
     cameraControls.maxPolarAngle = Math.PI / 2 + 0.25
     cameraControls.minPolarAngle = Math.PI / 4
 
+    cameraControls.rotateAzimuthTo(-0.4)
+
     cameraControls.addEventListener('controlend', () => {
       timer.current = setTimeout(() => {
         autoRotate.current = true
