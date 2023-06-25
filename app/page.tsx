@@ -16,6 +16,8 @@ function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
 
+const autoRotateSpeed = 0.0025
+
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
   const tankRef = useRef<Group>(null!)
@@ -26,7 +28,8 @@ function ThreeContent() {
   const metaContentGroupRef = useRef<Group>(null!)
 
   const timer = useRef(null)
-  const autoRotate = useRef(true)
+
+  const currentAutoRotateSpeed = useSpringValue(autoRotateSpeed)
 
   useEffect(() => {
     const cameraControls = cameraControlsRef.current
@@ -42,12 +45,12 @@ function ThreeContent() {
 
     cameraControls.addEventListener('controlend', () => {
       timer.current = setTimeout(() => {
-        autoRotate.current = true
+        currentAutoRotateSpeed.start(autoRotateSpeed)
       }, 3000)
     })
 
     cameraControls.addEventListener('controlstart', () => {
-      autoRotate.current = false
+      currentAutoRotateSpeed.set(0)
       if (timer.current !== null) {
         clearTimeout(timer.current)
         timer.current = null
@@ -61,8 +64,8 @@ function ThreeContent() {
   }, [])
 
   useFrame(() => {
-    if (autoRotate.current === true) {
-      cameraControlsRef.current.rotate(0.0025, 0, false)
+    if (currentAutoRotateSpeed.get() > 0) {
+      cameraControlsRef.current.rotate(currentAutoRotateSpeed.get(), 0, false)
     }
   })
 
