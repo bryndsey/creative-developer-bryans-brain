@@ -25,17 +25,44 @@ function ThreeContent() {
   const metaContent = useRef<HTMLDivElement | null>(null)
   const metaContentGroupRef = useRef<Group>(null!)
 
-  useEffect(() => {
-    cameraControlsRef.current.mouseButtons.wheel = 0
-    cameraControlsRef.current.mouseButtons.right = 0
-    cameraControlsRef.current.touches.two = 0
-    cameraControlsRef.current.touches.three = 0
-    cameraControlsRef.current.maxPolarAngle = Math.PI / 2 + 0.25
-    cameraControlsRef.current.minPolarAngle = Math.PI / 4
-    // cameraControlsRef.current.setPosition(0, 2, 4)
+  const timer = useRef(null)
+  const autoRotate = useRef(true)
 
-    // cameraControlsRef.current.enabled = false
+  useEffect(() => {
+    const cameraControls = cameraControlsRef.current
+
+    cameraControls.mouseButtons.wheel = 0
+    cameraControls.mouseButtons.right = 0
+    cameraControls.touches.two = 0
+    cameraControls.touches.three = 0
+    cameraControls.maxPolarAngle = Math.PI / 2 + 0.25
+    cameraControls.minPolarAngle = Math.PI / 4
+
+    cameraControls.addEventListener('controlend', () => {
+      timer.current = setTimeout(() => {
+        autoRotate.current = true
+      }, 3000)
+    })
+
+    cameraControls.addEventListener('controlstart', () => {
+      autoRotate.current = false
+      if (timer.current !== null) {
+        clearTimeout(timer.current)
+        timer.current = null
+      }
+    })
+
+    return () => {
+      cameraControls.removeAllEventListeners('controlstart')
+      cameraControls.removeAllEventListeners('controlend')
+    }
   }, [])
+
+  useFrame(() => {
+    if (autoRotate.current === true) {
+      cameraControlsRef.current.rotate(0.0025, 0, false)
+    }
+  })
 
   const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
   const isPortrait = useThree((state) => state.viewport.aspect < 1)
