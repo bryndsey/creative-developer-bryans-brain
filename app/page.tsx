@@ -6,6 +6,7 @@ import { animated, useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
+import { atom, useAtom, useAtomValue } from 'jotai'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 
@@ -17,6 +18,8 @@ function normalizeAngle(angle: number) {
 }
 
 const autoRotateSpeed = 0.0025
+
+const useAutoRotateAtom = atom(true)
 
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
@@ -30,6 +33,8 @@ function ThreeContent() {
   const timer = useRef(null)
 
   const currentAutoRotateSpeed = useSpringValue(autoRotateSpeed)
+
+  const useAutoRotate = useAtomValue(useAutoRotateAtom)
 
   useEffect(() => {
     const cameraControls = cameraControlsRef.current
@@ -64,7 +69,7 @@ function ThreeContent() {
   }, [])
 
   useFrame(() => {
-    if (currentAutoRotateSpeed.get() > 0) {
+    if (useAutoRotate && currentAutoRotateSpeed.get() > 0) {
       cameraControlsRef.current.rotate(currentAutoRotateSpeed.get(), 0, false)
     }
   })
@@ -346,6 +351,8 @@ export default function Page() {
     }
   })
 
+  const [autoRotateOn, setAutoRotateOn] = useAtom(useAutoRotateAtom)
+
   return (
     <div className='h-screen'>
       <Three>
@@ -355,8 +362,14 @@ export default function Page() {
       </Three>
       {!showLoading && (
         <div className='fixed bottom-4 right-4 z-10 text-xs opacity-30 transition-opacity hover:opacity-100'>
-          <label style={{ color: secondaryTextColor }}>
-            Auto-rotate <input type='checkbox' className='accent-stone-700' />
+          <label style={{ color: secondaryTextColor }} onPointerDownCapture={(e) => e.stopPropagation()}>
+            Auto-rotate{' '}
+            <input
+              type='checkbox'
+              checked={autoRotateOn}
+              className='accent-stone-700'
+              onChange={(e) => setAutoRotateOn(e.target.checked)}
+            />
           </label>
         </div>
       )}
