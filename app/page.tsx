@@ -354,7 +354,7 @@ export default function Page() {
         </Suspense>
       </Three>
       {!showLoading && (
-        <div className='fixed bottom-4 right-4 z-10'>
+        <div className='fixed bottom-4 right-4 z-10 opacity-30 transition-opacity hover:opacity-100'>
           <label style={{ color: secondaryTextColor }}>
             Auto-rotate <input type='checkbox' className='accent-stone-700' />
           </label>
