@@ -6,7 +6,8 @@ import { animated, useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Suspense, useEffect, useRef } from 'react'
+import { atom, useAtom, useAtomValue } from 'jotai'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 
 const primaryTextColor = 'dimgrey'
@@ -15,6 +16,10 @@ const secondaryTextColor = 'darkgrey'
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
+
+const autoRotateSpeed = 0.0025
+
+const useAutoRotateAtom = atom(true)
 
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
@@ -25,17 +30,61 @@ function ThreeContent() {
   const metaContent = useRef<HTMLDivElement | null>(null)
   const metaContentGroupRef = useRef<Group>(null!)
 
-  useEffect(() => {
-    cameraControlsRef.current.mouseButtons.wheel = 0
-    cameraControlsRef.current.mouseButtons.right = 0
-    cameraControlsRef.current.touches.two = 0
-    cameraControlsRef.current.touches.three = 0
-    cameraControlsRef.current.maxPolarAngle = Math.PI / 2 + 0.25
-    cameraControlsRef.current.minPolarAngle = Math.PI / 4
-    // cameraControlsRef.current.setPosition(0, 2, 4)
+  const timer = useRef(null)
 
-    // cameraControlsRef.current.enabled = false
+  const currentAutoRotateSpeed = useSpringValue(autoRotateSpeed)
+
+  const useAutoRotate = useAtomValue(useAutoRotateAtom)
+
+  useEffect(() => {
+    const cameraControls = cameraControlsRef.current
+
+    cameraControls.mouseButtons.wheel = 0
+    cameraControls.mouseButtons.right = 0
+    cameraControls.touches.two = 0
+    cameraControls.touches.three = 0
+    cameraControls.maxPolarAngle = Math.PI / 2 + 0.25
+    cameraControls.minPolarAngle = Math.PI / 4
+
+    cameraControls.rotateAzimuthTo(-0.4)
+
+    cameraControls.addEventListener('controlend', () => {
+      timer.current = setTimeout(() => {
+        currentAutoRotateSpeed.start(autoRotateSpeed)
+      }, 3000)
+    })
+
+    cameraControls.addEventListener('controlstart', () => {
+      currentAutoRotateSpeed.set(0)
+      if (timer.current !== null) {
+        clearTimeout(timer.current)
+        timer.current = null
+      }
+    })
+
+    return () => {
+      cameraControls.removeAllEventListeners('controlstart')
+      cameraControls.removeAllEventListeners('controlend')
+    }
   }, [])
+
+  useEffect(() => {
+    if (useAutoRotate) {
+      currentAutoRotateSpeed.start(autoRotateSpeed)
+    } else {
+      if (timer.current !== null) {
+        clearTimeout(timer.current)
+        timer.current = null
+      }
+      currentAutoRotateSpeed.set(0)
+    }
+  }, [useAutoRotate])
+
+  useFrame(() => {
+    if (useAutoRotate && currentAutoRotateSpeed.get() > 0) {
+      cameraControlsRef.current.rotate(currentAutoRotateSpeed.get(), 0, false)
+    }
+  })
 
   const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
   const isPortrait = useThree((state) => state.viewport.aspect < 1)
@@ -292,7 +341,20 @@ function MetaContent() {
 }
 
 export default function Page() {
-  const opacity = useSpringValue(0)
+  const [showLoading, setShowLoading] = useState(true)
+  const opacity = useSpringValue(0, {
+    onChange(result) {
+      if (!showLoading && result.value !== 0) {
+        setShowLoading(true)
+      }
+    },
+    onRest(result) {
+      if (showLoading && result.value === 0) {
+        setShowLoading(false)
+      }
+    },
+  })
+
   useProgress((state) => {
     const finishedLoading = !state.active && state.progress === 100
     const actualTarget = finishedLoading ? 0 : 1
@@ -301,6 +363,8 @@ export default function Page() {
     }
   })
 
+  const [autoRotateOn, setAutoRotateOn] = useAtom(useAutoRotateAtom)
+
   return (
     <div className='h-screen'>
       <Three>
@@ -308,7 +372,20 @@ export default function Page() {
           <ThreeContent />
         </Suspense>
       </Three>
-      {opacity.goal === 1 && (
+      {!showLoading && (
+        <div className='fixed bottom-4 right-4 z-10 text-xs opacity-30 transition-opacity hover:opacity-100'>
+          <label style={{ color: secondaryTextColor }} onPointerDownCapture={(e) => e.stopPropagation()}>
+            Auto-rotate{' '}
+            <input
+              type='checkbox'
+              checked={autoRotateOn}
+              className='accent-stone-700'
+              onChange={(e) => setAutoRotateOn(e.target.checked)}
+            />
+          </label>
+        </div>
+      )}
+      {showLoading && (
         <animatedDom.div style={{ opacity }} className='fixed inset-0 z-20 grid place-items-center bg-white'>
           Loading
         </animatedDom.div>
