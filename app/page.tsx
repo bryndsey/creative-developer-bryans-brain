@@ -6,7 +6,7 @@ import { animated, useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 
 const primaryTextColor = 'dimgrey'
@@ -324,7 +324,20 @@ function MetaContent() {
 }
 
 export default function Page() {
-  const opacity = useSpringValue(0)
+  const [showLoading, setShowLoading] = useState(true)
+  const opacity = useSpringValue(0, {
+    onChange(result) {
+      if (!showLoading && result.value !== 0) {
+        setShowLoading(true)
+      }
+    },
+    onRest(result) {
+      if (showLoading && result.value === 0) {
+        setShowLoading(false)
+      }
+    },
+  })
+
   useProgress((state) => {
     const finishedLoading = !state.active && state.progress === 100
     const actualTarget = finishedLoading ? 0 : 1
@@ -340,7 +353,7 @@ export default function Page() {
           <ThreeContent />
         </Suspense>
       </Three>
-      {opacity.goal === 1 && (
+      {showLoading && (
         <animatedDom.div style={{ opacity }} className='fixed inset-0 z-20 grid place-items-center bg-white'>
           Loading
         </animatedDom.div>
