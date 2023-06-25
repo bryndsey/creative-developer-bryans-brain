@@ -353,6 +353,13 @@ export default function Page() {
           <ThreeContent />
         </Suspense>
       </Three>
+      {!showLoading && (
+        <div className='fixed bottom-4 right-4 z-10'>
+          <label style={{ color: secondaryTextColor }}>
+            Auto-rotate <input type='checkbox' className='accent-stone-700' />
+          </label>
+        </div>
+      )}
       {showLoading && (
         <animatedDom.div style={{ opacity }} className='fixed inset-0 z-20 grid place-items-center bg-white'>
           Loading
