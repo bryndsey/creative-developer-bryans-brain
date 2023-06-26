@@ -22,6 +22,8 @@ export function ThreeContent() {
   const itemsRef = useRef<Group>(null!)
   const leftBrainTextRef = useRef<Group>(null!)
   const rightBrainTextRef = useRef<Group>(null!)
+  const leftBrainObjectsRef = useRef<Group>(null!)
+  const rightBrainObjectsRef = useRef<Group>(null!)
   const metaContent = useRef<HTMLDivElement | null>(null)
   const metaContentGroupRef = useRef<Group>(null!)
 
@@ -81,6 +83,13 @@ export function ThreeContent() {
 
     const metaContentYOffset = isPortrait ? -1.33 : -0.15
     metaContentGroupRef.current.position.setY(metaContentYOffset)
+
+    const brainSideObjectsYOffset = isPortrait ? 1.5 : 0
+    const brainSideObjectsZOffset = isPortrait ? 0 : 1.25
+    leftBrainObjectsRef.current.position.setY(brainSideObjectsYOffset)
+    leftBrainObjectsRef.current.position.setZ(brainSideObjectsZOffset)
+    rightBrainObjectsRef.current.position.setY(brainSideObjectsYOffset)
+    rightBrainObjectsRef.current.position.setZ(brainSideObjectsZOffset)
   }, [isPortrait])
 
   useFrame((state) => {
@@ -286,13 +295,13 @@ export function ThreeContent() {
               </animated.group>
             </group>
 
-            <animated.group scale={leftBrainSpringValue} position-z={1.25}>
+            <animated.group ref={leftBrainObjectsRef} scale={leftBrainSpringValue} position-z={1.25}>
               <Box>
                 <meshStandardMaterial color={'gray'} />
               </Box>
             </animated.group>
 
-            <animated.group scale={rightBrainSpringValue} position-z={1.25}>
+            <animated.group ref={rightBrainObjectsRef} scale={rightBrainSpringValue} position-z={1.25}>
               <Box>
                 <meshStandardMaterial color={'gray'} />
               </Box>
