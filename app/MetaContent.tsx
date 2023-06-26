@@ -1,5 +1,5 @@
 'use client'
-import { primaryTextColor, secondaryTextColor } from './page'
+import { primaryTextColor, secondaryTextColor } from './colors'
 
 export function MetaContent() {
   return (

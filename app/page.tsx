@@ -11,9 +11,7 @@ import { Suspense, useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
 import { useAutoRotateValue, useAutoRotateAtom } from './useAutoRotateValue'
 import { MetaContent } from './MetaContent'
-
-export const primaryTextColor = 'dimgrey'
-export const secondaryTextColor = 'darkgrey'
+import { primaryTextColor, secondaryTextColor } from './colors'
 
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
