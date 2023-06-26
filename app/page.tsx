@@ -17,7 +17,7 @@ function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
 
-const autoRotateSpeed = 0.0025
+const autoRotateSpeed = 0.2
 
 const useAutoRotateAtom = atom(true)
 
@@ -80,9 +80,9 @@ function ThreeContent() {
     }
   }, [useAutoRotate])
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (useAutoRotate && currentAutoRotateSpeed.get() > 0) {
-      cameraControlsRef.current.rotate(currentAutoRotateSpeed.get(), 0, false)
+      cameraControlsRef.current.rotate(currentAutoRotateSpeed.get() * delta, 0, false)
     }
   })
 
