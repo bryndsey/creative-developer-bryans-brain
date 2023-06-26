@@ -39,6 +39,10 @@ function ThreeContent() {
     cameraControls.minPolarAngle = Math.PI / 4
 
     cameraControls.rotateAzimuthTo(-0.4)
+  }, [])
+
+  useEffect(() => {
+    const cameraControls = cameraControlsRef.current
 
     cameraControls.addEventListener('controlend', () => {
       scheduleAutoRotateStart()
@@ -52,7 +56,7 @@ function ThreeContent() {
       cameraControls.removeAllEventListeners('controlstart')
       cameraControls.removeAllEventListeners('controlend')
     }
-  }, [])
+  }, [scheduleAutoRotateStart, stopAutoRotate])
 
   useFrame((state, delta) => {
     if (currentAutoRotateSpeed.get() > 0) {
