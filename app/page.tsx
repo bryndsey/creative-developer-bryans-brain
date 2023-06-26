@@ -20,7 +20,6 @@ function normalizeAngle(angle: number) {
 
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
-  const tankRef = useRef<Group>(null!)
   const itemsRef = useRef<Group>(null!)
   const leftBrainTextRef = useRef<Group>(null!)
   const rightBrainTextRef = useRef<Group>(null!)
@@ -284,7 +283,7 @@ function ThreeContent() {
               </animated.group>
             </group>
 
-            <BrainTank ref={tankRef} position-y={-1} />
+            <BrainTank position-y={-1} />
           </Resize>
         </Center>
       </animated.group>
