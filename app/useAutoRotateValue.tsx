@@ -15,13 +15,13 @@ export function useAutoRotateValue() {
   const useAutoRotate = useAtomValue(useAutoRotateAtom)
 
   const startAutoRotate = () => {
-    currentAutoRotateSpeed.start(autoRotateSpeed)
+    currentAutoRotateSpeed.start(autoRotateSpeed, { config: { duration: 3000 } })
   }
 
   const scheduleAutoRotateStart = () => {
     timer.current = setTimeout(() => {
       startAutoRotate()
-    }, 3000)
+    }, 1500)
   }
 
   const stopAutoRotate = () => {
