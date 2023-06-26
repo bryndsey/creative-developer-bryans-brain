@@ -102,7 +102,7 @@ function ThreeContent() {
     rightBrainTextRef.current.position.setX(-brainSideTextXOffset)
     rightBrainTextRef.current.position.setY(brainSideTextYOffset)
 
-    const metaContentYOffset = isPortrait ? -1.5 : -0.15
+    const metaContentYOffset = isPortrait ? -1.33 : -0.15
     metaContentGroupRef.current.position.setY(metaContentYOffset)
   }, [isPortrait])
 
