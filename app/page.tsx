@@ -6,9 +6,10 @@ import { animated, useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { atom, useAtom, useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Group, MathUtils } from 'three'
+import { useAutoRotateValue, useAutoRotateAtom } from './useAutoRotateValue'
 
 const primaryTextColor = 'dimgrey'
 const secondaryTextColor = 'darkgrey'
@@ -16,10 +17,6 @@ const secondaryTextColor = 'darkgrey'
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
-
-const autoRotateSpeed = 0.2
-
-const useAutoRotateAtom = atom(true)
 
 function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
@@ -30,11 +27,7 @@ function ThreeContent() {
   const metaContent = useRef<HTMLDivElement | null>(null)
   const metaContentGroupRef = useRef<Group>(null!)
 
-  const timer = useRef(null)
-
-  const currentAutoRotateSpeed = useSpringValue(autoRotateSpeed)
-
-  const useAutoRotate = useAtomValue(useAutoRotateAtom)
+  const { currentAutoRotateSpeed, stopAutoRotate, scheduleAutoRotateStart } = useAutoRotateValue()
 
   useEffect(() => {
     const cameraControls = cameraControlsRef.current
@@ -49,17 +42,11 @@ function ThreeContent() {
     cameraControls.rotateAzimuthTo(-0.4)
 
     cameraControls.addEventListener('controlend', () => {
-      timer.current = setTimeout(() => {
-        currentAutoRotateSpeed.start(autoRotateSpeed)
-      }, 3000)
+      scheduleAutoRotateStart()
     })
 
     cameraControls.addEventListener('controlstart', () => {
-      currentAutoRotateSpeed.set(0)
-      if (timer.current !== null) {
-        clearTimeout(timer.current)
-        timer.current = null
-      }
+      stopAutoRotate()
     })
 
     return () => {
@@ -68,20 +55,8 @@ function ThreeContent() {
     }
   }, [])
 
-  useEffect(() => {
-    if (useAutoRotate) {
-      currentAutoRotateSpeed.start(autoRotateSpeed)
-    } else {
-      if (timer.current !== null) {
-        clearTimeout(timer.current)
-        timer.current = null
-      }
-      currentAutoRotateSpeed.set(0)
-    }
-  }, [useAutoRotate])
-
   useFrame((state, delta) => {
-    if (useAutoRotate && currentAutoRotateSpeed.get() > 0) {
+    if (currentAutoRotateSpeed.get() > 0) {
       cameraControlsRef.current.rotate(currentAutoRotateSpeed.get() * delta, 0, false)
     }
   })
