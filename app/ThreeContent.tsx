@@ -2,7 +2,7 @@
 
 import { BrainTank } from '@/BrainTank'
 import { animated, useSpringValue } from '@react-spring/three'
-import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
+import { Box, CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Group, MathUtils } from 'three'
@@ -285,6 +285,18 @@ export function ThreeContent() {
                 </Text>
               </animated.group>
             </group>
+
+            <animated.group scale={leftBrainSpringValue} position-z={1.25}>
+              <Box>
+                <meshStandardMaterial color={'gray'} />
+              </Box>
+            </animated.group>
+
+            <animated.group scale={rightBrainSpringValue} position-z={1.25}>
+              <Box>
+                <meshStandardMaterial color={'gray'} />
+              </Box>
+            </animated.group>
 
             <BrainTank position-y={-1} />
           </Resize>
