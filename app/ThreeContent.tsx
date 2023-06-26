@@ -14,6 +14,9 @@ function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
 }
 
+const rightBrainFont = '/SpaceMono-BoldItalic.ttf'
+const leftBrainFont = '/telegrama_render.otf'
+
 export function ThreeContent() {
   const cameraControlsRef = useRef<CameraControls>(null!)
   const itemsRef = useRef<Group>(null!)
@@ -160,7 +163,7 @@ export function ThreeContent() {
                 fontSize={0.4}
                 color={primaryTextColor}
                 rotation-z={Math.PI / 2}
-                font='/SpaceMono-BoldItalic.ttf'
+                font={rightBrainFont}
               >
                 Creative
                 <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue.to((value) => 1 - value)} />
@@ -172,7 +175,7 @@ export function ThreeContent() {
                 fontSize={0.325}
                 color={primaryTextColor}
                 rotation-z={-Math.PI / 2}
-                font='/telegrama_render.otf'
+                font={leftBrainFont}
               >
                 Developer
                 <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue.to((value) => 1 - value)} />
@@ -184,7 +187,7 @@ export function ThreeContent() {
                 position-z={leftBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
                 ref={leftBrainTextRef}
               >
-                <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/telegrama_render.otf'>
+                <Text position-y={0.25} position-z={0.1} fontSize={0.2} font={leftBrainFont}>
                   Left Brain
                   <animated.meshBasicMaterial
                     color={primaryTextColor}
@@ -200,7 +203,7 @@ export function ThreeContent() {
                     position-z={-0.05}
                     textAlign='center'
                     color={secondaryTextColor}
-                    font='/telegrama_render.otf'
+                    font={leftBrainFont}
                   >
                     Logic
                     <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
@@ -211,7 +214,7 @@ export function ThreeContent() {
                     textAlign='center'
                     fontSize={0.1}
                     color={secondaryTextColor}
-                    font='/telegrama_render.otf'
+                    font={leftBrainFont}
                   >
                     Analysis
                     <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
@@ -223,7 +226,7 @@ export function ThreeContent() {
                     textAlign='center'
                     fontSize={0.1}
                     color={secondaryTextColor}
-                    font='/telegrama_render.otf'
+                    font={leftBrainFont}
                   >
                     Reason
                     <animated.meshBasicMaterial transparent opacity={leftBrainSpringValue} />
@@ -237,7 +240,7 @@ export function ThreeContent() {
                 position-z={rightBrainSpringValue.to((value) => value - 1 + brainSideTextZOffset)}
                 ref={rightBrainTextRef}
               >
-                <Text position-y={0.25} position-z={0.1} fontSize={0.2} font='/SpaceMono-BoldItalic.ttf'>
+                <Text position-y={0.25} position-z={0.1} fontSize={0.2} font={rightBrainFont}>
                   Right Brain
                   <animated.meshBasicMaterial
                     color={primaryTextColor}
@@ -252,7 +255,7 @@ export function ThreeContent() {
                   rotation-z={0.025}
                   position-z={0.05}
                   color={secondaryTextColor}
-                  font='/SpaceMono-BoldItalic.ttf'
+                  font={rightBrainFont}
                 >
                   Creativity
                   <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
@@ -264,7 +267,7 @@ export function ThreeContent() {
                   position-z={-0.05}
                   fontSize={0.1}
                   color={secondaryTextColor}
-                  font='/SpaceMono-BoldItalic.ttf'
+                  font={rightBrainFont}
                 >
                   Expression
                   <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
@@ -275,7 +278,7 @@ export function ThreeContent() {
                   rotation-y={-0.1}
                   anchorX={0.2}
                   color={secondaryTextColor}
-                  font='/SpaceMono-BoldItalic.ttf'
+                  font={rightBrainFont}
                 >
                   Imagination
                   <animated.meshBasicMaterial transparent opacity={rightBrainSpringValue} />
