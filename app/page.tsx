@@ -7,7 +7,7 @@ import { useProgress } from '@react-three/drei'
 import { useAtom } from 'jotai'
 import { Suspense, useState } from 'react'
 import { useAutoRotateAtom } from './useAutoRotateValue'
-import { secondaryTextColor } from './colors'
+import { primaryTextColor, secondaryTextColor } from './colors'
 import { ThreeContent } from './ThreeContent'
 import { Cursor } from 'react-creative-cursor'
 import 'react-creative-cursor/dist/styles.css'
@@ -49,7 +49,7 @@ export default function Page() {
         {!showLoading && (
           <div className='fixed bottom-4 right-4 z-10'>
             <label
-              style={{ color: secondaryTextColor }}
+              style={{ color: primaryTextColor }}
               onPointerDownCapture={(e) => e.stopPropagation()}
               className='text-xs opacity-30 transition-opacity hover:opacity-100'
             >
