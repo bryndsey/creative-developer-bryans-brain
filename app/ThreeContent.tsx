@@ -9,6 +9,7 @@ import { Group, MathUtils } from 'three'
 import { useAutoRotateValue } from './useAutoRotateValue'
 import { MetaContent } from './MetaContent'
 import { primaryTextColor, secondaryTextColor } from './colors'
+import { AcousticGuitar } from '@/songspark/AcousticGuitar'
 
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
@@ -302,9 +303,9 @@ export function ThreeContent() {
             </animated.group>
 
             <animated.group ref={rightBrainObjectsRef} scale={rightBrainSpringValue} position-z={1.25}>
-              <Box>
-                <meshStandardMaterial color={'gray'} />
-              </Box>
+              <Center rotation={[Math.PI / 2 + 0.2, -0.2, Math.PI / 2]}>
+                <AcousticGuitar />
+              </Center>
             </animated.group>
 
             <BrainTank position-y={-1} />
