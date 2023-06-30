@@ -162,7 +162,14 @@ export function ThreeContent() {
               position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 + metaContentZOffset)}
               ref={metaContentGroupRef}
             >
-              <Html transform distanceFactor={1} rotation-y={Math.PI} ref={metaContent} scale={0.75}>
+              <Html
+                transform
+                distanceFactor={1}
+                rotation-y={Math.PI}
+                ref={metaContent}
+                scale={0.75}
+                zIndexRange={[0, 10]}
+              >
                 <MetaContent />
               </Html>
             </animated.group>
