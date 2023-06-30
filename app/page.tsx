@@ -39,7 +39,7 @@ export default function Page() {
 
   return (
     <>
-      <Cursor animationDuration={0.5} exclusionBackgroundColor='yellow' />
+      <Cursor animationDuration={0.5} exclusionBackgroundColor='yellow' isGelly />
       <div className='h-screen cursor-none bg-white' data-cursor-exclusion>
         <Three>
           <Suspense fallback={null}>
