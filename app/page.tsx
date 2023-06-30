@@ -39,8 +39,8 @@ export default function Page() {
 
   return (
     <>
-      <Cursor />
-      <div className='h-screen'>
+      <Cursor animationDuration={0.5} />
+      <div className='h-screen bg-white' data-cursor-exclusion>
         <Three>
           <Suspense fallback={null}>
             <ThreeContent />

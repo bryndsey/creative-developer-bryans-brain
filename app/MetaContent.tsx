@@ -3,7 +3,7 @@ import { primaryTextColor, secondaryTextColor } from './colors'
 
 export function MetaContent() {
   return (
-    <div className='rounded-xl bg-white/60 p-8 [box-shadow:0_0_25px_25px_rgba(255,255,255,0.6)]'>
+    <div className='rounded-xl bg-white/60 p-8 [box-shadow:0_0_25px_25px_rgba(255,255,255,0.6)]' data-cursor-exclusion>
       <p className='text-4xl'>Made by</p>
       <div className='text-9xl font-extrabold leading-none' style={{ color: primaryTextColor }}>
         <p>
