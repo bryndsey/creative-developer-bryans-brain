@@ -6,9 +6,9 @@ import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } 
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Group, MathUtils } from 'three'
-import { useAutoRotateValue } from './useAutoRotateValue'
 import { MetaContent } from './MetaContent'
 import { primaryTextColor, secondaryTextColor } from './colors'
+import { useAutoRotateValue } from './useAutoRotateValue'
 
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
@@ -22,6 +22,8 @@ export function ThreeContent() {
   const itemsRef = useRef<Group>(null!)
   const leftBrainTextRef = useRef<Group>(null!)
   const rightBrainTextRef = useRef<Group>(null!)
+  const leftBrainObjectsRef = useRef<Group>(null!)
+  const rightBrainObjectsRef = useRef<Group>(null!)
   const metaContent = useRef<HTMLDivElement | null>(null)
   const metaContentGroupRef = useRef<Group>(null!)
 
@@ -81,6 +83,13 @@ export function ThreeContent() {
 
     const metaContentYOffset = isPortrait ? -1.33 : -0.15
     metaContentGroupRef.current.position.setY(metaContentYOffset)
+
+    const brainSideObjectsYOffset = isPortrait ? 1.5 : 0
+    const brainSideObjectsZOffset = isPortrait ? 0 : 1.25
+    leftBrainObjectsRef.current.position.setY(brainSideObjectsYOffset)
+    leftBrainObjectsRef.current.position.setZ(brainSideObjectsZOffset)
+    rightBrainObjectsRef.current.position.setY(brainSideObjectsYOffset)
+    rightBrainObjectsRef.current.position.setZ(brainSideObjectsZOffset)
   }, [isPortrait])
 
   useFrame((state) => {
@@ -139,6 +148,8 @@ export function ThreeContent() {
     }
   })
 
+  const htmlPortal = useThree((state) => state.gl.domElement.parentElement)
+
   return (
     <>
       <CameraControls makeDefault ref={cameraControlsRef} />
@@ -152,7 +163,14 @@ export function ThreeContent() {
               position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 + metaContentZOffset)}
               ref={metaContentGroupRef}
             >
-              <Html transform distanceFactor={1} rotation-y={Math.PI} ref={metaContent} scale={0.75}>
+              <Html
+                transform
+                distanceFactor={1}
+                rotation-y={Math.PI}
+                ref={metaContent}
+                scale={0.75}
+                portal={{ current: htmlPortal }}
+              >
                 <MetaContent />
               </Html>
             </animated.group>
@@ -285,6 +303,18 @@ export function ThreeContent() {
                 </Text>
               </animated.group>
             </group>
+
+            <animated.group ref={leftBrainObjectsRef} scale={leftBrainSpringValue} position-z={1.25}>
+              {/* <Box>
+                <meshStandardMaterial color={'gray'} />
+              </Box> */}
+            </animated.group>
+
+            <animated.group ref={rightBrainObjectsRef} scale={rightBrainSpringValue} position-z={1.25}>
+              {/* <Center rotation={[Math.PI / 2 + 0.2, -0.2, Math.PI / 2]}>
+                <AcousticGuitar />
+              </Center> */}
+            </animated.group>
 
             <BrainTank position-y={-1} />
           </Resize>

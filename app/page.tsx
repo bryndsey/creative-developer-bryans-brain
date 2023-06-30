@@ -6,9 +6,9 @@ import { animated as animatedDom } from '@react-spring/web'
 import { useProgress } from '@react-three/drei'
 import { useAtom } from 'jotai'
 import { Suspense, useState } from 'react'
-import { useAutoRotateAtom } from './useAutoRotateValue'
-import { secondaryTextColor } from './colors'
 import { ThreeContent } from './ThreeContent'
+import { primaryTextColor } from './colors'
+import { useAutoRotateAtom } from './useAutoRotateValue'
 
 export default function Page() {
   const [showLoading, setShowLoading] = useState(true)
@@ -36,18 +36,18 @@ export default function Page() {
   const [autoRotateOn, setAutoRotateOn] = useAtom(useAutoRotateAtom)
 
   return (
-    <div className='h-screen'>
+    <div className='h-screen bg-white'>
       <Three>
         <Suspense fallback={null}>
           <ThreeContent />
         </Suspense>
       </Three>
       {!showLoading && (
-        <div className='fixed bottom-4 right-4 z-10'>
+        <div className='fixed bottom-2 right-2 z-10'>
           <label
-            style={{ color: secondaryTextColor }}
+            style={{ color: primaryTextColor }}
             onPointerDownCapture={(e) => e.stopPropagation()}
-            className='text-xs opacity-30 transition-opacity hover:opacity-100'
+            className='p-4 text-xs opacity-30 transition-opacity hover:opacity-100'
           >
             Auto-rotate{' '}
             <input
