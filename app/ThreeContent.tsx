@@ -149,6 +149,8 @@ export function ThreeContent() {
     }
   })
 
+  const htmlPortal = useThree((state) => state.gl.domElement.parentElement)
+
   return (
     <>
       <CameraControls makeDefault ref={cameraControlsRef} />
@@ -168,7 +170,7 @@ export function ThreeContent() {
                 rotation-y={Math.PI}
                 ref={metaContent}
                 scale={0.75}
-                zIndexRange={[0, 10]}
+                portal={{ current: htmlPortal }}
               >
                 <MetaContent />
               </Html>
