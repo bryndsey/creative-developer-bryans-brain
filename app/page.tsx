@@ -5,12 +5,10 @@ import { useSpringValue } from '@react-spring/three'
 import { animated as animatedDom } from '@react-spring/web'
 import { useProgress } from '@react-three/drei'
 import { useAtom } from 'jotai'
-import { Suspense, useRef, useState } from 'react'
-import { useAutoRotateAtom } from './useAutoRotateValue'
-import { primaryTextColor, secondaryTextColor } from './colors'
+import { Suspense, useState } from 'react'
 import { ThreeContent } from './ThreeContent'
-// import { Cursor } from 'react-creative-cursor'
-// import 'react-creative-cursor/dist/styles.css'
+import { primaryTextColor } from './colors'
+import { useAutoRotateAtom } from './useAutoRotateValue'
 
 export default function Page() {
   const [showLoading, setShowLoading] = useState(true)

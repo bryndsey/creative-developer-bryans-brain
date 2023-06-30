@@ -2,14 +2,13 @@
 
 import { BrainTank } from '@/BrainTank'
 import { animated, useSpringValue } from '@react-spring/three'
-import { Box, CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
+import { CameraControls, Center, Environment, Html, Resize, Text, useProgress } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Group, MathUtils } from 'three'
-import { useAutoRotateValue } from './useAutoRotateValue'
 import { MetaContent } from './MetaContent'
 import { primaryTextColor, secondaryTextColor } from './colors'
-import { AcousticGuitar } from '@/songspark/AcousticGuitar'
+import { useAutoRotateValue } from './useAutoRotateValue'
 
 function normalizeAngle(angle: number) {
   return MathUtils.euclideanModulo(angle, Math.PI * 2)
