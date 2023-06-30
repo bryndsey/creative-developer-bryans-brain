@@ -297,15 +297,15 @@ export function ThreeContent() {
             </group>
 
             <animated.group ref={leftBrainObjectsRef} scale={leftBrainSpringValue} position-z={1.25}>
-              <Box>
+              {/* <Box>
                 <meshStandardMaterial color={'gray'} />
-              </Box>
+              </Box> */}
             </animated.group>
 
             <animated.group ref={rightBrainObjectsRef} scale={rightBrainSpringValue} position-z={1.25}>
-              <Center rotation={[Math.PI / 2 + 0.2, -0.2, Math.PI / 2]}>
+              {/* <Center rotation={[Math.PI / 2 + 0.2, -0.2, Math.PI / 2]}>
                 <AcousticGuitar />
-              </Center>
+              </Center> */}
             </animated.group>
 
             <BrainTank position-y={-1} />
