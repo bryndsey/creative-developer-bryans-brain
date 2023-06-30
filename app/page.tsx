@@ -45,11 +45,11 @@ export default function Page() {
         </Suspense>
       </Three>
       {!showLoading && (
-        <div className='fixed bottom-4 right-4 z-10'>
+        <div className='fixed bottom-2 right-2 z-10'>
           <label
             style={{ color: primaryTextColor }}
             onPointerDownCapture={(e) => e.stopPropagation()}
-            className='text-xs opacity-30 transition-opacity hover:opacity-100'
+            className='p-4 text-xs opacity-30 transition-opacity hover:opacity-100'
           >
             Auto-rotate{' '}
             <input
