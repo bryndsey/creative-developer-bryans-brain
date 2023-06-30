@@ -149,6 +149,8 @@ export function ThreeContent() {
     }
   })
 
+  const htmlPortal = useThree((state) => state.gl.domElement.parentElement)
+
   return (
     <>
       <CameraControls makeDefault ref={cameraControlsRef} />
@@ -162,7 +164,14 @@ export function ThreeContent() {
               position-z={metaTextSpringValue.to((value) => (value - 1) * 0.66 + metaContentZOffset)}
               ref={metaContentGroupRef}
             >
-              <Html transform distanceFactor={1} rotation-y={Math.PI} ref={metaContent} scale={0.75}>
+              <Html
+                transform
+                distanceFactor={1}
+                rotation-y={Math.PI}
+                ref={metaContent}
+                scale={0.75}
+                portal={{ current: htmlPortal }}
+              >
                 <MetaContent />
               </Html>
             </animated.group>
