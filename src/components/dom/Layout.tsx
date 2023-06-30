@@ -11,8 +11,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <Cursor animationDuration={0.5} exclusionBackgroundColor='yellow' isGelly />
-      <div data-cursor-exclusion className='cursor-none bg-white'>
+      {/* Set cursor size to a non-zero but small number to effectively hide it. 
+      There's an issue with setting it to zero where it messes up the alignment, which is why it isn't zero */}
+      <Cursor animationDuration={0.5} exclusionBackgroundColor='yellow' isGelly cursorSize={0.1} />
+      <div data-cursor-exclusion className='cursor-none bg-white' data-cursor-size={125}>
         <div
           ref={ref}
           style={{
