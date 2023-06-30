@@ -21,6 +21,7 @@ type GLTFResult = GLTF & {
     StemPort: THREE.Mesh
     GrateTop: THREE.Mesh
     GrateTopCenter: THREE.Mesh
+    Vent: THREE.Mesh
   }
   materials: {
     Glass: THREE.MeshStandardMaterial
@@ -56,6 +57,7 @@ export const BrainTank = forwardRef<Group, JSX.IntrinsicElements['group']>((prop
       <mesh geometry={nodes.StemPort.geometry} material={materials.Metal} />
       <mesh geometry={nodes.GrateTop.geometry} material={materials.Metal} position={[0, 1.612, 0]} />
       <mesh geometry={nodes.GrateTopCenter.geometry} material={materials.Metal} position={[0, 0.014, 0]} />
+      <mesh geometry={nodes.Vent.geometry} material={materials.Metal} />
     </group>
   )
 })
