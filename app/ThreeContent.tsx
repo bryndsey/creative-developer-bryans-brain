@@ -65,7 +65,6 @@ export function ThreeContent() {
     }
   })
 
-  const isTall = useThree((state) => state.viewport.aspect < 4 / 3)
   const isPortrait = useThree((state) => state.viewport.aspect < 1)
   const brainSideTextZOffset = isPortrait ? 0.5 : 0
   const metaContentZOffset = isPortrait ? -0.75 : -0.95
@@ -93,9 +92,9 @@ export function ThreeContent() {
   }, [isPortrait])
 
   useFrame((state) => {
-    const minScale = isTall
+    const minScale = isPortrait
       ? Math.min(state.viewport.width * 1.5, state.viewport.height / 1.25)
-      : state.viewport.height * 1.25
+      : Math.min(state.viewport.height * 1.25, state.viewport.width * 0.9)
     itemsRef.current.scale.setScalar(minScale)
   })
 
