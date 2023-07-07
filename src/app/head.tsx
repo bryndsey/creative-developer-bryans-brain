@@ -1,4 +1,4 @@
-const title = "Creative Developer's Brain"
+const title = "Creative Developer - Bryan's Brain"
 const description = 'Creative Developer - using both sides of the brain'
 const author = 'Bryan Lindsey'
 
